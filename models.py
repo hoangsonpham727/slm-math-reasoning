@@ -151,7 +151,7 @@ class QwenMathWrapper(BaseModelWrapper):
         )
         self.model = tr.AutoModelForCausalLM.from_pretrained(
             self.config.model_id,
-            dtype=dtype,
+            torch_dtype=dtype,
             device_map=self._resolve_device_map(),
             attn_implementation="sdpa",
         )
@@ -202,7 +202,7 @@ class Gemma4Wrapper(BaseModelWrapper):
         )
         self.model = tr.AutoModelForCausalLM.from_pretrained(
             self.config.model_id,
-            dtype=torch_dtype,
+            torch_dtype=torch_dtype,
             device_map=self._resolve_device_map(),
         )
         self.model.eval()
@@ -266,7 +266,7 @@ class Phi4MiniWrapper(BaseModelWrapper):
                 )
                 self.model = tr.AutoModelForCausalLM.from_pretrained(
                     self.config.model_id,
-                    dtype=torch_dtype,
+                    torch_dtype=torch_dtype,
                     device_map=self._resolve_device_map(),
                     attn_implementation=attn_impl,
                 )

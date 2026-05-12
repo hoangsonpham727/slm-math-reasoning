@@ -96,6 +96,11 @@ def parse_args():
 # ── Training loop ─────────────────────────────────────────────────────────────
 
 def main():
+    os.environ["HF_HOME"] = "/mnt/data/hf"
+    os.environ["TRANSFORMERS_CACHE"] = "/mnt/data/hf/transformers"
+    os.environ["HUGGINGFACE_HUB_CACHE"] = "/mnt/data/hf/hub"
+    os.environ["TMPDIR"] = "/mnt/data/tmp"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"   # use first GPU only
     args = parse_args()
     torch.manual_seed(args.seed)
     np.random.seed(args.seed)
