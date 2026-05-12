@@ -89,6 +89,45 @@ class RLEnv():
             self.total_problems = len(self.ds)
             self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True, eval_config=self.eval_config)
 
+        elif self.dataset == 'TRAIN_DISTRACTOR':
+            # Distractor-augmented training set: 400 records built from the 4 unused
+            # distractors per Experiment 1 problem (held-out test uses seed-42 choice).
+            # Run RL_SLM/data_prep/build_distractor_train.py to generate this file.
+            fpath = os.path.join(self.data_dir, 'RL_SLM', 'data',
+                                 'train_distractor', 'problems_distractor_train.json')
+            if not os.path.exists(fpath):
+                raise FileNotFoundError(
+                    f"Training data not found at {fpath}. "
+                    "Run RL_SLM/data_prep/build_distractor_train.py first."
+                )
+            self.ds = json.load(open(fpath))
+            self.answer_type = 'Numerical'
+            self.total_problems = len(self.ds)
+            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args,
+                            max_depth=self.max_depth, max_width=self.max_width,
+                            debug_verbose=True, eval_config=self.eval_config)
+
+        elif self.dataset == 'TRAIN_EXP2':
+            # Generated Exp2-style training problems (depth 1–8, idx 200–399 per depth).
+            # Non-overlapping seeds with the held-out Exp2 test set (idx 0–199).
+            # Run RL_SLM/data_prep/generate_exp2_train.py to generate these files.
+            import glob
+            train_dir = os.path.join(self.data_dir, 'RL_SLM', 'data', 'train_exp2')
+            files = sorted(glob.glob(os.path.join(train_dir, 'problems_depth*.json')))
+            if not files:
+                raise FileNotFoundError(
+                    f"No training depth files found in {train_dir}. "
+                    "Run RL_SLM/data_prep/generate_exp2_train.py first."
+                )
+            self.ds = []
+            for f in files:
+                self.ds.extend(json.load(open(f)))
+            self.answer_type = 'Numerical'
+            self.total_problems = len(self.ds)
+            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args,
+                            max_depth=self.max_depth, max_width=self.max_width,
+                            debug_verbose=True, eval_config=self.eval_config)
+
         else:
             raise ValueError("Dataset not supported")
         
@@ -170,6 +209,11 @@ class RLEnv():
             self.ans = float(re.sub(r'[^0-9.\-]', '', gsm_part.strip()) or 0)
 
         elif self.dataset == 'EXP2':
+            record = self.ds[current_index]
+            self.problem = record['question']
+            self.ans = float(record['ground_truth'])
+
+        elif self.dataset in ('TRAIN_DISTRACTOR', 'TRAIN_EXP2'):
             record = self.ds[current_index]
             self.problem = record['question']
             self.ans = float(record['ground_truth'])
