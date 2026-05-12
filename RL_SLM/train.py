@@ -47,7 +47,8 @@ def parse_args():
 
     # Environment
     p.add_argument("--dataset",       default="GSM8K",
-                   choices=["GSM8K", "MATH", "GPQA", "MMLU-STEM", "StrategyQA", "EXP1", "EXP2"])
+                   choices=["GSM8K", "MATH", "GPQA", "MMLU-STEM", "StrategyQA",
+                            "EXP1", "EXP2", "TRAIN_DISTRACTOR", "TRAIN_EXP2"])
     p.add_argument("--model",         default="qwen25_math_1.5b",
                    help="Model short_name or HF model_id (see models.py)")
     p.add_argument("--data_dir",      default=None,
