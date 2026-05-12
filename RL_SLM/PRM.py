@@ -98,7 +98,7 @@ if __name__ == '__main__':
 
     # question = """Tim wants to invest some money in a bank which compounds quarterly with an annual interest rate of $7\%$. To the nearest dollar, how much money should he invest if he wants a total of $\$60,\!000$ at the end of $5$ years?"""
     question = """What are all values of $p$ such that for every $q>0$, we have   $$\\frac{3(pq^2+p^2q+3q^2+3pq)}{p+q}>2p^2q?$$ Express your answer in interval notation in decimal form."""
-    output1 = """
+    output1 = r"""
     In this step, we plan for the task and conduct reasoning as follows.
     To follow the reverse calculation plan, we need to use the compound interest formula to find the present value (the amount Tim should invest now). The formula for the future value \( A \) of an investment compounded \( n \) times per year at an annual interest rate \( r \) over \( t \) years is:
 
@@ -122,7 +122,7 @@ if __name__ == '__main__':
     This is the next step in the reverse calculation process.
     """
 
-    output2 = """
+    output2 = r"""
     In this step, we refine the previous step to enhance clarity and correctness.
     The reasoning provided is correct up to the point of setting up the formula and substituting the values. The next step is to correctly apply the formula and perform the calculation. Here is the refined and correct next step:
 
