@@ -1,0 +1,3002 @@
+[
+  {
+    "problem_id": "depth02_prob0000",
+    "depth": 2,
+    "question": "Grace collects $14 per hour and works 9 hours. A 20% fee is deducted from Grace's total. How much $ does Grace have in the end?",
+    "ground_truth": 100.8,
+    "intermediate_values": [
+      126.0,
+      100.8
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0001",
+    "depth": 2,
+    "question": "Frank earns $18 per hour and works 10 hours. Frank spends half of Frank's remaining $ on apples. How much $ does Frank have in the end?",
+    "ground_truth": 90.0,
+    "intermediate_values": [
+      180.0,
+      90.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0002",
+    "depth": 2,
+    "question": "Eve receives $7 per hour and works 7 hours. Eve also receives a $9 bonus. How much $ does Eve have in the end?",
+    "ground_truth": 58.0,
+    "intermediate_values": [
+      49.0,
+      58.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0003",
+    "depth": 2,
+    "question": "Alice collects $12 per hour and works 3 hours. Alice spends a third of Alice's remaining $ on books. How much $ does Alice have in the end?",
+    "ground_truth": 24.0,
+    "intermediate_values": [
+      36.0,
+      24.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0004",
+    "depth": 2,
+    "question": "Bob collects $13 per hour and works 6 hours. A 20% fee is deducted from Bob's total. How much $ does Bob have in the end?",
+    "ground_truth": 62.4,
+    "intermediate_values": [
+      78.0,
+      62.4
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0005",
+    "depth": 2,
+    "question": "Bob collects $19 per hour and works 7 hours. Bob uses $4 on apples. How much $ does Bob have in the end?",
+    "ground_truth": 129.0,
+    "intermediate_values": [
+      133.0,
+      129.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0006",
+    "depth": 2,
+    "question": "Alice collects $9 per hour and works 8 hours. A 25% fee is deducted from Alice's total. How much $ does Alice have in the end?",
+    "ground_truth": 54.0,
+    "intermediate_values": [
+      72.0,
+      54.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0007",
+    "depth": 2,
+    "question": "Carlos receives $17 per hour and works 3 hours. Carlos spends a third of Carlos's remaining $ on books. How much $ does Carlos have in the end?",
+    "ground_truth": 34.0,
+    "intermediate_values": [
+      51.0,
+      34.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0008",
+    "depth": 2,
+    "question": "Henry earns $9 per hour and works 3 hours. Henry also receives a $7 bonus. How much $ does Henry have in the end?",
+    "ground_truth": 34.0,
+    "intermediate_values": [
+      27.0,
+      34.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0009",
+    "depth": 2,
+    "question": "Eve collects $17 per hour and works 8 hours. Eve spends a quarter of Eve's remaining $ on books. How much $ does Eve have in the end?",
+    "ground_truth": 102.0,
+    "intermediate_values": [
+      136.0,
+      102.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0010",
+    "depth": 2,
+    "question": "Frank earns $5 per hour and works 9 hours. A 10% fee is deducted from Frank's total. How much $ does Frank have in the end?",
+    "ground_truth": 40.5,
+    "intermediate_values": [
+      45.0,
+      40.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0011",
+    "depth": 2,
+    "question": "Alice collects $17 per hour and works 4 hours. Alice also receives a $13 bonus. How much $ does Alice have in the end?",
+    "ground_truth": 81.0,
+    "intermediate_values": [
+      68.0,
+      81.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0012",
+    "depth": 2,
+    "question": "Diana gathers $15 per hour and works 9 hours. Diana spends a quarter of Diana's remaining $ on apples. How much $ does Diana have in the end?",
+    "ground_truth": 101.25,
+    "intermediate_values": [
+      135.0,
+      101.25
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0013",
+    "depth": 2,
+    "question": "Carlos collects $18 per hour and works 6 hours. Carlos uses $4 on books. How much $ does Carlos have in the end?",
+    "ground_truth": 104.0,
+    "intermediate_values": [
+      108.0,
+      104.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0014",
+    "depth": 2,
+    "question": "Bob receives $10 per hour and works 10 hours. Bob spends a third of Bob's remaining $ on apples. How much $ does Bob have in the end?",
+    "ground_truth": 66.66666666666667,
+    "intermediate_values": [
+      100.0,
+      66.66666666666667
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0015",
+    "depth": 2,
+    "question": "Frank earns $6 per hour and works 3 hours. Frank spends a third of Frank's remaining $ on books. How much $ does Frank have in the end?",
+    "ground_truth": 12.0,
+    "intermediate_values": [
+      18.0,
+      12.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0016",
+    "depth": 2,
+    "question": "Alice collects $17 per hour and works 8 hours. Alice then buys 3 apples at $4 each. How much $ does Alice have in the end?",
+    "ground_truth": 124.0,
+    "intermediate_values": [
+      136.0,
+      124.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0017",
+    "depth": 2,
+    "question": "Eve receives $11 per hour and works 7 hours. Eve spends half of Eve's remaining $ on books. How much $ does Eve have in the end?",
+    "ground_truth": 38.5,
+    "intermediate_values": [
+      77.0,
+      38.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0018",
+    "depth": 2,
+    "question": "Carlos earns $12 per hour and works 10 hours. A 10% fee is deducted from Carlos's total. How much $ does Carlos have in the end?",
+    "ground_truth": 108.0,
+    "intermediate_values": [
+      120.0,
+      108.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0019",
+    "depth": 2,
+    "question": "Eve receives $6 per hour and works 10 hours. Eve then orders 5 books at $2 each. How much $ does Eve have in the end?",
+    "ground_truth": 50.0,
+    "intermediate_values": [
+      60.0,
+      50.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0020",
+    "depth": 2,
+    "question": "Henry collects $17 per hour and works 5 hours. Henry also receives a $13 bonus. How much $ does Henry have in the end?",
+    "ground_truth": 98.0,
+    "intermediate_values": [
+      85.0,
+      98.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0021",
+    "depth": 2,
+    "question": "Diana collects $13 per hour and works 6 hours. Diana spends a third of Diana's remaining $ on apples. How much $ does Diana have in the end?",
+    "ground_truth": 52.0,
+    "intermediate_values": [
+      78.0,
+      52.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0022",
+    "depth": 2,
+    "question": "Diana earns $16 per hour and works 6 hours. Diana then picks up 5 apples at $7 each. How much $ does Diana have in the end?",
+    "ground_truth": 61.0,
+    "intermediate_values": [
+      96.0,
+      61.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0023",
+    "depth": 2,
+    "question": "Alice gathers $7 per hour and works 6 hours. Alice doubles Alice's current $ total. How much $ does Alice have in the end?",
+    "ground_truth": 84.0,
+    "intermediate_values": [
+      42.0,
+      84.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0024",
+    "depth": 2,
+    "question": "Alice earns $16 per hour and works 5 hours. A 10% fee is deducted from Alice's total. How much $ does Alice have in the end?",
+    "ground_truth": 72.0,
+    "intermediate_values": [
+      80.0,
+      72.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0025",
+    "depth": 2,
+    "question": "Eve earns $9 per hour and works 7 hours. Eve spends a quarter of Eve's remaining $ on books. How much $ does Eve have in the end?",
+    "ground_truth": 47.25,
+    "intermediate_values": [
+      63.0,
+      47.25
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0026",
+    "depth": 2,
+    "question": "Alice earns $19 per hour and works 4 hours. Alice doubles Alice's current $ total. How much $ does Alice have in the end?",
+    "ground_truth": 152.0,
+    "intermediate_values": [
+      76.0,
+      152.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0027",
+    "depth": 2,
+    "question": "Carlos gathers $19 per hour and works 3 hours. A 10% fee is deducted from Carlos's total. How much $ does Carlos have in the end?",
+    "ground_truth": 51.3,
+    "intermediate_values": [
+      57.0,
+      51.3
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0028",
+    "depth": 2,
+    "question": "Diana receives $6 per hour and works 5 hours. Diana spends half of Diana's remaining $ on apples. How much $ does Diana have in the end?",
+    "ground_truth": 15.0,
+    "intermediate_values": [
+      30.0,
+      15.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0029",
+    "depth": 2,
+    "question": "Bob earns $12 per hour and works 8 hours. Bob spends a third of Bob's remaining $ on books. How much $ does Bob have in the end?",
+    "ground_truth": 64.0,
+    "intermediate_values": [
+      96.0,
+      64.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0030",
+    "depth": 2,
+    "question": "Frank collects $17 per hour and works 4 hours. Frank also receives a $10 bonus. How much $ does Frank have in the end?",
+    "ground_truth": 78.0,
+    "intermediate_values": [
+      68.0,
+      78.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0031",
+    "depth": 2,
+    "question": "Bob gathers $6 per hour and works 6 hours. Bob spends a third of Bob's remaining $ on apples. How much $ does Bob have in the end?",
+    "ground_truth": 24.0,
+    "intermediate_values": [
+      36.0,
+      24.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0032",
+    "depth": 2,
+    "question": "Diana collects $19 per hour and works 5 hours. Diana spends half of Diana's remaining $ on apples. How much $ does Diana have in the end?",
+    "ground_truth": 47.5,
+    "intermediate_values": [
+      95.0,
+      47.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0033",
+    "depth": 2,
+    "question": "Grace collects $9 per hour and works 6 hours. A 10% fee is deducted from Grace's total. How much $ does Grace have in the end?",
+    "ground_truth": 48.6,
+    "intermediate_values": [
+      54.0,
+      48.6
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0034",
+    "depth": 2,
+    "question": "Eve collects $18 per hour and works 9 hours. A 25% fee is deducted from Eve's total. How much $ does Eve have in the end?",
+    "ground_truth": 121.5,
+    "intermediate_values": [
+      162.0,
+      121.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0035",
+    "depth": 2,
+    "question": "Grace collects $16 per hour and works 9 hours. A 10% fee is deducted from Grace's total. How much $ does Grace have in the end?",
+    "ground_truth": 129.6,
+    "intermediate_values": [
+      144.0,
+      129.6
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0036",
+    "depth": 2,
+    "question": "Henry collects $9 per hour and works 9 hours. A 10% fee is deducted from Henry's total. How much $ does Henry have in the end?",
+    "ground_truth": 72.9,
+    "intermediate_values": [
+      81.0,
+      72.9
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0037",
+    "depth": 2,
+    "question": "Bob earns $13 per hour and works 7 hours. Bob spends a quarter of Bob's remaining $ on books. How much $ does Bob have in the end?",
+    "ground_truth": 68.25,
+    "intermediate_values": [
+      91.0,
+      68.25
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0038",
+    "depth": 2,
+    "question": "Eve earns $8 per hour and works 9 hours. A 20% fee is deducted from Eve's total. How much $ does Eve have in the end?",
+    "ground_truth": 57.6,
+    "intermediate_values": [
+      72.0,
+      57.6
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0039",
+    "depth": 2,
+    "question": "Grace collects $8 per hour and works 7 hours. Grace doubles Grace's current $ total. How much $ does Grace have in the end?",
+    "ground_truth": 112.0,
+    "intermediate_values": [
+      56.0,
+      112.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0040",
+    "depth": 2,
+    "question": "Henry receives $5 per hour and works 5 hours. Henry gives away $3 on books. How much $ does Henry have in the end?",
+    "ground_truth": 22.0,
+    "intermediate_values": [
+      25.0,
+      22.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0041",
+    "depth": 2,
+    "question": "Bob receives $10 per hour and works 3 hours. Bob donates $2 on apples. How much $ does Bob have in the end?",
+    "ground_truth": 28.0,
+    "intermediate_values": [
+      30.0,
+      28.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0042",
+    "depth": 2,
+    "question": "Alice gathers $17 per hour and works 3 hours. Alice spends a third of Alice's remaining $ on apples. How much $ does Alice have in the end?",
+    "ground_truth": 34.0,
+    "intermediate_values": [
+      51.0,
+      34.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0043",
+    "depth": 2,
+    "question": "Alice gathers $19 per hour and works 8 hours. Alice spends half of Alice's remaining $ on books. How much $ does Alice have in the end?",
+    "ground_truth": 76.0,
+    "intermediate_values": [
+      152.0,
+      76.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0044",
+    "depth": 2,
+    "question": "Bob receives $14 per hour and works 9 hours. Bob spends a quarter of Bob's remaining $ on books. How much $ does Bob have in the end?",
+    "ground_truth": 94.5,
+    "intermediate_values": [
+      126.0,
+      94.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0045",
+    "depth": 2,
+    "question": "Alice gathers $15 per hour and works 8 hours. Alice then orders 2 books at $5 each. How much $ does Alice have in the end?",
+    "ground_truth": 110.0,
+    "intermediate_values": [
+      120.0,
+      110.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0046",
+    "depth": 2,
+    "question": "Alice receives $14 per hour and works 3 hours. Alice also receives a $5 bonus. How much $ does Alice have in the end?",
+    "ground_truth": 47.0,
+    "intermediate_values": [
+      42.0,
+      47.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0047",
+    "depth": 2,
+    "question": "Bob earns $9 per hour and works 4 hours. Bob then purchases 4 apples at $7 each. How much $ does Bob have in the end?",
+    "ground_truth": 8.0,
+    "intermediate_values": [
+      36.0,
+      8.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0048",
+    "depth": 2,
+    "question": "Grace collects $7 per hour and works 10 hours. Grace spends half of Grace's remaining $ on books. How much $ does Grace have in the end?",
+    "ground_truth": 35.0,
+    "intermediate_values": [
+      70.0,
+      35.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0049",
+    "depth": 2,
+    "question": "Henry collects $11 per hour and works 7 hours. Henry spends half of Henry's remaining $ on books. How much $ does Henry have in the end?",
+    "ground_truth": 38.5,
+    "intermediate_values": [
+      77.0,
+      38.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0050",
+    "depth": 2,
+    "question": "Carlos gathers $9 per hour and works 9 hours. A 25% fee is deducted from Carlos's total. How much $ does Carlos have in the end?",
+    "ground_truth": 60.75,
+    "intermediate_values": [
+      81.0,
+      60.75
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0051",
+    "depth": 2,
+    "question": "Eve collects $5 per hour and works 9 hours. Eve spends a quarter of Eve's remaining $ on books. How much $ does Eve have in the end?",
+    "ground_truth": 33.75,
+    "intermediate_values": [
+      45.0,
+      33.75
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0052",
+    "depth": 2,
+    "question": "Eve receives $14 per hour and works 7 hours. Eve doubles Eve's current $ total. How much $ does Eve have in the end?",
+    "ground_truth": 196.0,
+    "intermediate_values": [
+      98.0,
+      196.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0053",
+    "depth": 2,
+    "question": "Eve collects $19 per hour and works 7 hours. A 10% fee is deducted from Eve's total. How much $ does Eve have in the end?",
+    "ground_truth": 119.7,
+    "intermediate_values": [
+      133.0,
+      119.7
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0054",
+    "depth": 2,
+    "question": "Diana collects $8 per hour and works 7 hours. Diana spends a quarter of Diana's remaining $ on apples. How much $ does Diana have in the end?",
+    "ground_truth": 42.0,
+    "intermediate_values": [
+      56.0,
+      42.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0055",
+    "depth": 2,
+    "question": "Alice receives $14 per hour and works 5 hours. Alice spends a quarter of Alice's remaining $ on apples. How much $ does Alice have in the end?",
+    "ground_truth": 52.5,
+    "intermediate_values": [
+      70.0,
+      52.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0056",
+    "depth": 2,
+    "question": "Grace receives $11 per hour and works 3 hours. Grace donates $10 on books. How much $ does Grace have in the end?",
+    "ground_truth": 23.0,
+    "intermediate_values": [
+      33.0,
+      23.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0057",
+    "depth": 2,
+    "question": "Bob receives $14 per hour and works 8 hours. Bob spends half of Bob's remaining $ on books. How much $ does Bob have in the end?",
+    "ground_truth": 56.0,
+    "intermediate_values": [
+      112.0,
+      56.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0058",
+    "depth": 2,
+    "question": "Frank earns $14 per hour and works 5 hours. Frank spends a quarter of Frank's remaining $ on apples. How much $ does Frank have in the end?",
+    "ground_truth": 52.5,
+    "intermediate_values": [
+      70.0,
+      52.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0059",
+    "depth": 2,
+    "question": "Carlos collects $15 per hour and works 3 hours. Carlos donates $2 on apples. How much $ does Carlos have in the end?",
+    "ground_truth": 43.0,
+    "intermediate_values": [
+      45.0,
+      43.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0060",
+    "depth": 2,
+    "question": "Henry receives $12 per hour and works 4 hours. A 10% fee is deducted from Henry's total. How much $ does Henry have in the end?",
+    "ground_truth": 43.2,
+    "intermediate_values": [
+      48.0,
+      43.2
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0061",
+    "depth": 2,
+    "question": "Diana collects $20 per hour and works 5 hours. Diana spends half of Diana's remaining $ on apples. How much $ does Diana have in the end?",
+    "ground_truth": 50.0,
+    "intermediate_values": [
+      100.0,
+      50.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0062",
+    "depth": 2,
+    "question": "Carlos earns $19 per hour and works 7 hours. Carlos spends half of Carlos's remaining $ on books. How much $ does Carlos have in the end?",
+    "ground_truth": 66.5,
+    "intermediate_values": [
+      133.0,
+      66.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0063",
+    "depth": 2,
+    "question": "Grace receives $20 per hour and works 7 hours. Grace spends a third of Grace's remaining $ on apples. How much $ does Grace have in the end?",
+    "ground_truth": 93.33333333333333,
+    "intermediate_values": [
+      140.0,
+      93.33333333333333
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0064",
+    "depth": 2,
+    "question": "Diana gathers $16 per hour and works 4 hours. Diana then buys 5 apples at $6 each. How much $ does Diana have in the end?",
+    "ground_truth": 34.0,
+    "intermediate_values": [
+      64.0,
+      34.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0065",
+    "depth": 2,
+    "question": "Carlos collects $17 per hour and works 6 hours. Carlos then orders 2 books at $5 each. How much $ does Carlos have in the end?",
+    "ground_truth": 92.0,
+    "intermediate_values": [
+      102.0,
+      92.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0066",
+    "depth": 2,
+    "question": "Bob gathers $9 per hour and works 4 hours. Bob spends a quarter of Bob's remaining $ on books. How much $ does Bob have in the end?",
+    "ground_truth": 27.0,
+    "intermediate_values": [
+      36.0,
+      27.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0067",
+    "depth": 2,
+    "question": "Grace gathers $8 per hour and works 4 hours. Grace spends a quarter of Grace's remaining $ on apples. How much $ does Grace have in the end?",
+    "ground_truth": 24.0,
+    "intermediate_values": [
+      32.0,
+      24.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0068",
+    "depth": 2,
+    "question": "Carlos gathers $6 per hour and works 3 hours. Carlos spends a quarter of Carlos's remaining $ on apples. How much $ does Carlos have in the end?",
+    "ground_truth": 13.5,
+    "intermediate_values": [
+      18.0,
+      13.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0069",
+    "depth": 2,
+    "question": "Eve gathers $11 per hour and works 6 hours. Eve then picks up 2 books at $2 each. How much $ does Eve have in the end?",
+    "ground_truth": 62.0,
+    "intermediate_values": [
+      66.0,
+      62.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0070",
+    "depth": 2,
+    "question": "Bob receives $6 per hour and works 10 hours. Bob also receives a $12 bonus. How much $ does Bob have in the end?",
+    "ground_truth": 72.0,
+    "intermediate_values": [
+      60.0,
+      72.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0071",
+    "depth": 2,
+    "question": "Frank collects $9 per hour and works 9 hours. Frank spends half of Frank's remaining $ on books. How much $ does Frank have in the end?",
+    "ground_truth": 40.5,
+    "intermediate_values": [
+      81.0,
+      40.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0072",
+    "depth": 2,
+    "question": "Eve collects $15 per hour and works 7 hours. Eve spends half of Eve's remaining $ on apples. How much $ does Eve have in the end?",
+    "ground_truth": 52.5,
+    "intermediate_values": [
+      105.0,
+      52.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0073",
+    "depth": 2,
+    "question": "Eve receives $5 per hour and works 9 hours. Eve doubles Eve's current $ total. How much $ does Eve have in the end?",
+    "ground_truth": 90.0,
+    "intermediate_values": [
+      45.0,
+      90.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0074",
+    "depth": 2,
+    "question": "Carlos receives $19 per hour and works 8 hours. Carlos doubles Carlos's current $ total. How much $ does Carlos have in the end?",
+    "ground_truth": 304.0,
+    "intermediate_values": [
+      152.0,
+      304.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0075",
+    "depth": 2,
+    "question": "Frank gathers $13 per hour and works 4 hours. Frank spends half of Frank's remaining $ on apples. How much $ does Frank have in the end?",
+    "ground_truth": 26.0,
+    "intermediate_values": [
+      52.0,
+      26.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0076",
+    "depth": 2,
+    "question": "Bob receives $19 per hour and works 5 hours. Bob doubles Bob's current $ total. How much $ does Bob have in the end?",
+    "ground_truth": 190.0,
+    "intermediate_values": [
+      95.0,
+      190.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0077",
+    "depth": 2,
+    "question": "Diana receives $6 per hour and works 10 hours. Diana then purchases 2 apples at $7 each. How much $ does Diana have in the end?",
+    "ground_truth": 46.0,
+    "intermediate_values": [
+      60.0,
+      46.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0078",
+    "depth": 2,
+    "question": "Eve earns $12 per hour and works 3 hours. Eve uses $7 on books. How much $ does Eve have in the end?",
+    "ground_truth": 29.0,
+    "intermediate_values": [
+      36.0,
+      29.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0079",
+    "depth": 2,
+    "question": "Alice earns $17 per hour and works 5 hours. Alice spends a quarter of Alice's remaining $ on books. How much $ does Alice have in the end?",
+    "ground_truth": 63.75,
+    "intermediate_values": [
+      85.0,
+      63.75
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0080",
+    "depth": 2,
+    "question": "Grace gathers $19 per hour and works 3 hours. Grace gives away $7 on apples. How much $ does Grace have in the end?",
+    "ground_truth": 50.0,
+    "intermediate_values": [
+      57.0,
+      50.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0081",
+    "depth": 2,
+    "question": "Bob earns $14 per hour and works 3 hours. Bob doubles Bob's current $ total. How much $ does Bob have in the end?",
+    "ground_truth": 84.0,
+    "intermediate_values": [
+      42.0,
+      84.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0082",
+    "depth": 2,
+    "question": "Carlos earns $14 per hour and works 3 hours. Carlos then picks up 4 books at $7 each. How much $ does Carlos have in the end?",
+    "ground_truth": 14.0,
+    "intermediate_values": [
+      42.0,
+      14.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0083",
+    "depth": 2,
+    "question": "Carlos receives $12 per hour and works 10 hours. Carlos spends half of Carlos's remaining $ on books. How much $ does Carlos have in the end?",
+    "ground_truth": 60.0,
+    "intermediate_values": [
+      120.0,
+      60.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0084",
+    "depth": 2,
+    "question": "Carlos receives $17 per hour and works 10 hours. Carlos spends a quarter of Carlos's remaining $ on books. How much $ does Carlos have in the end?",
+    "ground_truth": 127.5,
+    "intermediate_values": [
+      170.0,
+      127.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0085",
+    "depth": 2,
+    "question": "Henry gathers $20 per hour and works 8 hours. Henry spends $4 on apples. How much $ does Henry have in the end?",
+    "ground_truth": 156.0,
+    "intermediate_values": [
+      160.0,
+      156.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0086",
+    "depth": 2,
+    "question": "Eve receives $11 per hour and works 7 hours. Eve then purchases 3 books at $5 each. How much $ does Eve have in the end?",
+    "ground_truth": 62.0,
+    "intermediate_values": [
+      77.0,
+      62.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0087",
+    "depth": 2,
+    "question": "Alice earns $13 per hour and works 7 hours. Alice spends a third of Alice's remaining $ on apples. How much $ does Alice have in the end?",
+    "ground_truth": 60.666666666666664,
+    "intermediate_values": [
+      91.0,
+      60.666666666666664
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0088",
+    "depth": 2,
+    "question": "Frank collects $14 per hour and works 5 hours. Frank spends $9 on books. How much $ does Frank have in the end?",
+    "ground_truth": 61.0,
+    "intermediate_values": [
+      70.0,
+      61.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0089",
+    "depth": 2,
+    "question": "Eve collects $14 per hour and works 7 hours. A 10% fee is deducted from Eve's total. How much $ does Eve have in the end?",
+    "ground_truth": 88.2,
+    "intermediate_values": [
+      98.0,
+      88.2
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0090",
+    "depth": 2,
+    "question": "Bob earns $12 per hour and works 7 hours. Bob spends a quarter of Bob's remaining $ on books. How much $ does Bob have in the end?",
+    "ground_truth": 63.0,
+    "intermediate_values": [
+      84.0,
+      63.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0091",
+    "depth": 2,
+    "question": "Eve collects $11 per hour and works 5 hours. Eve then purchases 5 apples at $2 each. How much $ does Eve have in the end?",
+    "ground_truth": 45.0,
+    "intermediate_values": [
+      55.0,
+      45.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0092",
+    "depth": 2,
+    "question": "Grace collects $17 per hour and works 9 hours. Grace also receives a $13 bonus. How much $ does Grace have in the end?",
+    "ground_truth": 166.0,
+    "intermediate_values": [
+      153.0,
+      166.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0093",
+    "depth": 2,
+    "question": "Henry gathers $11 per hour and works 6 hours. Henry spends a quarter of Henry's remaining $ on books. How much $ does Henry have in the end?",
+    "ground_truth": 49.5,
+    "intermediate_values": [
+      66.0,
+      49.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0094",
+    "depth": 2,
+    "question": "Diana collects $7 per hour and works 6 hours. A 10% fee is deducted from Diana's total. How much $ does Diana have in the end?",
+    "ground_truth": 37.8,
+    "intermediate_values": [
+      42.0,
+      37.8
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0095",
+    "depth": 2,
+    "question": "Grace earns $7 per hour and works 9 hours. Grace donates $7 on books. How much $ does Grace have in the end?",
+    "ground_truth": 56.0,
+    "intermediate_values": [
+      63.0,
+      56.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0096",
+    "depth": 2,
+    "question": "Frank earns $16 per hour and works 6 hours. Frank also receives a $9 bonus. How much $ does Frank have in the end?",
+    "ground_truth": 105.0,
+    "intermediate_values": [
+      96.0,
+      105.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0097",
+    "depth": 2,
+    "question": "Alice receives $17 per hour and works 5 hours. Alice doubles Alice's current $ total. How much $ does Alice have in the end?",
+    "ground_truth": 170.0,
+    "intermediate_values": [
+      85.0,
+      170.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0098",
+    "depth": 2,
+    "question": "Frank earns $8 per hour and works 10 hours. Frank doubles Frank's current $ total. How much $ does Frank have in the end?",
+    "ground_truth": 160.0,
+    "intermediate_values": [
+      80.0,
+      160.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0099",
+    "depth": 2,
+    "question": "Bob earns $10 per hour and works 3 hours. Bob then buys 5 books at $6 each. How much $ does Bob have in the end?",
+    "ground_truth": 1.0,
+    "intermediate_values": [
+      30.0,
+      1.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0100",
+    "depth": 2,
+    "question": "Alice earns $18 per hour and works 7 hours. Alice then buys 4 apples at $4 each. How much $ does Alice have in the end?",
+    "ground_truth": 110.0,
+    "intermediate_values": [
+      126.0,
+      110.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0101",
+    "depth": 2,
+    "question": "Eve gathers $5 per hour and works 7 hours. A 20% fee is deducted from Eve's total. How much $ does Eve have in the end?",
+    "ground_truth": 28.0,
+    "intermediate_values": [
+      35.0,
+      28.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0102",
+    "depth": 2,
+    "question": "Henry receives $14 per hour and works 9 hours. Henry also receives a $5 bonus. How much $ does Henry have in the end?",
+    "ground_truth": 131.0,
+    "intermediate_values": [
+      126.0,
+      131.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0103",
+    "depth": 2,
+    "question": "Carlos receives $17 per hour and works 8 hours. Carlos then purchases 3 books at $6 each. How much $ does Carlos have in the end?",
+    "ground_truth": 118.0,
+    "intermediate_values": [
+      136.0,
+      118.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0104",
+    "depth": 2,
+    "question": "Eve earns $19 per hour and works 10 hours. Eve also receives a $14 bonus. How much $ does Eve have in the end?",
+    "ground_truth": 204.0,
+    "intermediate_values": [
+      190.0,
+      204.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0105",
+    "depth": 2,
+    "question": "Bob earns $20 per hour and works 5 hours. Bob then picks up 5 books at $4 each. How much $ does Bob have in the end?",
+    "ground_truth": 80.0,
+    "intermediate_values": [
+      100.0,
+      80.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0106",
+    "depth": 2,
+    "question": "Eve gathers $12 per hour and works 5 hours. Eve doubles Eve's current $ total. How much $ does Eve have in the end?",
+    "ground_truth": 120.0,
+    "intermediate_values": [
+      60.0,
+      120.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0107",
+    "depth": 2,
+    "question": "Frank earns $20 per hour and works 6 hours. Frank spends a quarter of Frank's remaining $ on books. How much $ does Frank have in the end?",
+    "ground_truth": 90.0,
+    "intermediate_values": [
+      120.0,
+      90.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0108",
+    "depth": 2,
+    "question": "Henry earns $8 per hour and works 8 hours. Henry spends $6 on apples. How much $ does Henry have in the end?",
+    "ground_truth": 58.0,
+    "intermediate_values": [
+      64.0,
+      58.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0109",
+    "depth": 2,
+    "question": "Diana gathers $10 per hour and works 8 hours. Diana spends a third of Diana's remaining $ on books. How much $ does Diana have in the end?",
+    "ground_truth": 53.333333333333336,
+    "intermediate_values": [
+      80.0,
+      53.333333333333336
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0110",
+    "depth": 2,
+    "question": "Grace gathers $10 per hour and works 10 hours. Grace spends a quarter of Grace's remaining $ on apples. How much $ does Grace have in the end?",
+    "ground_truth": 75.0,
+    "intermediate_values": [
+      100.0,
+      75.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0111",
+    "depth": 2,
+    "question": "Alice gathers $13 per hour and works 8 hours. Alice gives away $8 on apples. How much $ does Alice have in the end?",
+    "ground_truth": 96.0,
+    "intermediate_values": [
+      104.0,
+      96.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0112",
+    "depth": 2,
+    "question": "Eve gathers $18 per hour and works 7 hours. Eve also receives a $13 bonus. How much $ does Eve have in the end?",
+    "ground_truth": 139.0,
+    "intermediate_values": [
+      126.0,
+      139.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0113",
+    "depth": 2,
+    "question": "Alice receives $5 per hour and works 10 hours. A 25% fee is deducted from Alice's total. How much $ does Alice have in the end?",
+    "ground_truth": 37.5,
+    "intermediate_values": [
+      50.0,
+      37.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0114",
+    "depth": 2,
+    "question": "Carlos collects $14 per hour and works 3 hours. Carlos spends a quarter of Carlos's remaining $ on apples. How much $ does Carlos have in the end?",
+    "ground_truth": 31.5,
+    "intermediate_values": [
+      42.0,
+      31.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0115",
+    "depth": 2,
+    "question": "Grace collects $16 per hour and works 4 hours. A 10% fee is deducted from Grace's total. How much $ does Grace have in the end?",
+    "ground_truth": 57.6,
+    "intermediate_values": [
+      64.0,
+      57.6
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0116",
+    "depth": 2,
+    "question": "Alice earns $9 per hour and works 7 hours. Alice also receives a $6 bonus. How much $ does Alice have in the end?",
+    "ground_truth": 69.0,
+    "intermediate_values": [
+      63.0,
+      69.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0117",
+    "depth": 2,
+    "question": "Bob collects $14 per hour and works 5 hours. Bob doubles Bob's current $ total. How much $ does Bob have in the end?",
+    "ground_truth": 140.0,
+    "intermediate_values": [
+      70.0,
+      140.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0118",
+    "depth": 2,
+    "question": "Diana receives $16 per hour and works 10 hours. Diana spends a quarter of Diana's remaining $ on books. How much $ does Diana have in the end?",
+    "ground_truth": 120.0,
+    "intermediate_values": [
+      160.0,
+      120.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0119",
+    "depth": 2,
+    "question": "Bob receives $5 per hour and works 8 hours. A 20% fee is deducted from Bob's total. How much $ does Bob have in the end?",
+    "ground_truth": 32.0,
+    "intermediate_values": [
+      40.0,
+      32.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0120",
+    "depth": 2,
+    "question": "Bob earns $11 per hour and works 3 hours. Bob then orders 5 apples at $5 each. How much $ does Bob have in the end?",
+    "ground_truth": 8.0,
+    "intermediate_values": [
+      33.0,
+      8.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0121",
+    "depth": 2,
+    "question": "Alice receives $5 per hour and works 10 hours. Alice doubles Alice's current $ total. How much $ does Alice have in the end?",
+    "ground_truth": 100.0,
+    "intermediate_values": [
+      50.0,
+      100.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0122",
+    "depth": 2,
+    "question": "Grace gathers $12 per hour and works 4 hours. Grace spends a quarter of Grace's remaining $ on books. How much $ does Grace have in the end?",
+    "ground_truth": 36.0,
+    "intermediate_values": [
+      48.0,
+      36.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0123",
+    "depth": 2,
+    "question": "Eve gathers $19 per hour and works 7 hours. Eve also receives a $9 bonus. How much $ does Eve have in the end?",
+    "ground_truth": 142.0,
+    "intermediate_values": [
+      133.0,
+      142.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0124",
+    "depth": 2,
+    "question": "Henry receives $16 per hour and works 4 hours. Henry then picks up 5 apples at $7 each. How much $ does Henry have in the end?",
+    "ground_truth": 29.0,
+    "intermediate_values": [
+      64.0,
+      29.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0125",
+    "depth": 2,
+    "question": "Bob collects $19 per hour and works 4 hours. Bob doubles Bob's current $ total. How much $ does Bob have in the end?",
+    "ground_truth": 152.0,
+    "intermediate_values": [
+      76.0,
+      152.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0126",
+    "depth": 2,
+    "question": "Henry collects $13 per hour and works 4 hours. A 25% fee is deducted from Henry's total. How much $ does Henry have in the end?",
+    "ground_truth": 39.0,
+    "intermediate_values": [
+      52.0,
+      39.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0127",
+    "depth": 2,
+    "question": "Bob gathers $15 per hour and works 5 hours. Bob spends a quarter of Bob's remaining $ on books. How much $ does Bob have in the end?",
+    "ground_truth": 56.25,
+    "intermediate_values": [
+      75.0,
+      56.25
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0128",
+    "depth": 2,
+    "question": "Bob earns $13 per hour and works 3 hours. Bob doubles Bob's current $ total. How much $ does Bob have in the end?",
+    "ground_truth": 78.0,
+    "intermediate_values": [
+      39.0,
+      78.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0129",
+    "depth": 2,
+    "question": "Diana collects $13 per hour and works 9 hours. A 10% fee is deducted from Diana's total. How much $ does Diana have in the end?",
+    "ground_truth": 105.3,
+    "intermediate_values": [
+      117.0,
+      105.3
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0130",
+    "depth": 2,
+    "question": "Eve earns $15 per hour and works 5 hours. Eve then orders 2 apples at $6 each. How much $ does Eve have in the end?",
+    "ground_truth": 63.0,
+    "intermediate_values": [
+      75.0,
+      63.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0131",
+    "depth": 2,
+    "question": "Bob gathers $8 per hour and works 5 hours. Bob spends a third of Bob's remaining $ on apples. How much $ does Bob have in the end?",
+    "ground_truth": 26.666666666666668,
+    "intermediate_values": [
+      40.0,
+      26.666666666666668
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0132",
+    "depth": 2,
+    "question": "Bob collects $9 per hour and works 9 hours. Bob also receives a $10 bonus. How much $ does Bob have in the end?",
+    "ground_truth": 91.0,
+    "intermediate_values": [
+      81.0,
+      91.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0133",
+    "depth": 2,
+    "question": "Eve gathers $12 per hour and works 6 hours. Eve then picks up 4 apples at $3 each. How much $ does Eve have in the end?",
+    "ground_truth": 60.0,
+    "intermediate_values": [
+      72.0,
+      60.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0134",
+    "depth": 2,
+    "question": "Grace earns $14 per hour and works 5 hours. Grace spends a third of Grace's remaining $ on books. How much $ does Grace have in the end?",
+    "ground_truth": 46.666666666666664,
+    "intermediate_values": [
+      70.0,
+      46.666666666666664
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0135",
+    "depth": 2,
+    "question": "Diana collects $18 per hour and works 4 hours. Diana then purchases 2 books at $4 each. How much $ does Diana have in the end?",
+    "ground_truth": 64.0,
+    "intermediate_values": [
+      72.0,
+      64.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0136",
+    "depth": 2,
+    "question": "Eve earns $7 per hour and works 6 hours. Eve doubles Eve's current $ total. How much $ does Eve have in the end?",
+    "ground_truth": 84.0,
+    "intermediate_values": [
+      42.0,
+      84.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0137",
+    "depth": 2,
+    "question": "Alice receives $10 per hour and works 7 hours. Alice doubles Alice's current $ total. How much $ does Alice have in the end?",
+    "ground_truth": 140.0,
+    "intermediate_values": [
+      70.0,
+      140.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0138",
+    "depth": 2,
+    "question": "Henry collects $14 per hour and works 10 hours. Henry then picks up 5 books at $3 each. How much $ does Henry have in the end?",
+    "ground_truth": 125.0,
+    "intermediate_values": [
+      140.0,
+      125.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0139",
+    "depth": 2,
+    "question": "Carlos collects $10 per hour and works 6 hours. Carlos also receives a $14 bonus. How much $ does Carlos have in the end?",
+    "ground_truth": 74.0,
+    "intermediate_values": [
+      60.0,
+      74.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0140",
+    "depth": 2,
+    "question": "Diana gathers $8 per hour and works 4 hours. Diana gives away $6 on apples. How much $ does Diana have in the end?",
+    "ground_truth": 26.0,
+    "intermediate_values": [
+      32.0,
+      26.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0141",
+    "depth": 2,
+    "question": "Diana collects $5 per hour and works 9 hours. Diana doubles Diana's current $ total. How much $ does Diana have in the end?",
+    "ground_truth": 90.0,
+    "intermediate_values": [
+      45.0,
+      90.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0142",
+    "depth": 2,
+    "question": "Carlos gathers $5 per hour and works 7 hours. A 10% fee is deducted from Carlos's total. How much $ does Carlos have in the end?",
+    "ground_truth": 31.5,
+    "intermediate_values": [
+      35.0,
+      31.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0143",
+    "depth": 2,
+    "question": "Diana gathers $11 per hour and works 10 hours. Diana doubles Diana's current $ total. How much $ does Diana have in the end?",
+    "ground_truth": 220.0,
+    "intermediate_values": [
+      110.0,
+      220.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0144",
+    "depth": 2,
+    "question": "Alice earns $13 per hour and works 7 hours. Alice doubles Alice's current $ total. How much $ does Alice have in the end?",
+    "ground_truth": 182.0,
+    "intermediate_values": [
+      91.0,
+      182.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0145",
+    "depth": 2,
+    "question": "Henry earns $7 per hour and works 3 hours. Henry spends a quarter of Henry's remaining $ on books. How much $ does Henry have in the end?",
+    "ground_truth": 15.75,
+    "intermediate_values": [
+      21.0,
+      15.75
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0146",
+    "depth": 2,
+    "question": "Bob gathers $18 per hour and works 6 hours. A 10% fee is deducted from Bob's total. How much $ does Bob have in the end?",
+    "ground_truth": 97.2,
+    "intermediate_values": [
+      108.0,
+      97.2
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0147",
+    "depth": 2,
+    "question": "Frank earns $11 per hour and works 4 hours. Frank doubles Frank's current $ total. How much $ does Frank have in the end?",
+    "ground_truth": 88.0,
+    "intermediate_values": [
+      44.0,
+      88.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0148",
+    "depth": 2,
+    "question": "Alice collects $14 per hour and works 10 hours. Alice then picks up 4 apples at $6 each. How much $ does Alice have in the end?",
+    "ground_truth": 116.0,
+    "intermediate_values": [
+      140.0,
+      116.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0149",
+    "depth": 2,
+    "question": "Frank collects $10 per hour and works 8 hours. Frank doubles Frank's current $ total. How much $ does Frank have in the end?",
+    "ground_truth": 160.0,
+    "intermediate_values": [
+      80.0,
+      160.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0150",
+    "depth": 2,
+    "question": "Alice receives $18 per hour and works 10 hours. Alice spends a third of Alice's remaining $ on apples. How much $ does Alice have in the end?",
+    "ground_truth": 120.0,
+    "intermediate_values": [
+      180.0,
+      120.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0151",
+    "depth": 2,
+    "question": "Frank receives $10 per hour and works 5 hours. Frank doubles Frank's current $ total. How much $ does Frank have in the end?",
+    "ground_truth": 100.0,
+    "intermediate_values": [
+      50.0,
+      100.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0152",
+    "depth": 2,
+    "question": "Diana earns $12 per hour and works 3 hours. Diana also receives a $10 bonus. How much $ does Diana have in the end?",
+    "ground_truth": 46.0,
+    "intermediate_values": [
+      36.0,
+      46.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0153",
+    "depth": 2,
+    "question": "Frank receives $18 per hour and works 3 hours. Frank spends $6 on apples. How much $ does Frank have in the end?",
+    "ground_truth": 48.0,
+    "intermediate_values": [
+      54.0,
+      48.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0154",
+    "depth": 2,
+    "question": "Grace gathers $6 per hour and works 8 hours. Grace spends a quarter of Grace's remaining $ on apples. How much $ does Grace have in the end?",
+    "ground_truth": 36.0,
+    "intermediate_values": [
+      48.0,
+      36.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0155",
+    "depth": 2,
+    "question": "Alice collects $5 per hour and works 5 hours. Alice also receives a $12 bonus. How much $ does Alice have in the end?",
+    "ground_truth": 37.0,
+    "intermediate_values": [
+      25.0,
+      37.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0156",
+    "depth": 2,
+    "question": "Alice gathers $15 per hour and works 7 hours. Alice doubles Alice's current $ total. How much $ does Alice have in the end?",
+    "ground_truth": 210.0,
+    "intermediate_values": [
+      105.0,
+      210.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0157",
+    "depth": 2,
+    "question": "Henry collects $9 per hour and works 8 hours. Henry doubles Henry's current $ total. How much $ does Henry have in the end?",
+    "ground_truth": 144.0,
+    "intermediate_values": [
+      72.0,
+      144.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0158",
+    "depth": 2,
+    "question": "Alice collects $14 per hour and works 4 hours. Alice then purchases 2 apples at $8 each. How much $ does Alice have in the end?",
+    "ground_truth": 40.0,
+    "intermediate_values": [
+      56.0,
+      40.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0159",
+    "depth": 2,
+    "question": "Carlos receives $13 per hour and works 9 hours. Carlos doubles Carlos's current $ total. How much $ does Carlos have in the end?",
+    "ground_truth": 234.0,
+    "intermediate_values": [
+      117.0,
+      234.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0160",
+    "depth": 2,
+    "question": "Eve collects $5 per hour and works 4 hours. A 10% fee is deducted from Eve's total. How much $ does Eve have in the end?",
+    "ground_truth": 18.0,
+    "intermediate_values": [
+      20.0,
+      18.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0161",
+    "depth": 2,
+    "question": "Diana earns $5 per hour and works 7 hours. Diana also receives a $6 bonus. How much $ does Diana have in the end?",
+    "ground_truth": 41.0,
+    "intermediate_values": [
+      35.0,
+      41.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0162",
+    "depth": 2,
+    "question": "Frank earns $16 per hour and works 10 hours. Frank gives away $7 on apples. How much $ does Frank have in the end?",
+    "ground_truth": 153.0,
+    "intermediate_values": [
+      160.0,
+      153.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0163",
+    "depth": 2,
+    "question": "Frank collects $5 per hour and works 7 hours. Frank spends a third of Frank's remaining $ on books. How much $ does Frank have in the end?",
+    "ground_truth": 23.333333333333332,
+    "intermediate_values": [
+      35.0,
+      23.333333333333332
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0164",
+    "depth": 2,
+    "question": "Diana earns $9 per hour and works 10 hours. A 10% fee is deducted from Diana's total. How much $ does Diana have in the end?",
+    "ground_truth": 81.0,
+    "intermediate_values": [
+      90.0,
+      81.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0165",
+    "depth": 2,
+    "question": "Grace collects $8 per hour and works 5 hours. A 20% fee is deducted from Grace's total. How much $ does Grace have in the end?",
+    "ground_truth": 32.0,
+    "intermediate_values": [
+      40.0,
+      32.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0166",
+    "depth": 2,
+    "question": "Grace collects $19 per hour and works 4 hours. Grace doubles Grace's current $ total. How much $ does Grace have in the end?",
+    "ground_truth": 152.0,
+    "intermediate_values": [
+      76.0,
+      152.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0167",
+    "depth": 2,
+    "question": "Bob gathers $18 per hour and works 4 hours. Bob spends half of Bob's remaining $ on apples. How much $ does Bob have in the end?",
+    "ground_truth": 36.0,
+    "intermediate_values": [
+      72.0,
+      36.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0168",
+    "depth": 2,
+    "question": "Bob collects $13 per hour and works 4 hours. A 10% fee is deducted from Bob's total. How much $ does Bob have in the end?",
+    "ground_truth": 46.8,
+    "intermediate_values": [
+      52.0,
+      46.8
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0169",
+    "depth": 2,
+    "question": "Frank receives $18 per hour and works 9 hours. A 10% fee is deducted from Frank's total. How much $ does Frank have in the end?",
+    "ground_truth": 145.8,
+    "intermediate_values": [
+      162.0,
+      145.8
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0170",
+    "depth": 2,
+    "question": "Alice earns $16 per hour and works 3 hours. Alice doubles Alice's current $ total. How much $ does Alice have in the end?",
+    "ground_truth": 96.0,
+    "intermediate_values": [
+      48.0,
+      96.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0171",
+    "depth": 2,
+    "question": "Eve collects $20 per hour and works 6 hours. Eve spends half of Eve's remaining $ on apples. How much $ does Eve have in the end?",
+    "ground_truth": 60.0,
+    "intermediate_values": [
+      120.0,
+      60.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0172",
+    "depth": 2,
+    "question": "Alice receives $6 per hour and works 9 hours. Alice spends a third of Alice's remaining $ on apples. How much $ does Alice have in the end?",
+    "ground_truth": 36.0,
+    "intermediate_values": [
+      54.0,
+      36.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0173",
+    "depth": 2,
+    "question": "Bob collects $19 per hour and works 10 hours. Bob spends a third of Bob's remaining $ on apples. How much $ does Bob have in the end?",
+    "ground_truth": 126.66666666666667,
+    "intermediate_values": [
+      190.0,
+      126.66666666666667
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0174",
+    "depth": 2,
+    "question": "Bob gathers $10 per hour and works 10 hours. Bob spends a quarter of Bob's remaining $ on apples. How much $ does Bob have in the end?",
+    "ground_truth": 75.0,
+    "intermediate_values": [
+      100.0,
+      75.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0175",
+    "depth": 2,
+    "question": "Eve earns $13 per hour and works 8 hours. Eve doubles Eve's current $ total. How much $ does Eve have in the end?",
+    "ground_truth": 208.0,
+    "intermediate_values": [
+      104.0,
+      208.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0176",
+    "depth": 2,
+    "question": "Bob collects $15 per hour and works 6 hours. Bob also receives a $7 bonus. How much $ does Bob have in the end?",
+    "ground_truth": 97.0,
+    "intermediate_values": [
+      90.0,
+      97.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0177",
+    "depth": 2,
+    "question": "Grace earns $16 per hour and works 6 hours. Grace also receives a $15 bonus. How much $ does Grace have in the end?",
+    "ground_truth": 111.0,
+    "intermediate_values": [
+      96.0,
+      111.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0178",
+    "depth": 2,
+    "question": "Bob collects $9 per hour and works 6 hours. Bob also receives a $5 bonus. How much $ does Bob have in the end?",
+    "ground_truth": 59.0,
+    "intermediate_values": [
+      54.0,
+      59.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0179",
+    "depth": 2,
+    "question": "Diana earns $8 per hour and works 7 hours. Diana then buys 5 apples at $5 each. How much $ does Diana have in the end?",
+    "ground_truth": 31.0,
+    "intermediate_values": [
+      56.0,
+      31.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0180",
+    "depth": 2,
+    "question": "Grace collects $15 per hour and works 5 hours. Grace spends a third of Grace's remaining $ on books. How much $ does Grace have in the end?",
+    "ground_truth": 50.0,
+    "intermediate_values": [
+      75.0,
+      50.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0181",
+    "depth": 2,
+    "question": "Diana earns $15 per hour and works 10 hours. Diana then orders 4 apples at $5 each. How much $ does Diana have in the end?",
+    "ground_truth": 130.0,
+    "intermediate_values": [
+      150.0,
+      130.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0182",
+    "depth": 2,
+    "question": "Carlos collects $17 per hour and works 7 hours. Carlos doubles Carlos's current $ total. How much $ does Carlos have in the end?",
+    "ground_truth": 238.0,
+    "intermediate_values": [
+      119.0,
+      238.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0183",
+    "depth": 2,
+    "question": "Grace receives $14 per hour and works 7 hours. A 25% fee is deducted from Grace's total. How much $ does Grace have in the end?",
+    "ground_truth": 73.5,
+    "intermediate_values": [
+      98.0,
+      73.5
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0184",
+    "depth": 2,
+    "question": "Grace earns $16 per hour and works 3 hours. Grace also receives a $14 bonus. How much $ does Grace have in the end?",
+    "ground_truth": 62.0,
+    "intermediate_values": [
+      48.0,
+      62.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0185",
+    "depth": 2,
+    "question": "Grace collects $20 per hour and works 7 hours. Grace spends half of Grace's remaining $ on apples. How much $ does Grace have in the end?",
+    "ground_truth": 70.0,
+    "intermediate_values": [
+      140.0,
+      70.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0186",
+    "depth": 2,
+    "question": "Carlos gathers $12 per hour and works 3 hours. Carlos uses $8 on books. How much $ does Carlos have in the end?",
+    "ground_truth": 28.0,
+    "intermediate_values": [
+      36.0,
+      28.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0187",
+    "depth": 2,
+    "question": "Carlos gathers $20 per hour and works 5 hours. Carlos spends a quarter of Carlos's remaining $ on apples. How much $ does Carlos have in the end?",
+    "ground_truth": 75.0,
+    "intermediate_values": [
+      100.0,
+      75.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0188",
+    "depth": 2,
+    "question": "Diana earns $8 per hour and works 5 hours. Diana spends a quarter of Diana's remaining $ on apples. How much $ does Diana have in the end?",
+    "ground_truth": 30.0,
+    "intermediate_values": [
+      40.0,
+      30.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0189",
+    "depth": 2,
+    "question": "Henry earns $13 per hour and works 4 hours. Henry spends a third of Henry's remaining $ on books. How much $ does Henry have in the end?",
+    "ground_truth": 34.666666666666664,
+    "intermediate_values": [
+      52.0,
+      34.666666666666664
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0190",
+    "depth": 2,
+    "question": "Henry collects $8 per hour and works 8 hours. Henry then buys 5 apples at $4 each. How much $ does Henry have in the end?",
+    "ground_truth": 44.0,
+    "intermediate_values": [
+      64.0,
+      44.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0191",
+    "depth": 2,
+    "question": "Eve gathers $19 per hour and works 3 hours. Eve gives away $5 on apples. How much $ does Eve have in the end?",
+    "ground_truth": 52.0,
+    "intermediate_values": [
+      57.0,
+      52.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0192",
+    "depth": 2,
+    "question": "Carlos earns $18 per hour and works 10 hours. Carlos uses $6 on books. How much $ does Carlos have in the end?",
+    "ground_truth": 174.0,
+    "intermediate_values": [
+      180.0,
+      174.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0193",
+    "depth": 2,
+    "question": "Alice receives $18 per hour and works 6 hours. Alice also receives a $8 bonus. How much $ does Alice have in the end?",
+    "ground_truth": 116.0,
+    "intermediate_values": [
+      108.0,
+      116.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0194",
+    "depth": 2,
+    "question": "Henry earns $19 per hour and works 7 hours. Henry then picks up 5 books at $5 each. How much $ does Henry have in the end?",
+    "ground_truth": 108.0,
+    "intermediate_values": [
+      133.0,
+      108.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0195",
+    "depth": 2,
+    "question": "Grace earns $18 per hour and works 7 hours. Grace then purchases 3 books at $6 each. How much $ does Grace have in the end?",
+    "ground_truth": 108.0,
+    "intermediate_values": [
+      126.0,
+      108.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0196",
+    "depth": 2,
+    "question": "Diana gathers $18 per hour and works 7 hours. Diana also receives a $8 bonus. How much $ does Diana have in the end?",
+    "ground_truth": 134.0,
+    "intermediate_values": [
+      126.0,
+      134.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0197",
+    "depth": 2,
+    "question": "Carlos earns $8 per hour and works 8 hours. Carlos spends half of Carlos's remaining $ on apples. How much $ does Carlos have in the end?",
+    "ground_truth": 32.0,
+    "intermediate_values": [
+      64.0,
+      32.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0198",
+    "depth": 2,
+    "question": "Carlos gathers $16 per hour and works 5 hours. A 20% fee is deducted from Carlos's total. How much $ does Carlos have in the end?",
+    "ground_truth": 64.0,
+    "intermediate_values": [
+      80.0,
+      64.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth02_prob0199",
+    "depth": 2,
+    "question": "Bob earns $17 per hour and works 3 hours. Bob donates $2 on books. How much $ does Bob have in the end?",
+    "ground_truth": 49.0,
+    "intermediate_values": [
+      51.0,
+      49.0
+    ],
+    "operations": [
+      "multiply",
+      "derived"
+    ],
+    "answer_unit": "$"
+  }
+]

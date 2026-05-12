@@ -1,0 +1,7 @@
+model,regime,baseline_acc,threshold,k_star
+gemma4_e2b,cot,1.0,0.7,
+gemma4_e2b,direct,0.925,0.6475,2.0
+phi4_mini,cot,1.0,0.7,6.0
+phi4_mini,direct,1.0,0.7,2.0
+qwen25_math_1.5b,cot,1.0,0.7,6.0
+qwen25_math_1.5b,direct,1.0,0.7,4.0

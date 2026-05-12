@@ -1,0 +1,30 @@
+{
+  "question": "James gets 80 emails a day.  20% of those emails don't require any response.  He responds to the rest of them.  How many emails does he respond to in a 5 day work week?",
+  "answer": "He gets 80*.2=<<80*.2=16>>16 emails he doesn't need to respond to\nSo he responds to 80-16=<<80-16=64>>64 emails\nSo he responds to 64*5=<<64*5=320>>320 emails a week\n#### 320",
+  "id_orig": 1063,
+  "id_shuffled": 27,
+  "question_annotated": "{name,James} receives {n,80} emails a day. {p,20}% of those emails don't require any response. {name,James} responds to the rest of them. How many emails does {name,James} respond to in a {d,5} day work week?\n\n#init:\n- name = sample(names)\n- $n = range(50, 200)\n- $p = range(5, 40)\n- $d = range(3, 7)\n\n#conditions:\n- is_int(n * p / 100)\n- is_int(n * (100 - p) / 100)\n\n#answer: d * (n * (100 - p) / 100)",
+  "answer_annotated": "{name} receives {n * p / 100}=<<{n}*{p}/100={n*p//100}>>{n*p//100} emails that don't require a response\nSo {name} responds to {n}-{n*p//100}=<<{n}-{n*p//100}={n*(100-p)//100}>>{n*(100-p)//100} emails per day\nIn a {d} day work week, {name} responds to {n*(100-p)//100}*{d}=<<{n*(100-p)/100}*{d}={d*(n*(100-p)//100)}>> {d*(n*(100-p)//100)} emails\n#### {d*(n*(100-p)//100)}",
+  "dynamic_distractor_pool": [
+    {
+      "type": "TYPE_A",
+      "text": "Each of James's emails contains on average 3 attachments, though the attachments are irrelevant to his response count."
+    },
+    {
+      "type": "TYPE_B",
+      "text": "Company policy notes that 5% of emails are automatically filtered, a statistic James does not consider when replying."
+    },
+    {
+      "type": "TYPE_C",
+      "text": "James's inbox capacity is measured in megabytes, roughly 200 MB per day, but storage size does not affect reply count."
+    },
+    {
+      "type": "TYPE_D",
+      "text": "During the first 2 days of the week, James often takes longer coffee breaks, though this does not change email volume."
+    },
+    {
+      "type": "TYPE_B",
+      "text": "Office statistics claim that 12 out of every 100 emails are spam, a figure James ignores while responding."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "question": "A loaf of bread has 24 slices. If Abby can eat 2 slices a day while Josh can eat twice as much, how many days will the loaf of bread last?",
+  "answer": "Josh can eat 2 x 2 = <<2*2=4>>4 slices a day.\nTogether, Abby and Josh can eat 2 + 4 = <<2+4=6>>6 slices a day.\nSo, a loaf of bread will last for 24/6 = <<24/6=4>>4 days.\n#### 4",
+  "id_orig": 921,
+  "id_shuffled": 37,
+  "question_annotated": "A {item,loaf of bread} has {n,24} {unit,slices}. If {name1,Abby} can eat {x,2} {unit,slices} a day while {name2,Josh} can eat {mult,twice} as much, how many days will the {item,loaf of bread} last?\n\n#init:\n- item = sample([\"pizza\", \"cake\", \"pie\", \"lasagna\"])\n- unit = sample([\"pieces\", \"portions\", \"servings\"])\n- name1, name2 = sample(names, 2)\n- $n = range(12, 49, 3)\n- $x = range(2, 6)\n- $mult = sample(multiple_ice+multi_times)\n\n#conditions:\n- divides(n, x + x*mult)\n\n#answer: n // (x + x*mult)",
+  "answer_annotated": "{name2} can eat {x} x {mult} = <<{x}*{mult}={x*mult}>>{x*mult} {unit} a day.\nTogether, {name1} and {name2} can eat {x} + {x*mult} = <<{x}+{x*mult}={x+x*mult}>>{x+x*mult} {unit} a day.\nSo, a {item} will last for {n}/{x+x*mult} = <<{n}/{x+x*mult}={n//(x+x*mult)}>>{n//(x+x*mult)} days.\n#### {n//(x+x*mult)}",
+  "dynamic_distractor_pool": [
+    {
+      "type": "TYPE_A",
+      "text": "Each of the 24 slices weighs about 35 grams, a detail noted by the bakery staff."
+    },
+    {
+      "type": "TYPE_B",
+      "text": "Nutrition guidelines suggest that roughly 1 in 5 people limit bread intake to 2 slices per meal."
+    },
+    {
+      "type": "TYPE_C",
+      "text": "The bakers originally recorded the loaf dimensions in centimeters, converting with 2.54 cm per inch."
+    },
+    {
+      "type": "TYPE_D",
+      "text": "The loaf was set on the table for exactly 4 minutes before Abby and Josh began eating."
+    },
+    {
+      "type": "TYPE_B",
+      "text": "Store records show that 12 out of every 100 loaves are returned unsold each week."
+    }
+  ]
+}

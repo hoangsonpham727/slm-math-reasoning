@@ -1,0 +1,5002 @@
+[
+  {
+    "problem_id": "depth07_prob0000",
+    "depth": 7,
+    "question": "Frank gathers $18 per hour and works 6 hours. Frank then purchases 5 books at $4 each. Frank spends half of Frank's remaining $ on coins. A 20% fee is deducted from Frank's total. Frank spends a quarter of Frank's remaining $ on boxes. Frank spends $2 on pens. Frank also receives a $15 bonus. How much $ does Frank have in the end?",
+    "ground_truth": 39.4,
+    "intermediate_values": [
+      108.0,
+      88.0,
+      44.0,
+      35.2,
+      26.4,
+      24.4,
+      39.4
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0001",
+    "depth": 7,
+    "question": "Diana earns $10 per hour and works 5 hours. Diana then buys 3 pens at $3 each. Diana spends a quarter of Diana's remaining $ on apples. Diana spends a third of Diana's remaining $ on tickets. Diana doubles Diana's current $ total. Diana also receives a $12 bonus. Diana gives away $2 on coins. How much $ does Diana have in the end?",
+    "ground_truth": 51.0,
+    "intermediate_values": [
+      50.0,
+      41.0,
+      30.75,
+      20.5,
+      41.0,
+      53.0,
+      51.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0002",
+    "depth": 7,
+    "question": "Frank earns $18 per hour and works 9 hours. Frank gives away $5 on boxes. Frank then picks up 4 coins at $3 each. A 20% fee is deducted from Frank's total. Frank spends half of Frank's remaining $ on tickets. Frank spends a quarter of Frank's remaining $ on books. Frank also receives a $15 bonus. How much $ does Frank have in the end?",
+    "ground_truth": 58.5,
+    "intermediate_values": [
+      162.0,
+      157.0,
+      145.0,
+      116.0,
+      58.0,
+      43.5,
+      58.5
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0003",
+    "depth": 7,
+    "question": "Bob earns $17 per hour and works 4 hours. Bob spends a quarter of Bob's remaining $ on tickets. Bob also receives a $6 bonus. Bob gives away $3 on bags. Bob spends a third of Bob's remaining $ on boxes. Bob spends half of Bob's remaining $ on books. A 10% fee is deducted from Bob's total. How much $ does Bob have in the end?",
+    "ground_truth": 16.2,
+    "intermediate_values": [
+      68.0,
+      51.0,
+      57.0,
+      54.0,
+      36.0,
+      18.0,
+      16.2
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0004",
+    "depth": 7,
+    "question": "Henry gathers $6 per hour and works 7 hours. Henry spends half of Henry's remaining $ on tickets. Henry spends a third of Henry's remaining $ on pens. A 25% fee is deducted from Henry's total. Henry doubles Henry's current $ total. Henry then picks up 3 bags at $8 each. Henry spends a quarter of Henry's remaining $ on books. How much $ does Henry have in the end?",
+    "ground_truth": 3.0,
+    "intermediate_values": [
+      42.0,
+      21.0,
+      14.0,
+      10.5,
+      21.0,
+      4.0,
+      3.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0005",
+    "depth": 7,
+    "question": "Carlos gathers $9 per hour and works 3 hours. Carlos doubles Carlos's current $ total. Carlos spends a third of Carlos's remaining $ on books. Carlos spends $2 on bags. Carlos also receives a $15 bonus. Carlos spends a quarter of Carlos's remaining $ on apples. Carlos spends half of Carlos's remaining $ on pens. How much $ does Carlos have in the end?",
+    "ground_truth": 18.375,
+    "intermediate_values": [
+      27.0,
+      54.0,
+      36.0,
+      34.0,
+      49.0,
+      36.75,
+      18.375
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0006",
+    "depth": 7,
+    "question": "Grace earns $15 per hour and works 10 hours. Grace then purchases 3 pens at $8 each. Grace spends a quarter of Grace's remaining $ on tickets. Grace spends a third of Grace's remaining $ on boxes. Grace donates $3 on apples. Grace also receives a $9 bonus. Grace doubles Grace's current $ total. How much $ does Grace have in the end?",
+    "ground_truth": 138.0,
+    "intermediate_values": [
+      150.0,
+      126.0,
+      94.5,
+      63.0,
+      60.0,
+      69.0,
+      138.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0007",
+    "depth": 7,
+    "question": "Alice gathers $12 per hour and works 6 hours. Alice then purchases 4 bags at $8 each. A 20% fee is deducted from Alice's total. Alice also receives a $14 bonus. Alice donates $2 on tickets. Alice spends a quarter of Alice's remaining $ on apples. Alice doubles Alice's current $ total. How much $ does Alice have in the end?",
+    "ground_truth": 66.0,
+    "intermediate_values": [
+      72.0,
+      40.0,
+      32.0,
+      46.0,
+      44.0,
+      33.0,
+      66.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0008",
+    "depth": 7,
+    "question": "Henry receives $7 per hour and works 5 hours. Henry spends half of Henry's remaining $ on coins. Henry doubles Henry's current $ total. A 20% fee is deducted from Henry's total. Henry also receives a $9 bonus. Henry spends a third of Henry's remaining $ on boxes. Henry uses $6 on pens. How much $ does Henry have in the end?",
+    "ground_truth": 18.666666666666668,
+    "intermediate_values": [
+      35.0,
+      17.5,
+      35.0,
+      28.0,
+      37.0,
+      24.666666666666668,
+      18.666666666666668
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0009",
+    "depth": 7,
+    "question": "Diana receives $7 per hour and works 8 hours. Diana spends a third of Diana's remaining $ on apples. Diana spends a quarter of Diana's remaining $ on books. A 10% fee is deducted from Diana's total. Diana doubles Diana's current $ total. Diana then buys 5 boxes at $7 each. Diana also receives a $6 bonus. How much $ does Diana have in the end?",
+    "ground_truth": 21.4,
+    "intermediate_values": [
+      56.0,
+      37.333333333333336,
+      28.0,
+      25.2,
+      50.4,
+      15.4,
+      21.4
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0010",
+    "depth": 7,
+    "question": "Frank receives $17 per hour and works 9 hours. A 20% fee is deducted from Frank's total. Frank then orders 4 boxes at $4 each. Frank gives away $8 on bags. Frank doubles Frank's current $ total. Frank also receives a $8 bonus. Frank spends a third of Frank's remaining $ on books. How much $ does Frank have in the end?",
+    "ground_truth": 136.53333333333333,
+    "intermediate_values": [
+      153.0,
+      122.4,
+      106.4,
+      98.4,
+      196.8,
+      204.8,
+      136.53333333333333
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0011",
+    "depth": 7,
+    "question": "Grace gathers $20 per hour and works 7 hours. Grace doubles Grace's current $ total. Grace spends half of Grace's remaining $ on boxes. A 20% fee is deducted from Grace's total. Grace spends a quarter of Grace's remaining $ on apples. Grace spends a third of Grace's remaining $ on coins. Grace then purchases 4 books at $3 each. How much $ does Grace have in the end?",
+    "ground_truth": 44.0,
+    "intermediate_values": [
+      140.0,
+      280.0,
+      140.0,
+      112.0,
+      84.0,
+      56.0,
+      44.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0012",
+    "depth": 7,
+    "question": "Carlos earns $13 per hour and works 8 hours. Carlos spends a quarter of Carlos's remaining $ on tickets. A 20% fee is deducted from Carlos's total. Carlos spends half of Carlos's remaining $ on apples. Carlos also receives a $6 bonus. Carlos gives away $2 on bags. Carlos doubles Carlos's current $ total. How much $ does Carlos have in the end?",
+    "ground_truth": 70.4,
+    "intermediate_values": [
+      104.0,
+      78.0,
+      62.4,
+      31.2,
+      37.2,
+      35.2,
+      70.4
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0013",
+    "depth": 7,
+    "question": "Alice receives $19 per hour and works 6 hours. Alice then buys 2 bags at $4 each. Alice also receives a $7 bonus. A 10% fee is deducted from Alice's total. Alice spends a third of Alice's remaining $ on tickets. Alice spends half of Alice's remaining $ on books. Alice spends a quarter of Alice's remaining $ on pens. How much $ does Alice have in the end?",
+    "ground_truth": 25.425,
+    "intermediate_values": [
+      114.0,
+      106.0,
+      113.0,
+      101.7,
+      67.8,
+      33.9,
+      25.425
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0014",
+    "depth": 7,
+    "question": "Eve earns $8 per hour and works 9 hours. Eve spends half of Eve's remaining $ on boxes. Eve spends $8 on bags. Eve spends a quarter of Eve's remaining $ on coins. Eve doubles Eve's current $ total. Eve then picks up 2 tickets at $4 each. Eve spends a third of Eve's remaining $ on books. How much $ does Eve have in the end?",
+    "ground_truth": 22.666666666666668,
+    "intermediate_values": [
+      72.0,
+      36.0,
+      28.0,
+      21.0,
+      42.0,
+      34.0,
+      22.666666666666668
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0015",
+    "depth": 7,
+    "question": "Bob earns $11 per hour and works 9 hours. A 20% fee is deducted from Bob's total. Bob also receives a $10 bonus. Bob spends a quarter of Bob's remaining $ on bags. Bob doubles Bob's current $ total. Bob spends a third of Bob's remaining $ on coins. Bob gives away $5 on tickets. How much $ does Bob have in the end?",
+    "ground_truth": 84.2,
+    "intermediate_values": [
+      99.0,
+      79.2,
+      89.2,
+      66.9,
+      133.8,
+      89.2,
+      84.2
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0016",
+    "depth": 7,
+    "question": "Grace gathers $11 per hour and works 9 hours. Grace spends half of Grace's remaining $ on tickets. Grace donates $5 on apples. Grace doubles Grace's current $ total. Grace then orders 5 books at $4 each. Grace spends a quarter of Grace's remaining $ on boxes. A 25% fee is deducted from Grace's total. How much $ does Grace have in the end?",
+    "ground_truth": 38.8125,
+    "intermediate_values": [
+      99.0,
+      49.5,
+      44.5,
+      89.0,
+      69.0,
+      51.75,
+      38.8125
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0017",
+    "depth": 7,
+    "question": "Frank receives $9 per hour and works 7 hours. Frank spends a quarter of Frank's remaining $ on bags. A 10% fee is deducted from Frank's total. Frank spends half of Frank's remaining $ on tickets. Frank also receives a $14 bonus. Frank spends a third of Frank's remaining $ on apples. Frank then picks up 5 pens at $2 each. How much $ does Frank have in the end?",
+    "ground_truth": 13.508333333333333,
+    "intermediate_values": [
+      63.0,
+      47.25,
+      42.525,
+      21.2625,
+      35.2625,
+      23.508333333333333,
+      13.508333333333333
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0018",
+    "depth": 7,
+    "question": "Grace gathers $18 per hour and works 7 hours. Grace spends half of Grace's remaining $ on bags. Grace also receives a $8 bonus. Grace uses $6 on apples. Grace then buys 3 pens at $3 each. Grace spends a third of Grace's remaining $ on coins. A 20% fee is deducted from Grace's total. How much $ does Grace have in the end?",
+    "ground_truth": 29.866666666666667,
+    "intermediate_values": [
+      126.0,
+      63.0,
+      71.0,
+      65.0,
+      56.0,
+      37.333333333333336,
+      29.866666666666667
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0019",
+    "depth": 7,
+    "question": "Eve collects $11 per hour and works 4 hours. Eve spends a third of Eve's remaining $ on coins. A 25% fee is deducted from Eve's total. Eve spends half of Eve's remaining $ on pens. Eve then buys 5 tickets at $8 each. Eve donates $9 on boxes. Eve spends a quarter of Eve's remaining $ on books. How much $ does Eve have in the end?",
+    "ground_truth": 15.75,
+    "intermediate_values": [
+      44.0,
+      29.333333333333332,
+      22.0,
+      11.0,
+      30.0,
+      21.0,
+      15.75
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0020",
+    "depth": 7,
+    "question": "Eve receives $5 per hour and works 3 hours. A 25% fee is deducted from Eve's total. Eve also receives a $12 bonus. Eve spends half of Eve's remaining $ on boxes. Eve then purchases 5 apples at $8 each. Eve spends a third of Eve's remaining $ on coins. Eve spends a quarter of Eve's remaining $ on pens. How much $ does Eve have in the end?",
+    "ground_truth": 14.6875,
+    "intermediate_values": [
+      15.0,
+      11.25,
+      23.25,
+      11.625,
+      29.375,
+      19.583333333333332,
+      14.6875
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0021",
+    "depth": 7,
+    "question": "Grace gathers $9 per hour and works 6 hours. Grace uses $2 on pens. Grace also receives a $15 bonus. Grace spends half of Grace's remaining $ on boxes. Grace spends a third of Grace's remaining $ on coins. A 25% fee is deducted from Grace's total. Grace doubles Grace's current $ total. How much $ does Grace have in the end?",
+    "ground_truth": 33.5,
+    "intermediate_values": [
+      54.0,
+      52.0,
+      67.0,
+      33.5,
+      22.333333333333332,
+      16.75,
+      33.5
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0022",
+    "depth": 7,
+    "question": "Diana collects $16 per hour and works 7 hours. A 25% fee is deducted from Diana's total. Diana spends a quarter of Diana's remaining $ on books. Diana gives away $4 on bags. Diana spends a third of Diana's remaining $ on tickets. Diana then orders 5 pens at $2 each. Diana also receives a $11 bonus. How much $ does Diana have in the end?",
+    "ground_truth": 40.333333333333336,
+    "intermediate_values": [
+      112.0,
+      84.0,
+      63.0,
+      59.0,
+      39.333333333333336,
+      29.333333333333332,
+      40.333333333333336
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0023",
+    "depth": 7,
+    "question": "Henry receives $9 per hour and works 9 hours. Henry spends $9 on boxes. Henry then picks up 2 coins at $6 each. Henry spends a quarter of Henry's remaining $ on pens. A 10% fee is deducted from Henry's total. Henry spends a third of Henry's remaining $ on books. Henry doubles Henry's current $ total. How much $ does Henry have in the end?",
+    "ground_truth": 54.0,
+    "intermediate_values": [
+      81.0,
+      72.0,
+      60.0,
+      45.0,
+      40.5,
+      27.0,
+      54.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0024",
+    "depth": 7,
+    "question": "Eve receives $8 per hour and works 7 hours. Eve doubles Eve's current $ total. Eve spends half of Eve's remaining $ on pens. Eve then picks up 5 coins at $2 each. Eve spends a third of Eve's remaining $ on bags. Eve spends a quarter of Eve's remaining $ on books. Eve gives away $8 on tickets. How much $ does Eve have in the end?",
+    "ground_truth": 15.0,
+    "intermediate_values": [
+      56.0,
+      112.0,
+      56.0,
+      46.0,
+      30.666666666666668,
+      23.0,
+      15.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0025",
+    "depth": 7,
+    "question": "Henry earns $18 per hour and works 4 hours. Henry spends half of Henry's remaining $ on pens. Henry spends a quarter of Henry's remaining $ on boxes. A 10% fee is deducted from Henry's total. Henry doubles Henry's current $ total. Henry uses $8 on books. Henry then orders 2 coins at $8 each. How much $ does Henry have in the end?",
+    "ground_truth": 24.6,
+    "intermediate_values": [
+      72.0,
+      36.0,
+      27.0,
+      24.3,
+      48.6,
+      40.6,
+      24.6
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0026",
+    "depth": 7,
+    "question": "Grace collects $20 per hour and works 6 hours. A 10% fee is deducted from Grace's total. Grace donates $3 on pens. Grace spends a third of Grace's remaining $ on apples. Grace spends a quarter of Grace's remaining $ on tickets. Grace also receives a $5 bonus. Grace doubles Grace's current $ total. How much $ does Grace have in the end?",
+    "ground_truth": 115.0,
+    "intermediate_values": [
+      120.0,
+      108.0,
+      105.0,
+      70.0,
+      52.5,
+      57.5,
+      115.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0027",
+    "depth": 7,
+    "question": "Eve earns $12 per hour and works 5 hours. Eve also receives a $11 bonus. A 10% fee is deducted from Eve's total. Eve spends a quarter of Eve's remaining $ on boxes. Eve uses $8 on tickets. Eve doubles Eve's current $ total. Eve spends a third of Eve's remaining $ on pens. How much $ does Eve have in the end?",
+    "ground_truth": 53.233333333333334,
+    "intermediate_values": [
+      60.0,
+      71.0,
+      63.9,
+      47.925,
+      39.925,
+      79.85,
+      53.233333333333334
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0028",
+    "depth": 7,
+    "question": "Eve earns $11 per hour and works 9 hours. Eve gives away $2 on tickets. Eve also receives a $5 bonus. Eve spends a quarter of Eve's remaining $ on coins. A 20% fee is deducted from Eve's total. Eve then orders 3 bags at $5 each. Eve spends half of Eve's remaining $ on books. How much $ does Eve have in the end?",
+    "ground_truth": 23.1,
+    "intermediate_values": [
+      99.0,
+      97.0,
+      102.0,
+      76.5,
+      61.2,
+      46.2,
+      23.1
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0029",
+    "depth": 7,
+    "question": "Frank earns $13 per hour and works 7 hours. A 25% fee is deducted from Frank's total. Frank also receives a $6 bonus. Frank spends a quarter of Frank's remaining $ on books. Frank spends a third of Frank's remaining $ on apples. Frank doubles Frank's current $ total. Frank spends half of Frank's remaining $ on pens. How much $ does Frank have in the end?",
+    "ground_truth": 37.125,
+    "intermediate_values": [
+      91.0,
+      68.25,
+      74.25,
+      55.6875,
+      37.125,
+      74.25,
+      37.125
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0030",
+    "depth": 7,
+    "question": "Henry receives $20 per hour and works 8 hours. Henry spends half of Henry's remaining $ on tickets. Henry doubles Henry's current $ total. Henry then buys 3 coins at $8 each. Henry spends a quarter of Henry's remaining $ on bags. A 20% fee is deducted from Henry's total. Henry spends a third of Henry's remaining $ on boxes. How much $ does Henry have in the end?",
+    "ground_truth": 54.4,
+    "intermediate_values": [
+      160.0,
+      80.0,
+      160.0,
+      136.0,
+      102.0,
+      81.6,
+      54.4
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0031",
+    "depth": 7,
+    "question": "Frank gathers $18 per hour and works 10 hours. Frank doubles Frank's current $ total. Frank also receives a $5 bonus. Frank spends half of Frank's remaining $ on bags. Frank then buys 2 boxes at $2 each. Frank spends a third of Frank's remaining $ on books. Frank spends $10 on tickets. How much $ does Frank have in the end?",
+    "ground_truth": 109.0,
+    "intermediate_values": [
+      180.0,
+      360.0,
+      365.0,
+      182.5,
+      178.5,
+      119.0,
+      109.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0032",
+    "depth": 7,
+    "question": "Carlos earns $11 per hour and works 8 hours. A 10% fee is deducted from Carlos's total. Carlos spends a quarter of Carlos's remaining $ on apples. Carlos spends half of Carlos's remaining $ on tickets. Carlos then picks up 4 pens at $5 each. Carlos doubles Carlos's current $ total. Carlos donates $4 on boxes. How much $ does Carlos have in the end?",
+    "ground_truth": 15.4,
+    "intermediate_values": [
+      88.0,
+      79.2,
+      59.4,
+      29.7,
+      9.7,
+      19.4,
+      15.4
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0033",
+    "depth": 7,
+    "question": "Eve earns $7 per hour and works 4 hours. Eve also receives a $8 bonus. Eve spends $4 on books. Eve doubles Eve's current $ total. Eve spends a quarter of Eve's remaining $ on bags. A 20% fee is deducted from Eve's total. Eve then buys 5 tickets at $3 each. How much $ does Eve have in the end?",
+    "ground_truth": 23.4,
+    "intermediate_values": [
+      28.0,
+      36.0,
+      32.0,
+      64.0,
+      48.0,
+      38.4,
+      23.4
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0034",
+    "depth": 7,
+    "question": "Eve earns $16 per hour and works 10 hours. Eve also receives a $7 bonus. Eve spends half of Eve's remaining $ on coins. Eve then buys 5 apples at $6 each. Eve spends $3 on boxes. A 20% fee is deducted from Eve's total. Eve spends a quarter of Eve's remaining $ on tickets. How much $ does Eve have in the end?",
+    "ground_truth": 30.3,
+    "intermediate_values": [
+      160.0,
+      167.0,
+      83.5,
+      53.5,
+      50.5,
+      40.4,
+      30.3
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0035",
+    "depth": 7,
+    "question": "Eve gathers $17 per hour and works 10 hours. Eve spends a quarter of Eve's remaining $ on coins. Eve spends half of Eve's remaining $ on tickets. Eve gives away $10 on apples. Eve doubles Eve's current $ total. A 10% fee is deducted from Eve's total. Eve spends a third of Eve's remaining $ on bags. How much $ does Eve have in the end?",
+    "ground_truth": 64.5,
+    "intermediate_values": [
+      170.0,
+      127.5,
+      63.75,
+      53.75,
+      107.5,
+      96.75,
+      64.5
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0036",
+    "depth": 7,
+    "question": "Carlos collects $18 per hour and works 3 hours. Carlos also receives a $12 bonus. Carlos spends half of Carlos's remaining $ on bags. Carlos donates $8 on tickets. A 10% fee is deducted from Carlos's total. Carlos doubles Carlos's current $ total. Carlos spends a quarter of Carlos's remaining $ on apples. How much $ does Carlos have in the end?",
+    "ground_truth": 33.75,
+    "intermediate_values": [
+      54.0,
+      66.0,
+      33.0,
+      25.0,
+      22.5,
+      45.0,
+      33.75
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0037",
+    "depth": 7,
+    "question": "Eve receives $12 per hour and works 3 hours. Eve spends a third of Eve's remaining $ on tickets. Eve also receives a $10 bonus. Eve then purchases 3 bags at $5 each. A 10% fee is deducted from Eve's total. Eve spends half of Eve's remaining $ on pens. Eve uses $8 on boxes. How much $ does Eve have in the end?",
+    "ground_truth": 0.55,
+    "intermediate_values": [
+      36.0,
+      24.0,
+      34.0,
+      19.0,
+      17.1,
+      8.55,
+      0.55
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0038",
+    "depth": 7,
+    "question": "Grace earns $11 per hour and works 9 hours. Grace spends $7 on coins. Grace doubles Grace's current $ total. A 20% fee is deducted from Grace's total. Grace then purchases 4 pens at $6 each. Grace spends a quarter of Grace's remaining $ on apples. Grace spends half of Grace's remaining $ on books. How much $ does Grace have in the end?",
+    "ground_truth": 46.2,
+    "intermediate_values": [
+      99.0,
+      92.0,
+      184.0,
+      147.2,
+      123.2,
+      92.4,
+      46.2
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0039",
+    "depth": 7,
+    "question": "Frank collects $8 per hour and works 5 hours. Frank spends a quarter of Frank's remaining $ on coins. Frank spends half of Frank's remaining $ on books. A 10% fee is deducted from Frank's total. Frank uses $10 on pens. Frank then picks up 3 tickets at $4 each. Frank also receives a $15 bonus. How much $ does Frank have in the end?",
+    "ground_truth": 24.5,
+    "intermediate_values": [
+      40.0,
+      30.0,
+      15.0,
+      13.5,
+      3.5,
+      9.5,
+      24.5
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0040",
+    "depth": 7,
+    "question": "Diana receives $7 per hour and works 4 hours. Diana spends a quarter of Diana's remaining $ on bags. Diana spends a third of Diana's remaining $ on coins. Diana then buys 2 boxes at $5 each. Diana doubles Diana's current $ total. A 10% fee is deducted from Diana's total. Diana spends half of Diana's remaining $ on apples. How much $ does Diana have in the end?",
+    "ground_truth": 3.6,
+    "intermediate_values": [
+      28.0,
+      21.0,
+      14.0,
+      4.0,
+      8.0,
+      7.2,
+      3.6
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0041",
+    "depth": 7,
+    "question": "Henry collects $5 per hour and works 9 hours. Henry spends half of Henry's remaining $ on bags. Henry spends a quarter of Henry's remaining $ on books. Henry also receives a $5 bonus. Henry spends a third of Henry's remaining $ on apples. A 10% fee is deducted from Henry's total. Henry spends $7 on pens. How much $ does Henry have in the end?",
+    "ground_truth": 6.125,
+    "intermediate_values": [
+      45.0,
+      22.5,
+      16.875,
+      21.875,
+      14.583333333333334,
+      13.125,
+      6.125
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0042",
+    "depth": 7,
+    "question": "Carlos receives $9 per hour and works 5 hours. Carlos doubles Carlos's current $ total. Carlos donates $2 on apples. Carlos then picks up 5 books at $3 each. Carlos spends a third of Carlos's remaining $ on coins. A 25% fee is deducted from Carlos's total. Carlos spends a quarter of Carlos's remaining $ on bags. How much $ does Carlos have in the end?",
+    "ground_truth": 27.375,
+    "intermediate_values": [
+      45.0,
+      90.0,
+      88.0,
+      73.0,
+      48.666666666666664,
+      36.5,
+      27.375
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0043",
+    "depth": 7,
+    "question": "Eve gathers $9 per hour and works 8 hours. Eve spends a third of Eve's remaining $ on bags. Eve then buys 3 boxes at $2 each. Eve uses $7 on coins. Eve doubles Eve's current $ total. Eve spends a quarter of Eve's remaining $ on tickets. A 20% fee is deducted from Eve's total. How much $ does Eve have in the end?",
+    "ground_truth": 42.0,
+    "intermediate_values": [
+      72.0,
+      48.0,
+      42.0,
+      35.0,
+      70.0,
+      52.5,
+      42.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0044",
+    "depth": 7,
+    "question": "Grace earns $17 per hour and works 4 hours. Grace doubles Grace's current $ total. Grace then picks up 4 books at $6 each. Grace donates $2 on tickets. Grace spends a quarter of Grace's remaining $ on apples. Grace spends half of Grace's remaining $ on bags. Grace also receives a $10 bonus. How much $ does Grace have in the end?",
+    "ground_truth": 51.25,
+    "intermediate_values": [
+      68.0,
+      136.0,
+      112.0,
+      110.0,
+      82.5,
+      41.25,
+      51.25
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0045",
+    "depth": 7,
+    "question": "Grace receives $13 per hour and works 7 hours. A 10% fee is deducted from Grace's total. Grace spends a quarter of Grace's remaining $ on coins. Grace donates $5 on apples. Grace also receives a $5 bonus. Grace doubles Grace's current $ total. Grace spends half of Grace's remaining $ on pens. How much $ does Grace have in the end?",
+    "ground_truth": 61.425,
+    "intermediate_values": [
+      91.0,
+      81.9,
+      61.425,
+      56.425,
+      61.425,
+      122.85,
+      61.425
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0046",
+    "depth": 7,
+    "question": "Frank gathers $14 per hour and works 3 hours. Frank spends half of Frank's remaining $ on pens. Frank then purchases 3 apples at $7 each. Frank spends a quarter of Frank's remaining $ on coins. Frank doubles Frank's current $ total. A 20% fee is deducted from Frank's total. Frank gives away $3 on boxes. How much $ does Frank have in the end?",
+    "ground_truth": 2.8,
+    "intermediate_values": [
+      42.0,
+      21.0,
+      1.0,
+      0.75,
+      1.5,
+      1.2,
+      2.8
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0047",
+    "depth": 7,
+    "question": "Frank earns $5 per hour and works 3 hours. Frank doubles Frank's current $ total. Frank also receives a $5 bonus. A 20% fee is deducted from Frank's total. Frank spends a third of Frank's remaining $ on apples. Frank spends half of Frank's remaining $ on coins. Frank spends a quarter of Frank's remaining $ on tickets. How much $ does Frank have in the end?",
+    "ground_truth": 7.0,
+    "intermediate_values": [
+      15.0,
+      30.0,
+      35.0,
+      28.0,
+      18.666666666666668,
+      9.333333333333334,
+      7.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0048",
+    "depth": 7,
+    "question": "Frank gathers $6 per hour and works 4 hours. Frank gives away $2 on boxes. Frank spends a quarter of Frank's remaining $ on books. Frank spends half of Frank's remaining $ on pens. Frank also receives a $8 bonus. Frank doubles Frank's current $ total. Frank then orders 2 tickets at $3 each. How much $ does Frank have in the end?",
+    "ground_truth": 26.5,
+    "intermediate_values": [
+      24.0,
+      22.0,
+      16.5,
+      8.25,
+      16.25,
+      32.5,
+      26.5
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0049",
+    "depth": 7,
+    "question": "Diana receives $20 per hour and works 3 hours. Diana doubles Diana's current $ total. Diana uses $10 on tickets. Diana spends a quarter of Diana's remaining $ on books. Diana then picks up 4 bags at $4 each. Diana spends half of Diana's remaining $ on pens. Diana also receives a $14 bonus. How much $ does Diana have in the end?",
+    "ground_truth": 47.25,
+    "intermediate_values": [
+      60.0,
+      120.0,
+      110.0,
+      82.5,
+      66.5,
+      33.25,
+      47.25
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0050",
+    "depth": 7,
+    "question": "Bob collects $14 per hour and works 9 hours. Bob spends half of Bob's remaining $ on books. Bob then buys 2 apples at $2 each. A 25% fee is deducted from Bob's total. Bob doubles Bob's current $ total. Bob uses $2 on pens. Bob spends a quarter of Bob's remaining $ on tickets. How much $ does Bob have in the end?",
+    "ground_truth": 64.875,
+    "intermediate_values": [
+      126.0,
+      63.0,
+      59.0,
+      44.25,
+      88.5,
+      86.5,
+      64.875
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0051",
+    "depth": 7,
+    "question": "Grace collects $15 per hour and works 4 hours. Grace then buys 5 pens at $8 each. Grace spends half of Grace's remaining $ on coins. Grace doubles Grace's current $ total. Grace also receives a $12 bonus. Grace donates $8 on bags. Grace spends a third of Grace's remaining $ on boxes. How much $ does Grace have in the end?",
+    "ground_truth": 16.0,
+    "intermediate_values": [
+      60.0,
+      20.0,
+      10.0,
+      20.0,
+      32.0,
+      24.0,
+      16.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0052",
+    "depth": 7,
+    "question": "Eve collects $16 per hour and works 3 hours. Eve spends a quarter of Eve's remaining $ on pens. Eve donates $4 on coins. Eve also receives a $12 bonus. A 25% fee is deducted from Eve's total. Eve then picks up 3 boxes at $3 each. Eve doubles Eve's current $ total. How much $ does Eve have in the end?",
+    "ground_truth": 48.0,
+    "intermediate_values": [
+      48.0,
+      36.0,
+      32.0,
+      44.0,
+      33.0,
+      24.0,
+      48.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0053",
+    "depth": 7,
+    "question": "Diana gathers $18 per hour and works 5 hours. Diana doubles Diana's current $ total. Diana spends a quarter of Diana's remaining $ on books. Diana also receives a $13 bonus. Diana donates $2 on apples. Diana spends half of Diana's remaining $ on pens. A 25% fee is deducted from Diana's total. How much $ does Diana have in the end?",
+    "ground_truth": 54.75,
+    "intermediate_values": [
+      90.0,
+      180.0,
+      135.0,
+      148.0,
+      146.0,
+      73.0,
+      54.75
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0054",
+    "depth": 7,
+    "question": "Grace collects $5 per hour and works 9 hours. Grace uses $10 on apples. Grace doubles Grace's current $ total. Grace spends a quarter of Grace's remaining $ on boxes. A 10% fee is deducted from Grace's total. Grace then purchases 5 bags at $5 each. Grace also receives a $15 bonus. How much $ does Grace have in the end?",
+    "ground_truth": 37.25,
+    "intermediate_values": [
+      45.0,
+      35.0,
+      70.0,
+      52.5,
+      47.25,
+      22.25,
+      37.25
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0055",
+    "depth": 7,
+    "question": "Carlos collects $16 per hour and works 5 hours. Carlos then purchases 3 apples at $6 each. Carlos also receives a $7 bonus. Carlos spends half of Carlos's remaining $ on coins. Carlos spends a quarter of Carlos's remaining $ on pens. Carlos spends $2 on bags. Carlos spends a third of Carlos's remaining $ on tickets. How much $ does Carlos have in the end?",
+    "ground_truth": 15.916666666666666,
+    "intermediate_values": [
+      80.0,
+      62.0,
+      69.0,
+      34.5,
+      25.875,
+      23.875,
+      15.916666666666666
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0056",
+    "depth": 7,
+    "question": "Frank receives $7 per hour and works 9 hours. Frank also receives a $5 bonus. Frank spends a third of Frank's remaining $ on bags. Frank spends half of Frank's remaining $ on coins. Frank spends a quarter of Frank's remaining $ on tickets. Frank then orders 5 pens at $3 each. A 20% fee is deducted from Frank's total. How much $ does Frank have in the end?",
+    "ground_truth": 1.6,
+    "intermediate_values": [
+      63.0,
+      68.0,
+      45.333333333333336,
+      22.666666666666668,
+      17.0,
+      2.0,
+      1.6
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0057",
+    "depth": 7,
+    "question": "Alice collects $13 per hour and works 6 hours. A 25% fee is deducted from Alice's total. Alice spends a quarter of Alice's remaining $ on boxes. Alice then buys 2 pens at $6 each. Alice also receives a $14 bonus. Alice spends a third of Alice's remaining $ on tickets. Alice gives away $6 on bags. How much $ does Alice have in the end?",
+    "ground_truth": 24.583333333333332,
+    "intermediate_values": [
+      78.0,
+      58.5,
+      43.875,
+      31.875,
+      45.875,
+      30.583333333333332,
+      24.583333333333332
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0058",
+    "depth": 7,
+    "question": "Bob gathers $8 per hour and works 7 hours. Bob then buys 3 coins at $8 each. Bob spends a third of Bob's remaining $ on pens. A 10% fee is deducted from Bob's total. Bob spends half of Bob's remaining $ on tickets. Bob doubles Bob's current $ total. Bob spends a quarter of Bob's remaining $ on boxes. How much $ does Bob have in the end?",
+    "ground_truth": 14.4,
+    "intermediate_values": [
+      56.0,
+      32.0,
+      21.333333333333332,
+      19.2,
+      9.6,
+      19.2,
+      14.4
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0059",
+    "depth": 7,
+    "question": "Eve collects $8 per hour and works 3 hours. A 25% fee is deducted from Eve's total. Eve then picks up 4 apples at $6 each. Eve donates $2 on pens. Eve spends a third of Eve's remaining $ on tickets. Eve doubles Eve's current $ total. Eve spends a quarter of Eve's remaining $ on boxes. How much $ does Eve have in the end?",
+    "ground_truth": 5.0,
+    "intermediate_values": [
+      24.0,
+      18.0,
+      7.0,
+      5.0,
+      3.3333333333333335,
+      6.666666666666667,
+      5.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0060",
+    "depth": 7,
+    "question": "Eve collects $19 per hour and works 7 hours. Eve spends half of Eve's remaining $ on tickets. Eve doubles Eve's current $ total. Eve also receives a $12 bonus. Eve spends a quarter of Eve's remaining $ on apples. Eve spends a third of Eve's remaining $ on bags. A 25% fee is deducted from Eve's total. How much $ does Eve have in the end?",
+    "ground_truth": 54.375,
+    "intermediate_values": [
+      133.0,
+      66.5,
+      133.0,
+      145.0,
+      108.75,
+      72.5,
+      54.375
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0061",
+    "depth": 7,
+    "question": "Grace collects $16 per hour and works 9 hours. Grace spends half of Grace's remaining $ on pens. Grace spends a quarter of Grace's remaining $ on bags. Grace also receives a $6 bonus. Grace spends a third of Grace's remaining $ on books. Grace doubles Grace's current $ total. A 20% fee is deducted from Grace's total. How much $ does Grace have in the end?",
+    "ground_truth": 64.0,
+    "intermediate_values": [
+      144.0,
+      72.0,
+      54.0,
+      60.0,
+      40.0,
+      80.0,
+      64.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0062",
+    "depth": 7,
+    "question": "Frank earns $5 per hour and works 6 hours. Frank doubles Frank's current $ total. Frank also receives a $14 bonus. A 25% fee is deducted from Frank's total. Frank spends a quarter of Frank's remaining $ on coins. Frank spends half of Frank's remaining $ on tickets. Frank uses $8 on pens. How much $ does Frank have in the end?",
+    "ground_truth": 12.8125,
+    "intermediate_values": [
+      30.0,
+      60.0,
+      74.0,
+      55.5,
+      41.625,
+      20.8125,
+      12.8125
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0063",
+    "depth": 7,
+    "question": "Bob earns $10 per hour and works 6 hours. Bob spends half of Bob's remaining $ on boxes. Bob gives away $9 on tickets. A 20% fee is deducted from Bob's total. Bob then orders 2 bags at $7 each. Bob spends a quarter of Bob's remaining $ on apples. Bob also receives a $10 bonus. How much $ does Bob have in the end?",
+    "ground_truth": 12.1,
+    "intermediate_values": [
+      60.0,
+      30.0,
+      21.0,
+      16.8,
+      2.8,
+      2.1,
+      12.1
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0064",
+    "depth": 7,
+    "question": "Carlos collects $15 per hour and works 10 hours. Carlos also receives a $15 bonus. Carlos doubles Carlos's current $ total. Carlos spends a quarter of Carlos's remaining $ on coins. Carlos then orders 2 apples at $8 each. Carlos uses $10 on boxes. A 10% fee is deducted from Carlos's total. How much $ does Carlos have in the end?",
+    "ground_truth": 199.35,
+    "intermediate_values": [
+      150.0,
+      165.0,
+      330.0,
+      247.5,
+      231.5,
+      221.5,
+      199.35
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0065",
+    "depth": 7,
+    "question": "Bob receives $9 per hour and works 4 hours. Bob doubles Bob's current $ total. Bob spends a third of Bob's remaining $ on apples. Bob donates $10 on boxes. Bob also receives a $12 bonus. Bob spends half of Bob's remaining $ on coins. Bob then purchases 2 bags at $5 each. How much $ does Bob have in the end?",
+    "ground_truth": 15.0,
+    "intermediate_values": [
+      36.0,
+      72.0,
+      48.0,
+      38.0,
+      50.0,
+      25.0,
+      15.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0066",
+    "depth": 7,
+    "question": "Bob receives $5 per hour and works 9 hours. Bob spends half of Bob's remaining $ on books. Bob then orders 4 apples at $4 each. Bob also receives a $10 bonus. Bob gives away $3 on boxes. Bob spends a quarter of Bob's remaining $ on tickets. Bob spends a third of Bob's remaining $ on pens. How much $ does Bob have in the end?",
+    "ground_truth": 6.75,
+    "intermediate_values": [
+      45.0,
+      22.5,
+      6.5,
+      16.5,
+      13.5,
+      10.125,
+      6.75
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0067",
+    "depth": 7,
+    "question": "Carlos receives $7 per hour and works 5 hours. A 25% fee is deducted from Carlos's total. Carlos donates $7 on pens. Carlos spends a third of Carlos's remaining $ on books. Carlos spends half of Carlos's remaining $ on coins. Carlos also receives a $6 bonus. Carlos spends a quarter of Carlos's remaining $ on boxes. How much $ does Carlos have in the end?",
+    "ground_truth": 9.3125,
+    "intermediate_values": [
+      35.0,
+      26.25,
+      19.25,
+      12.833333333333334,
+      6.416666666666667,
+      12.416666666666666,
+      9.3125
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0068",
+    "depth": 7,
+    "question": "Bob receives $20 per hour and works 6 hours. Bob also receives a $5 bonus. Bob doubles Bob's current $ total. A 25% fee is deducted from Bob's total. Bob spends half of Bob's remaining $ on tickets. Bob spends a quarter of Bob's remaining $ on boxes. Bob then picks up 2 bags at $6 each. How much $ does Bob have in the end?",
+    "ground_truth": 58.3125,
+    "intermediate_values": [
+      120.0,
+      125.0,
+      250.0,
+      187.5,
+      93.75,
+      70.3125,
+      58.3125
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0069",
+    "depth": 7,
+    "question": "Henry earns $6 per hour and works 3 hours. Henry gives away $4 on pens. Henry spends a third of Henry's remaining $ on coins. Henry then buys 5 boxes at $2 each. A 20% fee is deducted from Henry's total. Henry also receives a $10 bonus. Henry doubles Henry's current $ total. How much $ does Henry have in the end?",
+    "ground_truth": 22.666666666666668,
+    "intermediate_values": [
+      18.0,
+      14.0,
+      9.333333333333334,
+      1.6666666666666667,
+      1.3333333333333333,
+      11.333333333333334,
+      22.666666666666668
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0070",
+    "depth": 7,
+    "question": "Eve collects $9 per hour and works 5 hours. Eve spends $8 on pens. A 25% fee is deducted from Eve's total. Eve doubles Eve's current $ total. Eve spends half of Eve's remaining $ on apples. Eve spends a quarter of Eve's remaining $ on tickets. Eve then orders 2 bags at $4 each. How much $ does Eve have in the end?",
+    "ground_truth": 12.8125,
+    "intermediate_values": [
+      45.0,
+      37.0,
+      27.75,
+      55.5,
+      27.75,
+      20.8125,
+      12.8125
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0071",
+    "depth": 7,
+    "question": "Diana earns $12 per hour and works 4 hours. Diana spends half of Diana's remaining $ on apples. Diana also receives a $5 bonus. Diana then purchases 2 boxes at $7 each. Diana spends a quarter of Diana's remaining $ on tickets. A 20% fee is deducted from Diana's total. Diana doubles Diana's current $ total. How much $ does Diana have in the end?",
+    "ground_truth": 18.0,
+    "intermediate_values": [
+      48.0,
+      24.0,
+      29.0,
+      15.0,
+      11.25,
+      9.0,
+      18.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0072",
+    "depth": 7,
+    "question": "Eve gathers $10 per hour and works 10 hours. Eve also receives a $8 bonus. A 20% fee is deducted from Eve's total. Eve then buys 2 boxes at $5 each. Eve doubles Eve's current $ total. Eve spends a third of Eve's remaining $ on books. Eve spends a quarter of Eve's remaining $ on pens. How much $ does Eve have in the end?",
+    "ground_truth": 76.4,
+    "intermediate_values": [
+      100.0,
+      108.0,
+      86.4,
+      76.4,
+      152.8,
+      101.86666666666666,
+      76.4
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0073",
+    "depth": 7,
+    "question": "Bob earns $6 per hour and works 9 hours. Bob also receives a $5 bonus. Bob spends a quarter of Bob's remaining $ on coins. Bob spends half of Bob's remaining $ on apples. Bob doubles Bob's current $ total. A 10% fee is deducted from Bob's total. Bob gives away $5 on boxes. How much $ does Bob have in the end?",
+    "ground_truth": 34.825,
+    "intermediate_values": [
+      54.0,
+      59.0,
+      44.25,
+      22.125,
+      44.25,
+      39.825,
+      34.825
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0074",
+    "depth": 7,
+    "question": "Carlos collects $11 per hour and works 4 hours. Carlos then picks up 4 apples at $5 each. A 20% fee is deducted from Carlos's total. Carlos doubles Carlos's current $ total. Carlos also receives a $9 bonus. Carlos spends half of Carlos's remaining $ on books. Carlos spends a third of Carlos's remaining $ on boxes. How much $ does Carlos have in the end?",
+    "ground_truth": 15.8,
+    "intermediate_values": [
+      44.0,
+      24.0,
+      19.2,
+      38.4,
+      47.4,
+      23.7,
+      15.8
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0075",
+    "depth": 7,
+    "question": "Alice receives $20 per hour and works 7 hours. A 25% fee is deducted from Alice's total. Alice spends a quarter of Alice's remaining $ on coins. Alice doubles Alice's current $ total. Alice uses $4 on pens. Alice spends half of Alice's remaining $ on tickets. Alice then buys 2 books at $5 each. How much $ does Alice have in the end?",
+    "ground_truth": 66.75,
+    "intermediate_values": [
+      140.0,
+      105.0,
+      78.75,
+      157.5,
+      153.5,
+      76.75,
+      66.75
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0076",
+    "depth": 7,
+    "question": "Henry receives $19 per hour and works 9 hours. Henry spends a third of Henry's remaining $ on coins. Henry spends half of Henry's remaining $ on pens. Henry spends a quarter of Henry's remaining $ on books. Henry uses $3 on bags. Henry also receives a $13 bonus. A 10% fee is deducted from Henry's total. How much $ does Henry have in the end?",
+    "ground_truth": 47.475,
+    "intermediate_values": [
+      171.0,
+      114.0,
+      57.0,
+      42.75,
+      39.75,
+      52.75,
+      47.475
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0077",
+    "depth": 7,
+    "question": "Grace earns $20 per hour and works 9 hours. Grace spends half of Grace's remaining $ on bags. Grace spends a third of Grace's remaining $ on books. Grace also receives a $9 bonus. A 20% fee is deducted from Grace's total. Grace gives away $8 on pens. Grace spends a quarter of Grace's remaining $ on boxes. How much $ does Grace have in the end?",
+    "ground_truth": 35.4,
+    "intermediate_values": [
+      180.0,
+      90.0,
+      60.0,
+      69.0,
+      55.2,
+      47.2,
+      35.4
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0078",
+    "depth": 7,
+    "question": "Frank receives $15 per hour and works 9 hours. Frank also receives a $13 bonus. Frank doubles Frank's current $ total. Frank then picks up 5 boxes at $3 each. Frank spends $3 on apples. A 10% fee is deducted from Frank's total. Frank spends half of Frank's remaining $ on bags. How much $ does Frank have in the end?",
+    "ground_truth": 125.1,
+    "intermediate_values": [
+      135.0,
+      148.0,
+      296.0,
+      281.0,
+      278.0,
+      250.2,
+      125.1
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0079",
+    "depth": 7,
+    "question": "Henry collects $5 per hour and works 8 hours. Henry also receives a $14 bonus. Henry then orders 4 tickets at $2 each. Henry spends half of Henry's remaining $ on boxes. Henry spends a third of Henry's remaining $ on books. Henry donates $8 on coins. Henry spends a quarter of Henry's remaining $ on apples. How much $ does Henry have in the end?",
+    "ground_truth": 5.5,
+    "intermediate_values": [
+      40.0,
+      54.0,
+      46.0,
+      23.0,
+      15.333333333333334,
+      7.333333333333333,
+      5.5
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0080",
+    "depth": 7,
+    "question": "Eve gathers $14 per hour and works 4 hours. Eve spends a quarter of Eve's remaining $ on boxes. Eve gives away $4 on apples. Eve also receives a $6 bonus. Eve doubles Eve's current $ total. Eve then purchases 2 coins at $4 each. Eve spends a third of Eve's remaining $ on pens. How much $ does Eve have in the end?",
+    "ground_truth": 53.333333333333336,
+    "intermediate_values": [
+      56.0,
+      42.0,
+      38.0,
+      44.0,
+      88.0,
+      80.0,
+      53.333333333333336
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0081",
+    "depth": 7,
+    "question": "Diana earns $19 per hour and works 9 hours. Diana then orders 2 coins at $4 each. Diana doubles Diana's current $ total. A 10% fee is deducted from Diana's total. Diana spends half of Diana's remaining $ on bags. Diana also receives a $10 bonus. Diana spends a third of Diana's remaining $ on boxes. How much $ does Diana have in the end?",
+    "ground_truth": 104.46666666666667,
+    "intermediate_values": [
+      171.0,
+      163.0,
+      326.0,
+      293.4,
+      146.7,
+      156.7,
+      104.46666666666667
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0082",
+    "depth": 7,
+    "question": "Henry receives $16 per hour and works 8 hours. Henry doubles Henry's current $ total. Henry then buys 4 pens at $2 each. Henry spends a quarter of Henry's remaining $ on boxes. A 25% fee is deducted from Henry's total. Henry spends a third of Henry's remaining $ on tickets. Henry donates $8 on coins. How much $ does Henry have in the end?",
+    "ground_truth": 85.0,
+    "intermediate_values": [
+      128.0,
+      256.0,
+      248.0,
+      186.0,
+      139.5,
+      93.0,
+      85.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0083",
+    "depth": 7,
+    "question": "Bob receives $17 per hour and works 9 hours. Bob doubles Bob's current $ total. Bob also receives a $5 bonus. Bob spends half of Bob's remaining $ on bags. A 20% fee is deducted from Bob's total. Bob then buys 2 books at $3 each. Bob spends a third of Bob's remaining $ on pens. How much $ does Bob have in the end?",
+    "ground_truth": 78.93333333333334,
+    "intermediate_values": [
+      153.0,
+      306.0,
+      311.0,
+      155.5,
+      124.4,
+      118.4,
+      78.93333333333334
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0084",
+    "depth": 7,
+    "question": "Carlos earns $19 per hour and works 4 hours. Carlos then buys 3 bags at $5 each. Carlos donates $8 on apples. Carlos also receives a $8 bonus. Carlos doubles Carlos's current $ total. Carlos spends a quarter of Carlos's remaining $ on books. Carlos spends half of Carlos's remaining $ on boxes. How much $ does Carlos have in the end?",
+    "ground_truth": 45.75,
+    "intermediate_values": [
+      76.0,
+      61.0,
+      53.0,
+      61.0,
+      122.0,
+      91.5,
+      45.75
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0085",
+    "depth": 7,
+    "question": "Carlos earns $8 per hour and works 9 hours. Carlos also receives a $11 bonus. Carlos spends a quarter of Carlos's remaining $ on apples. A 10% fee is deducted from Carlos's total. Carlos then buys 3 books at $5 each. Carlos doubles Carlos's current $ total. Carlos spends a third of Carlos's remaining $ on tickets. How much $ does Carlos have in the end?",
+    "ground_truth": 54.7,
+    "intermediate_values": [
+      72.0,
+      83.0,
+      62.25,
+      56.025,
+      41.025,
+      82.05,
+      54.7
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0086",
+    "depth": 7,
+    "question": "Bob earns $16 per hour and works 8 hours. Bob spends half of Bob's remaining $ on pens. A 10% fee is deducted from Bob's total. Bob also receives a $14 bonus. Bob doubles Bob's current $ total. Bob spends a quarter of Bob's remaining $ on bags. Bob uses $9 on boxes. How much $ does Bob have in the end?",
+    "ground_truth": 98.4,
+    "intermediate_values": [
+      128.0,
+      64.0,
+      57.6,
+      71.6,
+      143.2,
+      107.4,
+      98.4
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0087",
+    "depth": 7,
+    "question": "Diana earns $17 per hour and works 7 hours. Diana doubles Diana's current $ total. Diana spends $10 on apples. Diana also receives a $14 bonus. Diana then picks up 2 bags at $8 each. Diana spends a third of Diana's remaining $ on tickets. Diana spends a quarter of Diana's remaining $ on boxes. How much $ does Diana have in the end?",
+    "ground_truth": 113.0,
+    "intermediate_values": [
+      119.0,
+      238.0,
+      228.0,
+      242.0,
+      226.0,
+      150.66666666666666,
+      113.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0088",
+    "depth": 7,
+    "question": "Eve earns $18 per hour and works 3 hours. Eve donates $9 on tickets. Eve spends a quarter of Eve's remaining $ on coins. A 25% fee is deducted from Eve's total. Eve then purchases 3 boxes at $2 each. Eve spends a third of Eve's remaining $ on books. Eve also receives a $8 bonus. How much $ does Eve have in the end?",
+    "ground_truth": 20.875,
+    "intermediate_values": [
+      54.0,
+      45.0,
+      33.75,
+      25.3125,
+      19.3125,
+      12.875,
+      20.875
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0089",
+    "depth": 7,
+    "question": "Diana collects $11 per hour and works 4 hours. Diana doubles Diana's current $ total. A 10% fee is deducted from Diana's total. Diana spends a quarter of Diana's remaining $ on pens. Diana then buys 3 books at $5 each. Diana spends half of Diana's remaining $ on tickets. Diana spends a third of Diana's remaining $ on boxes. How much $ does Diana have in the end?",
+    "ground_truth": 14.8,
+    "intermediate_values": [
+      44.0,
+      88.0,
+      79.2,
+      59.4,
+      44.4,
+      22.2,
+      14.8
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0090",
+    "depth": 7,
+    "question": "Henry gathers $17 per hour and works 7 hours. Henry doubles Henry's current $ total. Henry spends $8 on bags. Henry then purchases 2 coins at $6 each. Henry spends a third of Henry's remaining $ on pens. Henry spends half of Henry's remaining $ on tickets. Henry spends a quarter of Henry's remaining $ on boxes. How much $ does Henry have in the end?",
+    "ground_truth": 54.5,
+    "intermediate_values": [
+      119.0,
+      238.0,
+      230.0,
+      218.0,
+      145.33333333333334,
+      72.66666666666667,
+      54.5
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0091",
+    "depth": 7,
+    "question": "Eve receives $7 per hour and works 7 hours. A 25% fee is deducted from Eve's total. Eve then picks up 3 bags at $7 each. Eve also receives a $5 bonus. Eve doubles Eve's current $ total. Eve spends a third of Eve's remaining $ on boxes. Eve spends half of Eve's remaining $ on pens. How much $ does Eve have in the end?",
+    "ground_truth": 13.833333333333334,
+    "intermediate_values": [
+      49.0,
+      36.75,
+      15.75,
+      20.75,
+      41.5,
+      27.666666666666668,
+      13.833333333333334
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0092",
+    "depth": 7,
+    "question": "Bob collects $19 per hour and works 5 hours. Bob then purchases 4 bags at $4 each. Bob doubles Bob's current $ total. Bob gives away $8 on books. Bob also receives a $13 bonus. Bob spends half of Bob's remaining $ on tickets. A 10% fee is deducted from Bob's total. How much $ does Bob have in the end?",
+    "ground_truth": 73.35,
+    "intermediate_values": [
+      95.0,
+      79.0,
+      158.0,
+      150.0,
+      163.0,
+      81.5,
+      73.35
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0093",
+    "depth": 7,
+    "question": "Bob earns $5 per hour and works 6 hours. Bob then picks up 3 bags at $8 each. Bob uses $7 on tickets. Bob doubles Bob's current $ total. Bob spends half of Bob's remaining $ on coins. Bob also receives a $9 bonus. Bob spends a quarter of Bob's remaining $ on pens. How much $ does Bob have in the end?",
+    "ground_truth": 8.25,
+    "intermediate_values": [
+      30.0,
+      6.0,
+      2.0,
+      4.0,
+      2.0,
+      11.0,
+      8.25
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0094",
+    "depth": 7,
+    "question": "Alice receives $12 per hour and works 9 hours. Alice spends a quarter of Alice's remaining $ on tickets. Alice also receives a $8 bonus. Alice doubles Alice's current $ total. Alice then orders 3 pens at $7 each. Alice spends half of Alice's remaining $ on coins. A 10% fee is deducted from Alice's total. How much $ does Alice have in the end?",
+    "ground_truth": 70.65,
+    "intermediate_values": [
+      108.0,
+      81.0,
+      89.0,
+      178.0,
+      157.0,
+      78.5,
+      70.65
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0095",
+    "depth": 7,
+    "question": "Grace gathers $7 per hour and works 3 hours. Grace spends a quarter of Grace's remaining $ on books. Grace also receives a $5 bonus. Grace spends a third of Grace's remaining $ on tickets. Grace then buys 2 pens at $5 each. Grace spends $6 on bags. Grace doubles Grace's current $ total. How much $ does Grace have in the end?",
+    "ground_truth": 6.333333333333333,
+    "intermediate_values": [
+      21.0,
+      15.75,
+      20.75,
+      13.833333333333334,
+      3.8333333333333335,
+      3.1666666666666665,
+      6.333333333333333
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0096",
+    "depth": 7,
+    "question": "Henry earns $7 per hour and works 6 hours. Henry then purchases 2 boxes at $7 each. Henry uses $8 on tickets. Henry doubles Henry's current $ total. Henry also receives a $15 bonus. A 20% fee is deducted from Henry's total. Henry spends half of Henry's remaining $ on pens. How much $ does Henry have in the end?",
+    "ground_truth": 22.0,
+    "intermediate_values": [
+      42.0,
+      28.0,
+      20.0,
+      40.0,
+      55.0,
+      44.0,
+      22.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0097",
+    "depth": 7,
+    "question": "Diana receives $6 per hour and works 4 hours. Diana spends half of Diana's remaining $ on coins. Diana then purchases 4 books at $8 each. Diana spends $8 on pens. A 10% fee is deducted from Diana's total. Diana spends a third of Diana's remaining $ on apples. Diana also receives a $15 bonus. How much $ does Diana have in the end?",
+    "ground_truth": 22.8,
+    "intermediate_values": [
+      24.0,
+      12.0,
+      21.0,
+      13.0,
+      11.7,
+      7.8,
+      22.8
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0098",
+    "depth": 7,
+    "question": "Diana collects $11 per hour and works 5 hours. Diana spends a quarter of Diana's remaining $ on tickets. Diana spends half of Diana's remaining $ on books. A 10% fee is deducted from Diana's total. Diana doubles Diana's current $ total. Diana then purchases 5 bags at $2 each. Diana also receives a $13 bonus. How much $ does Diana have in the end?",
+    "ground_truth": 40.125,
+    "intermediate_values": [
+      55.0,
+      41.25,
+      20.625,
+      18.5625,
+      37.125,
+      27.125,
+      40.125
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0099",
+    "depth": 7,
+    "question": "Henry collects $16 per hour and works 7 hours. A 20% fee is deducted from Henry's total. Henry spends a third of Henry's remaining $ on books. Henry gives away $4 on tickets. Henry then purchases 4 apples at $4 each. Henry doubles Henry's current $ total. Henry also receives a $9 bonus. How much $ does Henry have in the end?",
+    "ground_truth": 88.46666666666667,
+    "intermediate_values": [
+      112.0,
+      89.6,
+      59.733333333333334,
+      55.733333333333334,
+      39.733333333333334,
+      79.46666666666667,
+      88.46666666666667
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0100",
+    "depth": 7,
+    "question": "Eve collects $5 per hour and works 3 hours. Eve spends a quarter of Eve's remaining $ on coins. Eve donates $8 on boxes. Eve doubles Eve's current $ total. Eve also receives a $14 bonus. Eve then orders 4 apples at $8 each. A 20% fee is deducted from Eve's total. How much $ does Eve have in the end?",
+    "ground_truth": 10.0,
+    "intermediate_values": [
+      15.0,
+      11.25,
+      3.25,
+      6.5,
+      20.5,
+      12.5,
+      10.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0101",
+    "depth": 7,
+    "question": "Henry receives $17 per hour and works 4 hours. Henry spends half of Henry's remaining $ on pens. Henry spends a third of Henry's remaining $ on boxes. Henry then picks up 5 bags at $6 each. Henry donates $3 on coins. Henry doubles Henry's current $ total. Henry spends a quarter of Henry's remaining $ on tickets. How much $ does Henry have in the end?",
+    "ground_truth": 8.0,
+    "intermediate_values": [
+      68.0,
+      34.0,
+      22.666666666666668,
+      8.333333333333334,
+      5.333333333333333,
+      10.666666666666666,
+      8.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0102",
+    "depth": 7,
+    "question": "Carlos gathers $12 per hour and works 10 hours. Carlos also receives a $14 bonus. Carlos then picks up 3 pens at $4 each. Carlos spends half of Carlos's remaining $ on boxes. Carlos doubles Carlos's current $ total. A 20% fee is deducted from Carlos's total. Carlos spends a third of Carlos's remaining $ on tickets. How much $ does Carlos have in the end?",
+    "ground_truth": 65.06666666666666,
+    "intermediate_values": [
+      120.0,
+      134.0,
+      122.0,
+      61.0,
+      122.0,
+      97.6,
+      65.06666666666666
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0103",
+    "depth": 7,
+    "question": "Diana earns $5 per hour and works 3 hours. Diana then orders 4 books at $2 each. Diana also receives a $6 bonus. Diana spends half of Diana's remaining $ on bags. A 20% fee is deducted from Diana's total. Diana uses $9 on tickets. Diana spends a third of Diana's remaining $ on apples. How much $ does Diana have in the end?",
+    "ground_truth": 3.2,
+    "intermediate_values": [
+      15.0,
+      7.0,
+      13.0,
+      6.5,
+      5.2,
+      4.8,
+      3.2
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0104",
+    "depth": 7,
+    "question": "Henry collects $5 per hour and works 6 hours. Henry spends half of Henry's remaining $ on bags. Henry spends a third of Henry's remaining $ on boxes. Henry also receives a $11 bonus. Henry spends $4 on books. Henry spends a quarter of Henry's remaining $ on apples. Henry then purchases 2 tickets at $8 each. How much $ does Henry have in the end?",
+    "ground_truth": 4.25,
+    "intermediate_values": [
+      30.0,
+      15.0,
+      10.0,
+      21.0,
+      17.0,
+      12.75,
+      4.25
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0105",
+    "depth": 7,
+    "question": "Henry collects $12 per hour and works 9 hours. Henry spends a third of Henry's remaining $ on tickets. Henry then picks up 5 apples at $6 each. Henry also receives a $5 bonus. Henry spends half of Henry's remaining $ on boxes. Henry spends $5 on bags. Henry spends a quarter of Henry's remaining $ on books. How much $ does Henry have in the end?",
+    "ground_truth": 13.875,
+    "intermediate_values": [
+      108.0,
+      72.0,
+      42.0,
+      47.0,
+      23.5,
+      18.5,
+      13.875
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0106",
+    "depth": 7,
+    "question": "Diana gathers $11 per hour and works 7 hours. Diana doubles Diana's current $ total. Diana also receives a $14 bonus. Diana spends half of Diana's remaining $ on coins. Diana spends a third of Diana's remaining $ on apples. Diana then picks up 5 books at $7 each. A 10% fee is deducted from Diana's total. How much $ does Diana have in the end?",
+    "ground_truth": 18.9,
+    "intermediate_values": [
+      77.0,
+      154.0,
+      168.0,
+      84.0,
+      56.0,
+      21.0,
+      18.9
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0107",
+    "depth": 7,
+    "question": "Bob gathers $8 per hour and works 7 hours. Bob gives away $4 on tickets. Bob spends a third of Bob's remaining $ on apples. Bob doubles Bob's current $ total. A 10% fee is deducted from Bob's total. Bob also receives a $8 bonus. Bob then picks up 5 pens at $3 each. How much $ does Bob have in the end?",
+    "ground_truth": 55.4,
+    "intermediate_values": [
+      56.0,
+      52.0,
+      34.666666666666664,
+      69.33333333333333,
+      62.4,
+      70.4,
+      55.4
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0108",
+    "depth": 7,
+    "question": "Frank earns $9 per hour and works 8 hours. Frank spends a quarter of Frank's remaining $ on bags. Frank also receives a $12 bonus. Frank spends $2 on books. Frank spends a third of Frank's remaining $ on pens. A 25% fee is deducted from Frank's total. Frank doubles Frank's current $ total. How much $ does Frank have in the end?",
+    "ground_truth": 64.0,
+    "intermediate_values": [
+      72.0,
+      54.0,
+      66.0,
+      64.0,
+      42.666666666666664,
+      32.0,
+      64.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0109",
+    "depth": 7,
+    "question": "Carlos collects $12 per hour and works 4 hours. Carlos spends a quarter of Carlos's remaining $ on apples. Carlos then picks up 5 boxes at $6 each. Carlos spends half of Carlos's remaining $ on coins. Carlos gives away $8 on tickets. A 20% fee is deducted from Carlos's total. Carlos doubles Carlos's current $ total. How much $ does Carlos have in the end?",
+    "ground_truth": 9.6,
+    "intermediate_values": [
+      48.0,
+      36.0,
+      6.0,
+      3.0,
+      6.0,
+      4.8,
+      9.6
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0110",
+    "depth": 7,
+    "question": "Diana earns $6 per hour and works 3 hours. Diana spends a quarter of Diana's remaining $ on books. Diana then purchases 4 boxes at $4 each. Diana also receives a $13 bonus. Diana spends half of Diana's remaining $ on tickets. Diana spends a third of Diana's remaining $ on apples. Diana uses $6 on pens. How much $ does Diana have in the end?",
+    "ground_truth": 1.5,
+    "intermediate_values": [
+      18.0,
+      13.5,
+      3.5,
+      16.5,
+      8.25,
+      5.5,
+      1.5
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0111",
+    "depth": 7,
+    "question": "Carlos collects $19 per hour and works 6 hours. Carlos then picks up 2 books at $6 each. A 25% fee is deducted from Carlos's total. Carlos spends a third of Carlos's remaining $ on boxes. Carlos spends half of Carlos's remaining $ on pens. Carlos doubles Carlos's current $ total. Carlos spends $2 on apples. How much $ does Carlos have in the end?",
+    "ground_truth": 49.0,
+    "intermediate_values": [
+      114.0,
+      102.0,
+      76.5,
+      51.0,
+      25.5,
+      51.0,
+      49.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0112",
+    "depth": 7,
+    "question": "Diana earns $8 per hour and works 5 hours. Diana also receives a $14 bonus. Diana spends $6 on boxes. A 20% fee is deducted from Diana's total. Diana then picks up 3 books at $4 each. Diana spends half of Diana's remaining $ on apples. Diana spends a third of Diana's remaining $ on pens. How much $ does Diana have in the end?",
+    "ground_truth": 8.8,
+    "intermediate_values": [
+      40.0,
+      54.0,
+      48.0,
+      38.4,
+      26.4,
+      13.2,
+      8.8
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0113",
+    "depth": 7,
+    "question": "Bob gathers $19 per hour and works 7 hours. Bob spends a quarter of Bob's remaining $ on pens. Bob then purchases 4 apples at $5 each. Bob spends half of Bob's remaining $ on bags. Bob doubles Bob's current $ total. Bob spends a third of Bob's remaining $ on books. Bob spends $10 on boxes. How much $ does Bob have in the end?",
+    "ground_truth": 43.166666666666664,
+    "intermediate_values": [
+      133.0,
+      99.75,
+      79.75,
+      39.875,
+      79.75,
+      53.166666666666664,
+      43.166666666666664
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0114",
+    "depth": 7,
+    "question": "Henry collects $20 per hour and works 5 hours. Henry spends half of Henry's remaining $ on apples. Henry spends a quarter of Henry's remaining $ on bags. Henry doubles Henry's current $ total. Henry spends $3 on boxes. A 10% fee is deducted from Henry's total. Henry then picks up 3 pens at $8 each. How much $ does Henry have in the end?",
+    "ground_truth": 40.8,
+    "intermediate_values": [
+      100.0,
+      50.0,
+      37.5,
+      75.0,
+      72.0,
+      64.8,
+      40.8
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0115",
+    "depth": 7,
+    "question": "Alice gathers $18 per hour and works 6 hours. Alice donates $5 on books. Alice doubles Alice's current $ total. Alice spends half of Alice's remaining $ on coins. Alice also receives a $6 bonus. A 25% fee is deducted from Alice's total. Alice spends a quarter of Alice's remaining $ on tickets. How much $ does Alice have in the end?",
+    "ground_truth": 61.3125,
+    "intermediate_values": [
+      108.0,
+      103.0,
+      206.0,
+      103.0,
+      109.0,
+      81.75,
+      61.3125
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0116",
+    "depth": 7,
+    "question": "Henry receives $11 per hour and works 5 hours. Henry spends a third of Henry's remaining $ on coins. Henry spends half of Henry's remaining $ on apples. Henry doubles Henry's current $ total. Henry then purchases 3 bags at $7 each. A 10% fee is deducted from Henry's total. Henry also receives a $8 bonus. How much $ does Henry have in the end?",
+    "ground_truth": 22.1,
+    "intermediate_values": [
+      55.0,
+      36.666666666666664,
+      18.333333333333332,
+      36.666666666666664,
+      15.666666666666666,
+      14.1,
+      22.1
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0117",
+    "depth": 7,
+    "question": "Grace receives $15 per hour and works 6 hours. Grace spends half of Grace's remaining $ on bags. A 10% fee is deducted from Grace's total. Grace spends a quarter of Grace's remaining $ on coins. Grace donates $3 on apples. Grace spends a third of Grace's remaining $ on tickets. Grace doubles Grace's current $ total. How much $ does Grace have in the end?",
+    "ground_truth": 36.5,
+    "intermediate_values": [
+      90.0,
+      45.0,
+      40.5,
+      30.375,
+      27.375,
+      18.25,
+      36.5
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0118",
+    "depth": 7,
+    "question": "Eve earns $10 per hour and works 4 hours. Eve then orders 3 bags at $4 each. Eve spends a third of Eve's remaining $ on apples. A 25% fee is deducted from Eve's total. Eve spends half of Eve's remaining $ on coins. Eve doubles Eve's current $ total. Eve also receives a $14 bonus. How much $ does Eve have in the end?",
+    "ground_truth": 28.0,
+    "intermediate_values": [
+      40.0,
+      28.0,
+      18.666666666666668,
+      14.0,
+      7.0,
+      14.0,
+      28.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0119",
+    "depth": 7,
+    "question": "Diana earns $8 per hour and works 7 hours. Diana uses $10 on books. Diana also receives a $11 bonus. Diana spends a third of Diana's remaining $ on boxes. A 10% fee is deducted from Diana's total. Diana doubles Diana's current $ total. Diana spends a quarter of Diana's remaining $ on bags. How much $ does Diana have in the end?",
+    "ground_truth": 51.3,
+    "intermediate_values": [
+      56.0,
+      46.0,
+      57.0,
+      38.0,
+      34.2,
+      68.4,
+      51.3
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0120",
+    "depth": 7,
+    "question": "Eve collects $19 per hour and works 3 hours. Eve also receives a $5 bonus. Eve spends a third of Eve's remaining $ on bags. Eve spends a quarter of Eve's remaining $ on boxes. A 10% fee is deducted from Eve's total. Eve spends half of Eve's remaining $ on coins. Eve doubles Eve's current $ total. How much $ does Eve have in the end?",
+    "ground_truth": 27.9,
+    "intermediate_values": [
+      57.0,
+      62.0,
+      41.333333333333336,
+      31.0,
+      27.9,
+      13.95,
+      27.9
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0121",
+    "depth": 7,
+    "question": "Frank collects $5 per hour and works 8 hours. Frank doubles Frank's current $ total. Frank spends $3 on boxes. Frank spends half of Frank's remaining $ on pens. Frank then purchases 3 tickets at $7 each. Frank spends a quarter of Frank's remaining $ on bags. Frank spends a third of Frank's remaining $ on apples. How much $ does Frank have in the end?",
+    "ground_truth": 8.75,
+    "intermediate_values": [
+      40.0,
+      80.0,
+      77.0,
+      38.5,
+      17.5,
+      13.125,
+      8.75
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0122",
+    "depth": 7,
+    "question": "Henry gathers $15 per hour and works 5 hours. Henry spends a third of Henry's remaining $ on bags. A 10% fee is deducted from Henry's total. Henry spends a quarter of Henry's remaining $ on boxes. Henry spends half of Henry's remaining $ on tickets. Henry also receives a $14 bonus. Henry doubles Henry's current $ total. How much $ does Henry have in the end?",
+    "ground_truth": 61.75,
+    "intermediate_values": [
+      75.0,
+      50.0,
+      45.0,
+      33.75,
+      16.875,
+      30.875,
+      61.75
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0123",
+    "depth": 7,
+    "question": "Carlos gathers $6 per hour and works 5 hours. Carlos spends half of Carlos's remaining $ on bags. A 10% fee is deducted from Carlos's total. Carlos doubles Carlos's current $ total. Carlos donates $5 on coins. Carlos spends a third of Carlos's remaining $ on pens. Carlos also receives a $11 bonus. How much $ does Carlos have in the end?",
+    "ground_truth": 25.666666666666668,
+    "intermediate_values": [
+      30.0,
+      15.0,
+      13.5,
+      27.0,
+      22.0,
+      14.666666666666666,
+      25.666666666666668
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0124",
+    "depth": 7,
+    "question": "Frank gathers $8 per hour and works 7 hours. A 20% fee is deducted from Frank's total. Frank donates $8 on tickets. Frank also receives a $10 bonus. Frank spends a quarter of Frank's remaining $ on boxes. Frank spends half of Frank's remaining $ on bags. Frank then buys 4 coins at $2 each. How much $ does Frank have in the end?",
+    "ground_truth": 9.55,
+    "intermediate_values": [
+      56.0,
+      44.8,
+      36.8,
+      46.8,
+      35.1,
+      17.55,
+      9.55
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0125",
+    "depth": 7,
+    "question": "Bob collects $14 per hour and works 4 hours. Bob then buys 4 apples at $6 each. A 20% fee is deducted from Bob's total. Bob spends a third of Bob's remaining $ on boxes. Bob doubles Bob's current $ total. Bob spends a quarter of Bob's remaining $ on books. Bob also receives a $13 bonus. How much $ does Bob have in the end?",
+    "ground_truth": 38.6,
+    "intermediate_values": [
+      56.0,
+      32.0,
+      25.6,
+      17.066666666666666,
+      34.13333333333333,
+      25.6,
+      38.6
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0126",
+    "depth": 7,
+    "question": "Diana gathers $12 per hour and works 6 hours. Diana spends a quarter of Diana's remaining $ on pens. Diana spends a third of Diana's remaining $ on tickets. Diana gives away $5 on coins. Diana also receives a $9 bonus. Diana spends half of Diana's remaining $ on books. A 10% fee is deducted from Diana's total. How much $ does Diana have in the end?",
+    "ground_truth": 18.0,
+    "intermediate_values": [
+      72.0,
+      54.0,
+      36.0,
+      31.0,
+      40.0,
+      20.0,
+      18.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0127",
+    "depth": 7,
+    "question": "Henry gathers $16 per hour and works 3 hours. Henry doubles Henry's current $ total. Henry also receives a $14 bonus. Henry spends a third of Henry's remaining $ on books. A 20% fee is deducted from Henry's total. Henry then buys 5 pens at $8 each. Henry spends a quarter of Henry's remaining $ on coins. How much $ does Henry have in the end?",
+    "ground_truth": 14.0,
+    "intermediate_values": [
+      48.0,
+      96.0,
+      110.0,
+      73.33333333333333,
+      58.666666666666664,
+      18.666666666666668,
+      14.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0128",
+    "depth": 7,
+    "question": "Diana collects $9 per hour and works 8 hours. Diana also receives a $9 bonus. Diana spends a third of Diana's remaining $ on bags. A 25% fee is deducted from Diana's total. Diana doubles Diana's current $ total. Diana then orders 3 coins at $2 each. Diana spends a quarter of Diana's remaining $ on books. How much $ does Diana have in the end?",
+    "ground_truth": 56.25,
+    "intermediate_values": [
+      72.0,
+      81.0,
+      54.0,
+      40.5,
+      81.0,
+      75.0,
+      56.25
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0129",
+    "depth": 7,
+    "question": "Diana earns $10 per hour and works 8 hours. Diana gives away $5 on apples. Diana then buys 4 pens at $6 each. Diana spends a third of Diana's remaining $ on bags. A 10% fee is deducted from Diana's total. Diana also receives a $5 bonus. Diana spends half of Diana's remaining $ on coins. How much $ does Diana have in the end?",
+    "ground_truth": 17.8,
+    "intermediate_values": [
+      80.0,
+      75.0,
+      51.0,
+      34.0,
+      30.6,
+      35.6,
+      17.8
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0130",
+    "depth": 7,
+    "question": "Diana earns $15 per hour and works 5 hours. Diana spends half of Diana's remaining $ on boxes. Diana spends a quarter of Diana's remaining $ on tickets. Diana doubles Diana's current $ total. Diana then purchases 3 apples at $3 each. Diana also receives a $11 bonus. A 10% fee is deducted from Diana's total. How much $ does Diana have in the end?",
+    "ground_truth": 52.425,
+    "intermediate_values": [
+      75.0,
+      37.5,
+      28.125,
+      56.25,
+      47.25,
+      58.25,
+      52.425
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0131",
+    "depth": 7,
+    "question": "Grace earns $6 per hour and works 3 hours. Grace spends a quarter of Grace's remaining $ on bags. Grace donates $4 on coins. Grace spends half of Grace's remaining $ on tickets. Grace doubles Grace's current $ total. Grace then orders 4 boxes at $3 each. Grace also receives a $14 bonus. How much $ does Grace have in the end?",
+    "ground_truth": 17.5,
+    "intermediate_values": [
+      18.0,
+      13.5,
+      9.5,
+      4.75,
+      9.5,
+      3.5,
+      17.5
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0132",
+    "depth": 7,
+    "question": "Carlos collects $10 per hour and works 3 hours. Carlos spends a third of Carlos's remaining $ on coins. Carlos spends half of Carlos's remaining $ on tickets. Carlos also receives a $14 bonus. Carlos then buys 2 books at $7 each. Carlos spends a quarter of Carlos's remaining $ on bags. A 25% fee is deducted from Carlos's total. How much $ does Carlos have in the end?",
+    "ground_truth": 5.625,
+    "intermediate_values": [
+      30.0,
+      20.0,
+      10.0,
+      24.0,
+      10.0,
+      7.5,
+      5.625
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0133",
+    "depth": 7,
+    "question": "Grace gathers $5 per hour and works 7 hours. Grace then orders 5 books at $6 each. Grace donates $5 on pens. A 10% fee is deducted from Grace's total. Grace doubles Grace's current $ total. Grace spends a quarter of Grace's remaining $ on coins. Grace spends half of Grace's remaining $ on boxes. How much $ does Grace have in the end?",
+    "ground_truth": 0.675,
+    "intermediate_values": [
+      35.0,
+      5.0,
+      1.0,
+      0.9,
+      1.8,
+      1.35,
+      0.675
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0134",
+    "depth": 7,
+    "question": "Carlos earns $6 per hour and works 8 hours. Carlos then picks up 3 apples at $3 each. Carlos uses $5 on boxes. A 10% fee is deducted from Carlos's total. Carlos spends half of Carlos's remaining $ on bags. Carlos spends a quarter of Carlos's remaining $ on tickets. Carlos also receives a $13 bonus. How much $ does Carlos have in the end?",
+    "ground_truth": 24.475,
+    "intermediate_values": [
+      48.0,
+      39.0,
+      34.0,
+      30.6,
+      15.3,
+      11.475,
+      24.475
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0135",
+    "depth": 7,
+    "question": "Diana collects $17 per hour and works 5 hours. Diana doubles Diana's current $ total. Diana spends half of Diana's remaining $ on boxes. Diana spends a quarter of Diana's remaining $ on apples. Diana uses $10 on pens. Diana spends a third of Diana's remaining $ on tickets. Diana also receives a $8 bonus. How much $ does Diana have in the end?",
+    "ground_truth": 43.833333333333336,
+    "intermediate_values": [
+      85.0,
+      170.0,
+      85.0,
+      63.75,
+      53.75,
+      35.833333333333336,
+      43.833333333333336
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0136",
+    "depth": 7,
+    "question": "Bob collects $17 per hour and works 3 hours. Bob spends a third of Bob's remaining $ on books. Bob spends a quarter of Bob's remaining $ on pens. Bob donates $4 on tickets. A 25% fee is deducted from Bob's total. Bob spends half of Bob's remaining $ on coins. Bob then orders 3 apples at $6 each. How much $ does Bob have in the end?",
+    "ground_truth": 10.9375,
+    "intermediate_values": [
+      51.0,
+      34.0,
+      25.5,
+      21.5,
+      16.125,
+      8.0625,
+      10.9375
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0137",
+    "depth": 7,
+    "question": "Diana earns $9 per hour and works 5 hours. Diana spends a quarter of Diana's remaining $ on books. A 20% fee is deducted from Diana's total. Diana also receives a $8 bonus. Diana spends a third of Diana's remaining $ on bags. Diana uses $7 on pens. Diana spends half of Diana's remaining $ on coins. How much $ does Diana have in the end?",
+    "ground_truth": 8.166666666666666,
+    "intermediate_values": [
+      45.0,
+      33.75,
+      27.0,
+      35.0,
+      23.333333333333332,
+      16.333333333333332,
+      8.166666666666666
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0138",
+    "depth": 7,
+    "question": "Alice collects $19 per hour and works 9 hours. Alice spends a quarter of Alice's remaining $ on apples. Alice spends a third of Alice's remaining $ on coins. A 25% fee is deducted from Alice's total. Alice then orders 2 boxes at $7 each. Alice also receives a $14 bonus. Alice donates $8 on tickets. How much $ does Alice have in the end?",
+    "ground_truth": 56.125,
+    "intermediate_values": [
+      171.0,
+      128.25,
+      85.5,
+      64.125,
+      50.125,
+      64.125,
+      56.125
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0139",
+    "depth": 7,
+    "question": "Alice collects $18 per hour and works 5 hours. Alice doubles Alice's current $ total. A 10% fee is deducted from Alice's total. Alice spends $7 on boxes. Alice spends a quarter of Alice's remaining $ on coins. Alice spends half of Alice's remaining $ on apples. Alice also receives a $7 bonus. How much $ does Alice have in the end?",
+    "ground_truth": 65.125,
+    "intermediate_values": [
+      90.0,
+      180.0,
+      162.0,
+      155.0,
+      116.25,
+      58.125,
+      65.125
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0140",
+    "depth": 7,
+    "question": "Grace earns $6 per hour and works 8 hours. Grace spends a third of Grace's remaining $ on coins. A 10% fee is deducted from Grace's total. Grace also receives a $13 bonus. Grace doubles Grace's current $ total. Grace donates $10 on bags. Grace spends half of Grace's remaining $ on pens. How much $ does Grace have in the end?",
+    "ground_truth": 36.8,
+    "intermediate_values": [
+      48.0,
+      32.0,
+      28.8,
+      41.8,
+      83.6,
+      73.6,
+      36.8
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0141",
+    "depth": 7,
+    "question": "Diana receives $18 per hour and works 3 hours. Diana doubles Diana's current $ total. Diana spends a quarter of Diana's remaining $ on bags. Diana then purchases 2 books at $6 each. A 20% fee is deducted from Diana's total. Diana also receives a $5 bonus. Diana spends a third of Diana's remaining $ on apples. How much $ does Diana have in the end?",
+    "ground_truth": 40.13333333333333,
+    "intermediate_values": [
+      54.0,
+      108.0,
+      81.0,
+      69.0,
+      55.2,
+      60.2,
+      40.13333333333333
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0142",
+    "depth": 7,
+    "question": "Frank earns $11 per hour and works 6 hours. Frank then purchases 3 bags at $3 each. Frank spends a quarter of Frank's remaining $ on apples. Frank also receives a $11 bonus. Frank doubles Frank's current $ total. Frank gives away $4 on boxes. A 10% fee is deducted from Frank's total. How much $ does Frank have in the end?",
+    "ground_truth": 93.15,
+    "intermediate_values": [
+      66.0,
+      57.0,
+      42.75,
+      53.75,
+      107.5,
+      103.5,
+      93.15
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0143",
+    "depth": 7,
+    "question": "Bob earns $18 per hour and works 3 hours. A 10% fee is deducted from Bob's total. Bob donates $4 on pens. Bob spends a third of Bob's remaining $ on tickets. Bob spends half of Bob's remaining $ on apples. Bob doubles Bob's current $ total. Bob spends a quarter of Bob's remaining $ on books. How much $ does Bob have in the end?",
+    "ground_truth": 22.3,
+    "intermediate_values": [
+      54.0,
+      48.6,
+      44.6,
+      29.733333333333334,
+      14.866666666666667,
+      29.733333333333334,
+      22.3
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0144",
+    "depth": 7,
+    "question": "Eve collects $20 per hour and works 8 hours. Eve doubles Eve's current $ total. Eve spends a third of Eve's remaining $ on coins. A 10% fee is deducted from Eve's total. Eve also receives a $13 bonus. Eve gives away $5 on bags. Eve spends half of Eve's remaining $ on tickets. How much $ does Eve have in the end?",
+    "ground_truth": 100.0,
+    "intermediate_values": [
+      160.0,
+      320.0,
+      213.33333333333334,
+      192.0,
+      205.0,
+      200.0,
+      100.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0145",
+    "depth": 7,
+    "question": "Eve collects $7 per hour and works 4 hours. Eve then purchases 4 books at $2 each. Eve spends $8 on apples. A 10% fee is deducted from Eve's total. Eve spends a third of Eve's remaining $ on bags. Eve also receives a $12 bonus. Eve doubles Eve's current $ total. How much $ does Eve have in the end?",
+    "ground_truth": 38.4,
+    "intermediate_values": [
+      28.0,
+      20.0,
+      12.0,
+      10.8,
+      7.2,
+      19.2,
+      38.4
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0146",
+    "depth": 7,
+    "question": "Diana gathers $7 per hour and works 7 hours. Diana spends half of Diana's remaining $ on boxes. Diana then buys 4 tickets at $8 each. A 20% fee is deducted from Diana's total. Diana doubles Diana's current $ total. Diana gives away $4 on bags. Diana also receives a $12 bonus. How much $ does Diana have in the end?",
+    "ground_truth": 21.6,
+    "intermediate_values": [
+      49.0,
+      24.5,
+      8.5,
+      6.8,
+      13.6,
+      9.6,
+      21.6
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0147",
+    "depth": 7,
+    "question": "Alice gathers $19 per hour and works 5 hours. Alice spends a quarter of Alice's remaining $ on apples. Alice doubles Alice's current $ total. Alice spends half of Alice's remaining $ on pens. A 25% fee is deducted from Alice's total. Alice spends a third of Alice's remaining $ on books. Alice then picks up 3 tickets at $8 each. How much $ does Alice have in the end?",
+    "ground_truth": 11.625,
+    "intermediate_values": [
+      95.0,
+      71.25,
+      142.5,
+      71.25,
+      53.4375,
+      35.625,
+      11.625
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0148",
+    "depth": 7,
+    "question": "Bob earns $8 per hour and works 3 hours. Bob spends a third of Bob's remaining $ on boxes. Bob also receives a $13 bonus. Bob doubles Bob's current $ total. A 10% fee is deducted from Bob's total. Bob spends a quarter of Bob's remaining $ on tickets. Bob gives away $2 on apples. How much $ does Bob have in the end?",
+    "ground_truth": 37.15,
+    "intermediate_values": [
+      24.0,
+      16.0,
+      29.0,
+      58.0,
+      52.2,
+      39.15,
+      37.15
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0149",
+    "depth": 7,
+    "question": "Carlos receives $12 per hour and works 5 hours. A 25% fee is deducted from Carlos's total. Carlos spends a third of Carlos's remaining $ on bags. Carlos gives away $5 on boxes. Carlos doubles Carlos's current $ total. Carlos spends half of Carlos's remaining $ on coins. Carlos also receives a $5 bonus. How much $ does Carlos have in the end?",
+    "ground_truth": 30.0,
+    "intermediate_values": [
+      60.0,
+      45.0,
+      30.0,
+      25.0,
+      50.0,
+      25.0,
+      30.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0150",
+    "depth": 7,
+    "question": "Grace collects $17 per hour and works 5 hours. Grace spends half of Grace's remaining $ on apples. Grace doubles Grace's current $ total. Grace spends a third of Grace's remaining $ on bags. Grace spends a quarter of Grace's remaining $ on tickets. Grace then purchases 3 coins at $3 each. Grace also receives a $13 bonus. How much $ does Grace have in the end?",
+    "ground_truth": 46.5,
+    "intermediate_values": [
+      85.0,
+      42.5,
+      85.0,
+      56.666666666666664,
+      42.5,
+      33.5,
+      46.5
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0151",
+    "depth": 7,
+    "question": "Frank earns $17 per hour and works 7 hours. A 10% fee is deducted from Frank's total. Frank doubles Frank's current $ total. Frank spends a third of Frank's remaining $ on apples. Frank spends half of Frank's remaining $ on tickets. Frank also receives a $7 bonus. Frank then buys 5 bags at $6 each. How much $ does Frank have in the end?",
+    "ground_truth": 48.4,
+    "intermediate_values": [
+      119.0,
+      107.1,
+      214.2,
+      142.8,
+      71.4,
+      78.4,
+      48.4
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0152",
+    "depth": 7,
+    "question": "Alice gathers $20 per hour and works 9 hours. Alice also receives a $12 bonus. Alice doubles Alice's current $ total. Alice spends a third of Alice's remaining $ on tickets. Alice spends $8 on boxes. Alice spends half of Alice's remaining $ on bags. A 10% fee is deducted from Alice's total. How much $ does Alice have in the end?",
+    "ground_truth": 111.6,
+    "intermediate_values": [
+      180.0,
+      192.0,
+      384.0,
+      256.0,
+      248.0,
+      124.0,
+      111.6
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0153",
+    "depth": 7,
+    "question": "Eve gathers $10 per hour and works 6 hours. Eve spends a third of Eve's remaining $ on boxes. Eve doubles Eve's current $ total. Eve also receives a $11 bonus. Eve spends a quarter of Eve's remaining $ on coins. A 20% fee is deducted from Eve's total. Eve then buys 5 pens at $3 each. How much $ does Eve have in the end?",
+    "ground_truth": 39.6,
+    "intermediate_values": [
+      60.0,
+      40.0,
+      80.0,
+      91.0,
+      68.25,
+      54.6,
+      39.6
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0154",
+    "depth": 7,
+    "question": "Henry gathers $9 per hour and works 5 hours. A 10% fee is deducted from Henry's total. Henry also receives a $11 bonus. Henry spends a third of Henry's remaining $ on bags. Henry donates $6 on books. Henry spends half of Henry's remaining $ on tickets. Henry then orders 4 coins at $5 each. How much $ does Henry have in the end?",
+    "ground_truth": 6.833333333333333,
+    "intermediate_values": [
+      45.0,
+      40.5,
+      51.5,
+      34.333333333333336,
+      28.333333333333332,
+      14.166666666666666,
+      6.833333333333333
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0155",
+    "depth": 7,
+    "question": "Alice receives $18 per hour and works 4 hours. Alice then picks up 3 pens at $7 each. Alice donates $8 on coins. Alice spends a third of Alice's remaining $ on tickets. Alice spends half of Alice's remaining $ on boxes. Alice also receives a $14 bonus. A 20% fee is deducted from Alice's total. How much $ does Alice have in the end?",
+    "ground_truth": 22.666666666666668,
+    "intermediate_values": [
+      72.0,
+      51.0,
+      43.0,
+      28.666666666666668,
+      14.333333333333334,
+      28.333333333333332,
+      22.666666666666668
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0156",
+    "depth": 7,
+    "question": "Carlos earns $12 per hour and works 4 hours. Carlos spends a third of Carlos's remaining $ on coins. Carlos spends half of Carlos's remaining $ on boxes. Carlos donates $2 on bags. Carlos doubles Carlos's current $ total. Carlos then purchases 3 apples at $7 each. Carlos also receives a $9 bonus. How much $ does Carlos have in the end?",
+    "ground_truth": 16.0,
+    "intermediate_values": [
+      48.0,
+      32.0,
+      16.0,
+      14.0,
+      28.0,
+      7.0,
+      16.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0157",
+    "depth": 7,
+    "question": "Bob collects $12 per hour and works 5 hours. Bob spends a third of Bob's remaining $ on bags. Bob also receives a $13 bonus. Bob uses $6 on apples. Bob then picks up 3 books at $8 each. Bob spends half of Bob's remaining $ on boxes. Bob doubles Bob's current $ total. How much $ does Bob have in the end?",
+    "ground_truth": 23.0,
+    "intermediate_values": [
+      60.0,
+      40.0,
+      53.0,
+      47.0,
+      23.0,
+      11.5,
+      23.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0158",
+    "depth": 7,
+    "question": "Frank earns $16 per hour and works 3 hours. Frank doubles Frank's current $ total. Frank spends a quarter of Frank's remaining $ on bags. Frank spends half of Frank's remaining $ on books. Frank donates $5 on coins. Frank then picks up 2 tickets at $7 each. A 25% fee is deducted from Frank's total. How much $ does Frank have in the end?",
+    "ground_truth": 12.75,
+    "intermediate_values": [
+      48.0,
+      96.0,
+      72.0,
+      36.0,
+      31.0,
+      17.0,
+      12.75
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0159",
+    "depth": 7,
+    "question": "Diana earns $19 per hour and works 9 hours. Diana doubles Diana's current $ total. Diana spends a quarter of Diana's remaining $ on boxes. Diana then picks up 2 tickets at $7 each. Diana spends $10 on bags. Diana spends a third of Diana's remaining $ on coins. Diana also receives a $9 bonus. How much $ does Diana have in the end?",
+    "ground_truth": 164.0,
+    "intermediate_values": [
+      171.0,
+      342.0,
+      256.5,
+      242.5,
+      232.5,
+      155.0,
+      164.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0160",
+    "depth": 7,
+    "question": "Diana earns $5 per hour and works 5 hours. Diana donates $6 on boxes. Diana also receives a $8 bonus. Diana doubles Diana's current $ total. Diana spends a quarter of Diana's remaining $ on bags. Diana spends a third of Diana's remaining $ on coins. A 10% fee is deducted from Diana's total. How much $ does Diana have in the end?",
+    "ground_truth": 24.3,
+    "intermediate_values": [
+      25.0,
+      19.0,
+      27.0,
+      54.0,
+      40.5,
+      27.0,
+      24.3
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0161",
+    "depth": 7,
+    "question": "Bob earns $8 per hour and works 8 hours. Bob spends half of Bob's remaining $ on pens. A 10% fee is deducted from Bob's total. Bob spends a quarter of Bob's remaining $ on coins. Bob also receives a $14 bonus. Bob doubles Bob's current $ total. Bob then orders 2 bags at $2 each. How much $ does Bob have in the end?",
+    "ground_truth": 67.2,
+    "intermediate_values": [
+      64.0,
+      32.0,
+      28.8,
+      21.6,
+      35.6,
+      71.2,
+      67.2
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0162",
+    "depth": 7,
+    "question": "Eve earns $17 per hour and works 3 hours. Eve spends a third of Eve's remaining $ on tickets. Eve doubles Eve's current $ total. A 25% fee is deducted from Eve's total. Eve gives away $2 on coins. Eve spends a quarter of Eve's remaining $ on boxes. Eve then orders 2 books at $8 each. How much $ does Eve have in the end?",
+    "ground_truth": 20.75,
+    "intermediate_values": [
+      51.0,
+      34.0,
+      68.0,
+      51.0,
+      49.0,
+      36.75,
+      20.75
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0163",
+    "depth": 7,
+    "question": "Frank receives $14 per hour and works 4 hours. Frank doubles Frank's current $ total. Frank then purchases 2 coins at $5 each. Frank spends a quarter of Frank's remaining $ on boxes. Frank also receives a $8 bonus. Frank spends a third of Frank's remaining $ on bags. Frank donates $9 on apples. How much $ does Frank have in the end?",
+    "ground_truth": 47.333333333333336,
+    "intermediate_values": [
+      56.0,
+      112.0,
+      102.0,
+      76.5,
+      84.5,
+      56.333333333333336,
+      47.333333333333336
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0164",
+    "depth": 7,
+    "question": "Henry gathers $19 per hour and works 7 hours. Henry also receives a $13 bonus. Henry spends a quarter of Henry's remaining $ on coins. Henry spends half of Henry's remaining $ on bags. Henry doubles Henry's current $ total. Henry donates $5 on books. Henry then buys 3 tickets at $8 each. How much $ does Henry have in the end?",
+    "ground_truth": 80.5,
+    "intermediate_values": [
+      133.0,
+      146.0,
+      109.5,
+      54.75,
+      109.5,
+      104.5,
+      80.5
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0165",
+    "depth": 7,
+    "question": "Frank receives $12 per hour and works 10 hours. Frank spends half of Frank's remaining $ on tickets. A 20% fee is deducted from Frank's total. Frank spends a quarter of Frank's remaining $ on bags. Frank spends a third of Frank's remaining $ on pens. Frank also receives a $13 bonus. Frank doubles Frank's current $ total. How much $ does Frank have in the end?",
+    "ground_truth": 74.0,
+    "intermediate_values": [
+      120.0,
+      60.0,
+      48.0,
+      36.0,
+      24.0,
+      37.0,
+      74.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0166",
+    "depth": 7,
+    "question": "Frank earns $5 per hour and works 9 hours. Frank also receives a $9 bonus. Frank spends a quarter of Frank's remaining $ on tickets. Frank then picks up 4 coins at $3 each. A 10% fee is deducted from Frank's total. Frank spends a third of Frank's remaining $ on books. Frank doubles Frank's current $ total. How much $ does Frank have in the end?",
+    "ground_truth": 34.2,
+    "intermediate_values": [
+      45.0,
+      54.0,
+      40.5,
+      28.5,
+      25.65,
+      17.1,
+      34.2
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0167",
+    "depth": 7,
+    "question": "Eve receives $14 per hour and works 9 hours. A 25% fee is deducted from Eve's total. Eve spends a quarter of Eve's remaining $ on apples. Eve also receives a $10 bonus. Eve then purchases 5 bags at $4 each. Eve gives away $7 on pens. Eve doubles Eve's current $ total. How much $ does Eve have in the end?",
+    "ground_truth": 107.75,
+    "intermediate_values": [
+      126.0,
+      94.5,
+      70.875,
+      80.875,
+      60.875,
+      53.875,
+      107.75
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0168",
+    "depth": 7,
+    "question": "Bob collects $8 per hour and works 3 hours. A 25% fee is deducted from Bob's total. Bob spends a quarter of Bob's remaining $ on books. Bob doubles Bob's current $ total. Bob gives away $10 on apples. Bob then orders 2 pens at $7 each. Bob spends a third of Bob's remaining $ on boxes. How much $ does Bob have in the end?",
+    "ground_truth": 2.0,
+    "intermediate_values": [
+      24.0,
+      18.0,
+      13.5,
+      27.0,
+      17.0,
+      3.0,
+      2.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0169",
+    "depth": 7,
+    "question": "Frank earns $20 per hour and works 6 hours. Frank then picks up 3 apples at $2 each. Frank spends half of Frank's remaining $ on coins. Frank also receives a $6 bonus. Frank uses $10 on boxes. Frank doubles Frank's current $ total. Frank spends a third of Frank's remaining $ on books. How much $ does Frank have in the end?",
+    "ground_truth": 70.66666666666667,
+    "intermediate_values": [
+      120.0,
+      114.0,
+      57.0,
+      63.0,
+      53.0,
+      106.0,
+      70.66666666666667
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0170",
+    "depth": 7,
+    "question": "Henry gathers $5 per hour and works 10 hours. Henry spends a third of Henry's remaining $ on pens. Henry doubles Henry's current $ total. Henry spends $6 on apples. Henry spends half of Henry's remaining $ on books. Henry spends a quarter of Henry's remaining $ on boxes. A 20% fee is deducted from Henry's total. How much $ does Henry have in the end?",
+    "ground_truth": 18.2,
+    "intermediate_values": [
+      50.0,
+      33.333333333333336,
+      66.66666666666667,
+      60.666666666666664,
+      30.333333333333332,
+      22.75,
+      18.2
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0171",
+    "depth": 7,
+    "question": "Eve gathers $7 per hour and works 3 hours. Eve spends $5 on apples. Eve spends a third of Eve's remaining $ on coins. Eve doubles Eve's current $ total. Eve spends half of Eve's remaining $ on boxes. Eve then orders 5 books at $7 each. Eve also receives a $15 bonus. How much $ does Eve have in the end?",
+    "ground_truth": 40.333333333333336,
+    "intermediate_values": [
+      21.0,
+      16.0,
+      10.666666666666666,
+      21.333333333333332,
+      10.666666666666666,
+      25.333333333333332,
+      40.333333333333336
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0172",
+    "depth": 7,
+    "question": "Bob receives $9 per hour and works 8 hours. Bob doubles Bob's current $ total. Bob spends a third of Bob's remaining $ on bags. Bob donates $2 on apples. Bob then orders 4 books at $2 each. Bob spends half of Bob's remaining $ on tickets. A 20% fee is deducted from Bob's total. How much $ does Bob have in the end?",
+    "ground_truth": 34.4,
+    "intermediate_values": [
+      72.0,
+      144.0,
+      96.0,
+      94.0,
+      86.0,
+      43.0,
+      34.4
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0173",
+    "depth": 7,
+    "question": "Frank earns $8 per hour and works 8 hours. A 10% fee is deducted from Frank's total. Frank spends a quarter of Frank's remaining $ on tickets. Frank spends a third of Frank's remaining $ on coins. Frank donates $9 on boxes. Frank spends half of Frank's remaining $ on books. Frank doubles Frank's current $ total. How much $ does Frank have in the end?",
+    "ground_truth": 19.8,
+    "intermediate_values": [
+      64.0,
+      57.6,
+      43.2,
+      28.8,
+      19.8,
+      9.9,
+      19.8
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0174",
+    "depth": 7,
+    "question": "Grace collects $7 per hour and works 5 hours. A 10% fee is deducted from Grace's total. Grace spends a third of Grace's remaining $ on apples. Grace then purchases 4 coins at $6 each. Grace doubles Grace's current $ total. Grace spends a quarter of Grace's remaining $ on tickets. Grace spends half of Grace's remaining $ on pens. How much $ does Grace have in the end?",
+    "ground_truth": 3.0,
+    "intermediate_values": [
+      35.0,
+      31.5,
+      21.0,
+      4.0,
+      8.0,
+      6.0,
+      3.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0175",
+    "depth": 7,
+    "question": "Frank gathers $19 per hour and works 10 hours. Frank doubles Frank's current $ total. Frank spends a quarter of Frank's remaining $ on books. Frank spends half of Frank's remaining $ on boxes. A 10% fee is deducted from Frank's total. Frank spends a third of Frank's remaining $ on apples. Frank then purchases 2 bags at $3 each. How much $ does Frank have in the end?",
+    "ground_truth": 79.5,
+    "intermediate_values": [
+      190.0,
+      380.0,
+      285.0,
+      142.5,
+      128.25,
+      85.5,
+      79.5
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0176",
+    "depth": 7,
+    "question": "Frank gathers $10 per hour and works 9 hours. Frank spends a quarter of Frank's remaining $ on apples. Frank spends a third of Frank's remaining $ on books. Frank gives away $10 on boxes. A 10% fee is deducted from Frank's total. Frank spends half of Frank's remaining $ on coins. Frank then purchases 5 tickets at $7 each. How much $ does Frank have in the end?",
+    "ground_truth": 20.25,
+    "intermediate_values": [
+      90.0,
+      67.5,
+      45.0,
+      35.0,
+      31.5,
+      15.75,
+      20.25
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0177",
+    "depth": 7,
+    "question": "Alice earns $19 per hour and works 5 hours. Alice spends half of Alice's remaining $ on boxes. Alice spends a quarter of Alice's remaining $ on tickets. Alice doubles Alice's current $ total. Alice then buys 4 coins at $8 each. Alice also receives a $15 bonus. Alice spends $7 on pens. How much $ does Alice have in the end?",
+    "ground_truth": 47.25,
+    "intermediate_values": [
+      95.0,
+      47.5,
+      35.625,
+      71.25,
+      39.25,
+      54.25,
+      47.25
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0178",
+    "depth": 7,
+    "question": "Henry collects $14 per hour and works 8 hours. Henry doubles Henry's current $ total. Henry spends half of Henry's remaining $ on apples. Henry spends $5 on boxes. Henry spends a quarter of Henry's remaining $ on tickets. A 20% fee is deducted from Henry's total. Henry also receives a $10 bonus. How much $ does Henry have in the end?",
+    "ground_truth": 74.2,
+    "intermediate_values": [
+      112.0,
+      224.0,
+      112.0,
+      107.0,
+      80.25,
+      64.2,
+      74.2
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0179",
+    "depth": 7,
+    "question": "Frank receives $20 per hour and works 5 hours. Frank then orders 4 books at $2 each. Frank doubles Frank's current $ total. Frank spends a quarter of Frank's remaining $ on bags. Frank gives away $4 on tickets. Frank spends half of Frank's remaining $ on coins. A 20% fee is deducted from Frank's total. How much $ does Frank have in the end?",
+    "ground_truth": 53.6,
+    "intermediate_values": [
+      100.0,
+      92.0,
+      184.0,
+      138.0,
+      134.0,
+      67.0,
+      53.6
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0180",
+    "depth": 7,
+    "question": "Diana collects $11 per hour and works 3 hours. Diana then purchases 5 coins at $7 each. A 25% fee is deducted from Diana's total. Diana also receives a $8 bonus. Diana spends $5 on tickets. Diana spends a third of Diana's remaining $ on apples. Diana spends a quarter of Diana's remaining $ on pens. How much $ does Diana have in the end?",
+    "ground_truth": 2.625,
+    "intermediate_values": [
+      33.0,
+      3.0,
+      2.25,
+      10.25,
+      5.25,
+      3.5,
+      2.625
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0181",
+    "depth": 7,
+    "question": "Henry earns $18 per hour and works 5 hours. Henry doubles Henry's current $ total. Henry spends half of Henry's remaining $ on books. Henry also receives a $10 bonus. Henry spends a third of Henry's remaining $ on coins. Henry then purchases 4 boxes at $6 each. Henry spends a quarter of Henry's remaining $ on pens. How much $ does Henry have in the end?",
+    "ground_truth": 32.0,
+    "intermediate_values": [
+      90.0,
+      180.0,
+      90.0,
+      100.0,
+      66.66666666666667,
+      42.666666666666664,
+      32.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0182",
+    "depth": 7,
+    "question": "Diana gathers $6 per hour and works 6 hours. Diana spends half of Diana's remaining $ on coins. A 25% fee is deducted from Diana's total. Diana spends a quarter of Diana's remaining $ on pens. Diana also receives a $6 bonus. Diana doubles Diana's current $ total. Diana spends $10 on books. How much $ does Diana have in the end?",
+    "ground_truth": 22.25,
+    "intermediate_values": [
+      36.0,
+      18.0,
+      13.5,
+      10.125,
+      16.125,
+      32.25,
+      22.25
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0183",
+    "depth": 7,
+    "question": "Diana receives $8 per hour and works 7 hours. A 20% fee is deducted from Diana's total. Diana spends $8 on apples. Diana then purchases 5 coins at $2 each. Diana also receives a $15 bonus. Diana doubles Diana's current $ total. Diana spends a third of Diana's remaining $ on pens. How much $ does Diana have in the end?",
+    "ground_truth": 55.733333333333334,
+    "intermediate_values": [
+      56.0,
+      44.8,
+      36.8,
+      26.8,
+      41.8,
+      83.6,
+      55.733333333333334
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0184",
+    "depth": 7,
+    "question": "Henry collects $14 per hour and works 3 hours. A 20% fee is deducted from Henry's total. Henry donates $8 on tickets. Henry also receives a $9 bonus. Henry then orders 5 books at $5 each. Henry spends a quarter of Henry's remaining $ on boxes. Henry spends a third of Henry's remaining $ on apples. How much $ does Henry have in the end?",
+    "ground_truth": 4.8,
+    "intermediate_values": [
+      42.0,
+      33.6,
+      25.6,
+      34.6,
+      9.6,
+      7.2,
+      4.8
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0185",
+    "depth": 7,
+    "question": "Alice collects $12 per hour and works 4 hours. A 10% fee is deducted from Alice's total. Alice spends a quarter of Alice's remaining $ on tickets. Alice spends $4 on pens. Alice doubles Alice's current $ total. Alice spends half of Alice's remaining $ on coins. Alice then picks up 2 books at $2 each. How much $ does Alice have in the end?",
+    "ground_truth": 24.4,
+    "intermediate_values": [
+      48.0,
+      43.2,
+      32.4,
+      28.4,
+      56.8,
+      28.4,
+      24.4
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0186",
+    "depth": 7,
+    "question": "Alice receives $14 per hour and works 4 hours. Alice spends half of Alice's remaining $ on coins. Alice then orders 2 pens at $7 each. A 10% fee is deducted from Alice's total. Alice donates $9 on tickets. Alice spends a quarter of Alice's remaining $ on apples. Alice also receives a $8 bonus. How much $ does Alice have in the end?",
+    "ground_truth": 10.7,
+    "intermediate_values": [
+      56.0,
+      28.0,
+      14.0,
+      12.6,
+      3.6,
+      2.7,
+      10.7
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0187",
+    "depth": 7,
+    "question": "Diana earns $9 per hour and works 9 hours. Diana donates $7 on bags. Diana spends a third of Diana's remaining $ on pens. Diana spends half of Diana's remaining $ on boxes. A 25% fee is deducted from Diana's total. Diana then picks up 2 apples at $3 each. Diana doubles Diana's current $ total. How much $ does Diana have in the end?",
+    "ground_truth": 25.0,
+    "intermediate_values": [
+      81.0,
+      74.0,
+      49.333333333333336,
+      24.666666666666668,
+      18.5,
+      12.5,
+      25.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0188",
+    "depth": 7,
+    "question": "Frank gathers $13 per hour and works 9 hours. Frank spends half of Frank's remaining $ on tickets. Frank spends a quarter of Frank's remaining $ on pens. Frank spends a third of Frank's remaining $ on books. A 25% fee is deducted from Frank's total. Frank doubles Frank's current $ total. Frank then purchases 5 boxes at $2 each. How much $ does Frank have in the end?",
+    "ground_truth": 33.875,
+    "intermediate_values": [
+      117.0,
+      58.5,
+      43.875,
+      29.25,
+      21.9375,
+      43.875,
+      33.875
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0189",
+    "depth": 7,
+    "question": "Diana collects $15 per hour and works 3 hours. Diana doubles Diana's current $ total. Diana spends a third of Diana's remaining $ on tickets. Diana also receives a $10 bonus. Diana then picks up 5 coins at $8 each. Diana spends half of Diana's remaining $ on boxes. Diana spends $5 on books. How much $ does Diana have in the end?",
+    "ground_truth": 10.0,
+    "intermediate_values": [
+      45.0,
+      90.0,
+      60.0,
+      70.0,
+      30.0,
+      15.0,
+      10.0
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0190",
+    "depth": 7,
+    "question": "Eve receives $11 per hour and works 10 hours. Eve then buys 5 pens at $6 each. Eve also receives a $5 bonus. A 20% fee is deducted from Eve's total. Eve doubles Eve's current $ total. Eve spends a third of Eve's remaining $ on books. Eve spends $8 on bags. How much $ does Eve have in the end?",
+    "ground_truth": 82.66666666666667,
+    "intermediate_values": [
+      110.0,
+      80.0,
+      85.0,
+      68.0,
+      136.0,
+      90.66666666666667,
+      82.66666666666667
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0191",
+    "depth": 7,
+    "question": "Diana earns $7 per hour and works 10 hours. A 25% fee is deducted from Diana's total. Diana donates $7 on bags. Diana spends a quarter of Diana's remaining $ on books. Diana also receives a $10 bonus. Diana doubles Diana's current $ total. Diana then buys 3 coins at $5 each. How much $ does Diana have in the end?",
+    "ground_truth": 73.25,
+    "intermediate_values": [
+      70.0,
+      52.5,
+      45.5,
+      34.125,
+      44.125,
+      88.25,
+      73.25
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0192",
+    "depth": 7,
+    "question": "Eve gathers $8 per hour and works 7 hours. Eve also receives a $9 bonus. Eve doubles Eve's current $ total. Eve spends a quarter of Eve's remaining $ on books. A 10% fee is deducted from Eve's total. Eve spends half of Eve's remaining $ on apples. Eve spends a third of Eve's remaining $ on boxes. How much $ does Eve have in the end?",
+    "ground_truth": 29.25,
+    "intermediate_values": [
+      56.0,
+      65.0,
+      130.0,
+      97.5,
+      87.75,
+      43.875,
+      29.25
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0193",
+    "depth": 7,
+    "question": "Diana collects $5 per hour and works 9 hours. Diana also receives a $5 bonus. Diana spends a third of Diana's remaining $ on coins. Diana doubles Diana's current $ total. A 20% fee is deducted from Diana's total. Diana donates $4 on tickets. Diana then purchases 2 bags at $3 each. How much $ does Diana have in the end?",
+    "ground_truth": 43.333333333333336,
+    "intermediate_values": [
+      45.0,
+      50.0,
+      33.333333333333336,
+      66.66666666666667,
+      53.333333333333336,
+      49.333333333333336,
+      43.333333333333336
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0194",
+    "depth": 7,
+    "question": "Eve earns $12 per hour and works 3 hours. Eve then orders 4 books at $7 each. A 10% fee is deducted from Eve's total. Eve also receives a $6 bonus. Eve spends half of Eve's remaining $ on apples. Eve doubles Eve's current $ total. Eve spends a quarter of Eve's remaining $ on boxes. How much $ does Eve have in the end?",
+    "ground_truth": 9.9,
+    "intermediate_values": [
+      36.0,
+      8.0,
+      7.2,
+      13.2,
+      6.6,
+      13.2,
+      9.9
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0195",
+    "depth": 7,
+    "question": "Henry collects $8 per hour and works 8 hours. Henry then buys 4 boxes at $7 each. Henry also receives a $12 bonus. Henry spends half of Henry's remaining $ on apples. A 20% fee is deducted from Henry's total. Henry doubles Henry's current $ total. Henry gives away $6 on pens. How much $ does Henry have in the end?",
+    "ground_truth": 32.4,
+    "intermediate_values": [
+      64.0,
+      36.0,
+      48.0,
+      24.0,
+      19.2,
+      38.4,
+      32.4
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0196",
+    "depth": 7,
+    "question": "Henry gathers $12 per hour and works 7 hours. Henry doubles Henry's current $ total. Henry then buys 2 boxes at $3 each. Henry spends a quarter of Henry's remaining $ on coins. Henry also receives a $15 bonus. Henry uses $2 on bags. A 20% fee is deducted from Henry's total. How much $ does Henry have in the end?",
+    "ground_truth": 107.6,
+    "intermediate_values": [
+      84.0,
+      168.0,
+      162.0,
+      121.5,
+      136.5,
+      134.5,
+      107.6
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0197",
+    "depth": 7,
+    "question": "Eve collects $18 per hour and works 8 hours. Eve then purchases 5 apples at $7 each. Eve donates $3 on coins. Eve spends half of Eve's remaining $ on pens. Eve doubles Eve's current $ total. Eve spends a quarter of Eve's remaining $ on boxes. Eve also receives a $12 bonus. How much $ does Eve have in the end?",
+    "ground_truth": 91.5,
+    "intermediate_values": [
+      144.0,
+      109.0,
+      106.0,
+      53.0,
+      106.0,
+      79.5,
+      91.5
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0198",
+    "depth": 7,
+    "question": "Diana collects $18 per hour and works 7 hours. Diana doubles Diana's current $ total. Diana spends a third of Diana's remaining $ on boxes. Diana also receives a $8 bonus. Diana spends $4 on apples. Diana spends half of Diana's remaining $ on bags. Diana spends a quarter of Diana's remaining $ on tickets. How much $ does Diana have in the end?",
+    "ground_truth": 64.5,
+    "intermediate_values": [
+      126.0,
+      252.0,
+      168.0,
+      176.0,
+      172.0,
+      86.0,
+      64.5
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  },
+  {
+    "problem_id": "depth07_prob0199",
+    "depth": 7,
+    "question": "Henry receives $9 per hour and works 8 hours. A 20% fee is deducted from Henry's total. Henry doubles Henry's current $ total. Henry donates $9 on pens. Henry spends a quarter of Henry's remaining $ on bags. Henry then purchases 4 apples at $8 each. Henry also receives a $6 bonus. How much $ does Henry have in the end?",
+    "ground_truth": 53.65,
+    "intermediate_values": [
+      72.0,
+      57.6,
+      115.2,
+      106.2,
+      79.65,
+      47.65,
+      53.65
+    ],
+    "operations": [
+      "multiply",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived",
+      "derived"
+    ],
+    "answer_unit": "$"
+  }
+]
