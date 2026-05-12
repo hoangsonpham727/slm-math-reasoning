@@ -28,32 +28,32 @@ class RLEnv():
             self.ds =  MsDataset.load('modelscope/competition_math', cache_dir='data', subset_name='default', split=('test' if is_test else 'train'))
             self.answer_type = 'Text'
             self.total_problems = len(self.ds)
-            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, equal = is_equiv, debug_verbose=True, eval_config=self.eval_config)
+            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, equal = is_equiv, debug_verbose=False, eval_config=self.eval_config)
         
         elif self.dataset == 'GSM8K':
             self.ds =  MsDataset.load('modelscope/gsm8k', cache_dir='data', subset_name='main', split=('test' if is_test else 'train'))
             self.answer_type = 'Numerical'
             self.total_problems = len(self.ds)
-            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True, eval_config=self.eval_config)
+            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=False, eval_config=self.eval_config)
         
         elif self.dataset == 'GPQA':
             self.ds =  pd.read_csv(os.path.join('data', 'gpqa_main.csv'))
             self.answer_type = 'Choice'
             self.total_problems = len(self.ds)
-            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True, eval_config=self.eval_config)
+            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=False, eval_config=self.eval_config)
             
         elif self.dataset == 'MMLU-STEM':
             self.ds =  MsDataset.load('TIGER-Lab/MMLU-STEM', cache_dir='data', split=('test' if is_test else 'train'))
             self.answer_type = 'Choice'
             self.total_problems = len(self.ds)
-            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True, eval_config=self.eval_config)
+            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=False, eval_config=self.eval_config)
 
         elif self.dataset == 'StrategyQA':
             split=('test' if is_test else 'train')
             self.ds =  json.load(open(os.path.join('data', f'strategyQA_{split}.json'), "r"))
             self.answer_type = 'Boolean'
             self.total_problems = len(self.ds)
-            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True, eval_config=self.eval_config)
+            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=False, eval_config=self.eval_config)
 
         elif self.dataset == 'EXP1':
             # Experiment 1: distractor-injected GSM8K problems.
@@ -68,7 +68,7 @@ class RLEnv():
             self.ds = [json.load(open(f)) for f in files]
             self.answer_type = 'Numerical'
             self.total_problems = len(self.ds)
-            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True, eval_config=self.eval_config)
+            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=False, eval_config=self.eval_config)
 
         elif self.dataset == 'EXP2':
             # Experiment 2: depth-controlled arithmetic chains.
@@ -87,7 +87,7 @@ class RLEnv():
                 self.ds.extend(json.load(open(f)))
             self.answer_type = 'Numerical'
             self.total_problems = len(self.ds)
-            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True, eval_config=self.eval_config)
+            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=False, eval_config=self.eval_config)
 
         elif self.dataset == 'TRAIN_DISTRACTOR':
             # Distractor-augmented training set: 400 records built from the 4 unused
@@ -105,7 +105,7 @@ class RLEnv():
             self.total_problems = len(self.ds)
             self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args,
                             max_depth=self.max_depth, max_width=self.max_width,
-                            debug_verbose=True, eval_config=self.eval_config)
+                            debug_verbose=False, eval_config=self.eval_config)
 
         elif self.dataset == 'TRAIN_EXP2':
             # Generated Exp2-style training problems (depth 1–8, idx 200–399 per depth).
@@ -126,7 +126,7 @@ class RLEnv():
             self.total_problems = len(self.ds)
             self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args,
                             max_depth=self.max_depth, max_width=self.max_width,
-                            debug_verbose=True, eval_config=self.eval_config)
+                            debug_verbose=False, eval_config=self.eval_config)
 
         else:
             raise ValueError("Dataset not supported")

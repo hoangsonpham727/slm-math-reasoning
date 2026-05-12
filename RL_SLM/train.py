@@ -12,13 +12,14 @@ the DQN training loop itself is not reward-model-aware.
 
 Usage:
     python train.py \\
-        --dataset GSM8K \\
-        --model qwen25_math_1.5b \\
+        --dataset TRAIN_EXP2 \\
+        --models qwen25_math_1.5b gemma4_e2b phi4_mini \\
         --reward_type programmatic \\
         --eval_model gpt-oss:120b \\
         --n_episodes 500
 """
 import argparse
+import gc
 import os
 import sys
 import numpy as np
@@ -26,6 +27,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from pathlib import Path
+from tqdm import tqdm
 
 # ── path setup ────────────────────────────────────────────────────────────────
 _rl_dir  = Path(__file__).resolve().parent
@@ -46,11 +48,12 @@ def parse_args():
     p = argparse.ArgumentParser(description="RLoT SLM Training")
 
     # Environment
-    p.add_argument("--dataset",       default="GSM8K",
+    p.add_argument("--dataset",       default="TRAIN_EXP2",
                    choices=["GSM8K", "MATH", "GPQA", "MMLU-STEM", "StrategyQA",
                             "EXP1", "EXP2", "TRAIN_DISTRACTOR", "TRAIN_EXP2"])
-    p.add_argument("--model",         default="qwen25_math_1.5b",
-                   help="Model short_name or HF model_id (see models.py)")
+    p.add_argument("--models",        nargs="+",
+                   default=["qwen25_math_1.5b", "gemma4_e2b", "phi4_mini"],
+                   help="One or more model short_names to train sequentially")
     p.add_argument("--data_dir",      default=None,
                    help="Repo root for EXP1/EXP2 data; auto-detected if omitted")
     p.add_argument("--max_depth",     type=int, default=5)
@@ -94,7 +97,7 @@ def parse_args():
     return p.parse_args()
 
 
-# ── Training loop ─────────────────────────────────────────────────────────────
+# ── Per-model training ────────────────────────────────────────────────────────
 
 def main():
     os.environ["HF_HOME"] = "/mnt/data/hf"
@@ -107,22 +110,22 @@ def main():
     np.random.seed(args.seed)
     os.makedirs(args.save_dir, exist_ok=True)
 
-    # Evaluator config passed into ENV (Ollama GPT-OSS for state scoring)
     eval_config = {
         "model_name": args.eval_model,
-        "base_url":   args.eval_base_url,   # None → falls back to env var
-        "api_key":    args.eval_api_key,    # None → falls back to env var
+        "base_url":   args.eval_base_url,
+        "api_key":    args.eval_api_key,
     }
 
     print(f"[train] Dataset:     {args.dataset}")
-    print(f"[train] Reasoning:   {args.model}")
+    print(f"[train] Reasoning:   {model_name}")
     print(f"[train] Evaluator:   {args.eval_model}")
     print(f"[train] Reward type: {args.reward_type}")
+    print(f"[train] Checkpoints: {save_dir}")
 
     env = RLEnv(
         dataset        = args.dataset,
         is_test        = False,
-        LLM_name       = args.model,
+        LLM_name       = model_name,
         problem_indexs = None,
         max_depth      = args.max_depth,
         max_width      = args.max_width,
@@ -132,7 +135,6 @@ def main():
         data_dir       = args.data_dir,
     )
 
-    # Reward model — selected entirely via flag, no loop changes needed
     rm_kwargs = {}
     if args.reward_type == "prm":
         if args.prm_name is None:
@@ -140,32 +142,29 @@ def main():
         rm_kwargs = {"PRM_name": args.prm_name, "device": args.device}
     elif args.reward_type == "ccqa":
         rm_kwargs = {"device": args.device}
-
     reward_model = get_reward_model(args.reward_type, **rm_kwargs)
 
-    # Networks
     device = torch.device(args.device)
     policy = Dueling_DQN(input_size=7, output_size=5).to(device)
     target = Dueling_DQN(input_size=7, output_size=5).to(device)
     target.load_state_dict(policy.state_dict())
     target.eval()
 
-    optimizer = optim.Adam(policy.parameters(), lr=args.lr)
-    buffer    = ExperienceReplay(capacity=args.buffer_cap, random_seed=args.seed)
-
+    optimizer  = optim.Adam(policy.parameters(), lr=args.lr)
+    buffer     = ExperienceReplay(capacity=args.buffer_cap, random_seed=args.seed)
     steps_done = 0
+    pbar = tqdm(range(args.n_episodes), desc=f"Training {model_name}", unit="ep")
 
-    for episode in range(args.n_episodes):
+    for episode in pbar:
         state, finished = env.reset()
         if finished:
-            print("[train] Dataset exhausted — training complete.")
+            pbar.write("[train] Dataset exhausted — training complete.")
             break
 
         episode_reward = 0.0
         done = False
 
         while not done:
-            # ε-greedy action
             epsilon = args.eps_end + (args.eps_start - args.eps_end) * \
                       np.exp(-steps_done / max(args.eps_decay, 1))
             if np.random.rand() < epsilon:
@@ -177,7 +176,6 @@ def main():
 
             next_state, env_reward, done = env.step(action)
 
-            # Augment env reward with reward-model signal
             step_texts = env.core.thought_each_step
             prm_input  = reward_model.covert_to_input(env.problem, step_texts)
             scores, _  = reward_model.get_step_scores(prm_input)
@@ -196,7 +194,6 @@ def main():
             state      = next_state
             steps_done += 1
 
-            # DQN update
             if len(buffer) >= args.batch_size:
                 states, actions, rewards, dones, next_states = buffer.sample(args.batch_size)
                 s  = torch.tensor(states).to(device)
@@ -215,20 +212,47 @@ def main():
                 loss.backward()
                 optimizer.step()
 
-        # Sync target network
         if episode % args.target_update == 0:
             target.load_state_dict(policy.state_dict())
 
-        # Logging + checkpoint
-        if episode % args.save_every == 0:
-            ckpt = os.path.join(args.save_dir, f"policy_ep{episode:04d}.pt")
-            torch.save(policy.state_dict(), ckpt)
-            print(f"[ep {episode:4d}]  reward={episode_reward:.3f}  "
-                  f"eps={epsilon:.3f}  buf={len(buffer)}  saved → {ckpt}")
+        pbar.set_postfix(reward=f"{episode_reward:.3f}", eps=f"{epsilon:.3f}", buf=len(buffer))
 
-    final = os.path.join(args.save_dir, "policy_final.pt")
+        if episode % args.save_every == 0:
+            ckpt = os.path.join(save_dir, f"policy_ep{episode:04d}.pt")
+            torch.save(policy.state_dict(), ckpt)
+            pbar.write(f"[ep {episode:4d}]  reward={episode_reward:.3f}  "
+                       f"eps={epsilon:.3f}  buf={len(buffer)}  saved → {ckpt}")
+
+    pbar.close()
+    final = os.path.join(save_dir, "policy_final.pt")
     torch.save(policy.state_dict(), final)
     print(f"[train] Final checkpoint saved → {final}")
+
+    # Explicit teardown to free GPU memory before the next model loads
+    del env, reward_model, policy, target, optimizer, buffer
+    gc.collect()
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    print(f"[train] Resources released for {model_name}.")
+
+
+# ── Entry point ───────────────────────────────────────────────────────────────
+
+def main():
+    args = parse_args()
+    torch.manual_seed(args.seed)
+    np.random.seed(args.seed)
+    os.makedirs(args.save_dir, exist_ok=True)
+
+    print(f"[train] Training {len(args.models)} model(s): {args.models}")
+
+    for model_name in args.models:
+        print(f"\n{'='*60}")
+        print(f"[train] Starting model: {model_name}")
+        print(f"{'='*60}")
+        train_one_model(model_name, args)
+
+    print(f"\n[train] All models trained. Checkpoints in: {args.save_dir}/")
 
 
 if __name__ == "__main__":
