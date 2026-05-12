@@ -1,4 +1,4 @@
-from environment_simple import ENV
+from simple_env import ENV
 from modelscope.msdatasets import MsDataset
 from math_evaluate import is_equiv
 
@@ -9,7 +9,7 @@ import json
 import os
 
 class RLEnv():
-    def __init__(self,dataset,is_test,LLM_name,problem_indexs,max_depth,max_width,random_problems,random_seed):
+    def __init__(self,dataset,is_test,LLM_name,problem_indexs,max_depth,max_width,random_problems,random_seed,eval_config=None,data_dir=None):
         super(RLEnv, self).__init__()
         self.action_space = {0:"R", 1:"D", 2:"Db", 3:"Rf", 4:"Ga"}
         self.observation_space = {0:"A1", 1:"A2", 2:"A3", 3:"B1", 4: "B2", 5: "C1", 6:"C2"}
@@ -19,37 +19,75 @@ class RLEnv():
         self.LLM_args = {"model":LLM_name}
         self.max_depth = max_depth
         self.max_width = max_width
+        self.eval_config = eval_config
+        # repo root: two levels above this file (RL_SLM/environment/RL_env.py)
+        self._repo_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        self.data_dir = data_dir or self._repo_root
 
         if self.dataset == 'MATH':
             self.ds =  MsDataset.load('modelscope/competition_math', cache_dir='data', subset_name='default', split=('test' if is_test else 'train'))
             self.answer_type = 'Text'
             self.total_problems = len(self.ds)
-            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, equal = is_equiv, debug_verbose=True)
+            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, equal = is_equiv, debug_verbose=True, eval_config=self.eval_config)
         
         elif self.dataset == 'GSM8K':
             self.ds =  MsDataset.load('modelscope/gsm8k', cache_dir='data', subset_name='main', split=('test' if is_test else 'train'))
             self.answer_type = 'Numerical'
             self.total_problems = len(self.ds)
-            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True)
+            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True, eval_config=self.eval_config)
         
         elif self.dataset == 'GPQA':
             self.ds =  pd.read_csv(os.path.join('data', 'gpqa_main.csv'))
             self.answer_type = 'Choice'
             self.total_problems = len(self.ds)
-            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True)
+            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True, eval_config=self.eval_config)
             
         elif self.dataset == 'MMLU-STEM':
             self.ds =  MsDataset.load('TIGER-Lab/MMLU-STEM', cache_dir='data', split=('test' if is_test else 'train'))
             self.answer_type = 'Choice'
             self.total_problems = len(self.ds)
-            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True)
+            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True, eval_config=self.eval_config)
 
         elif self.dataset == 'StrategyQA':
             split=('test' if is_test else 'train')
             self.ds =  json.load(open(os.path.join('data', f'strategyQA_{split}.json'), "r"))
             self.answer_type = 'Boolean'
             self.total_problems = len(self.ds)
-            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True)
+            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True, eval_config=self.eval_config)
+
+        elif self.dataset == 'EXP1':
+            # Experiment 1: distractor-injected GSM8K problems.
+            # Loads every JSON in Experiment1/gsm_enhanced_templates/; on each
+            # reset() one distractor is sampled live from the pool so the agent
+            # sees a fresh distractor variant every episode.
+            import glob
+            exp1_dir = os.path.join(self.data_dir, 'Experiment1', 'gsm_enhanced_templates')
+            files = sorted(glob.glob(os.path.join(exp1_dir, '*.json')))
+            if not files:
+                raise FileNotFoundError(f"No EXP1 templates found in {exp1_dir}")
+            self.ds = [json.load(open(f)) for f in files]
+            self.answer_type = 'Numerical'
+            self.total_problems = len(self.ds)
+            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True, eval_config=self.eval_config)
+
+        elif self.dataset == 'EXP2':
+            # Experiment 2: depth-controlled arithmetic chains.
+            # Merges all problems_depth*.json files so the agent trains across
+            # all depth levels simultaneously.
+            import glob
+            exp2_dir = os.path.join(self.data_dir, 'Experiment2', 'data')
+            files = sorted(glob.glob(os.path.join(exp2_dir, 'problems_depth*.json')))
+            if not files:
+                raise FileNotFoundError(
+                    f"No EXP2 depth files found in {exp2_dir}. "
+                    "Run Experiment2/dataset_generator.py first."
+                )
+            self.ds = []
+            for f in files:
+                self.ds.extend(json.load(open(f)))
+            self.answer_type = 'Numerical'
+            self.total_problems = len(self.ds)
+            self.core = ENV(answer_type=self.answer_type, LLM_args=self.LLM_args, max_depth=self.max_depth, max_width=self.max_width, debug_verbose=True, eval_config=self.eval_config)
 
         else:
             raise ValueError("Dataset not supported")
@@ -105,6 +143,36 @@ class RLEnv():
         elif self.dataset == 'StrategyQA':
             self.problem = self.ds[current_index]['question']
             self.ans = "yes" if self.ds[current_index]['answer'] else "no"
+
+        elif self.dataset == 'EXP1':
+            record = self.ds[current_index]
+            pool = record.get('dynamic_distractor_pool') or []
+            original_q = record['question']
+            if pool:
+                chosen = random.choice(pool)
+                distractor = chosen['text'] if isinstance(chosen, dict) else str(chosen)
+                # Inline the same insertion logic as data_preparation.append_distractor
+                # so we avoid a cross-package import at runtime.
+                q = original_q.strip()
+                d = distractor.strip().rstrip('.')
+                sentences = re.split(r'(?<=[.!])\s+', q)
+                if len(sentences) > 1:
+                    sentences.insert(len(sentences) - 1, d + '.')
+                    self.problem = ' '.join(sentences)
+                elif q.endswith('?'):
+                    self.problem = f"{q[:-1]}, {d}?"
+                else:
+                    self.problem = f"{q} {d}."
+            else:
+                self.problem = original_q
+            raw_ans = record.get('answer', '')
+            gsm_part = raw_ans.split('####')[-1] if '####' in raw_ans else raw_ans
+            self.ans = float(re.sub(r'[^0-9.\-]', '', gsm_part.strip()) or 0)
+
+        elif self.dataset == 'EXP2':
+            record = self.ds[current_index]
+            self.problem = record['question']
+            self.ans = float(record['ground_truth'])
 
         if self.random_problems:
             self.current_problem = random.randint(0,self.num_problems-1)
