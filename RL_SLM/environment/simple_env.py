@@ -10,7 +10,7 @@ def default_equal(a, b):
     return float(a == b)
 class ENV():
     def __init__(self, max_width=10, max_depth=10, answer_type="Numerical", LLM_args = {}, equal = default_equal,
-                 zero_shot_mode="IO", debug_verbose=False) -> None:
+                 zero_shot_mode="IO", debug_verbose=False, eval_config=None) -> None:
         self.thoughts = {}
         self.current_tid = 0
         self.max_width = max_width
@@ -21,6 +21,13 @@ class ENV():
         self.node_unexplored = []
         self.vis_graph = nx.DiGraph()
         self.LLM = LLM_api(**LLM_args)
+        # eval_LLM is always an external Ollama model; falls back to self.LLM only
+        # when no eval_config is provided (e.g. unit tests without network access).
+        if eval_config is not None:
+            from ollama_evaluator import OllamaEvaluator
+            self.eval_LLM = OllamaEvaluator(**eval_config)
+        else:
+            self.eval_LLM = self.LLM
         self.score = {}
         self.answer_type = answer_type
         self.equal = equal
@@ -616,25 +623,34 @@ Use the format \'The most promising plan is Plan[INDEX]: [REASON]\', where [INDE
             return state
         # thought to state
         template = '''
-Please evaluate the current step from the following aspects. 
+Please evaluate the current reasoning step from the following aspects.
+Two failure modes are of special interest: (1) noise sensitivity — being distracted
+by irrelevant information injected into the problem; (2) depth collapse — skipping
+or conflating chained intermediate arithmetic steps.
+
 A) Correctness
-    A1: Correctness of modeling:
-    Whether the current step is correctly derived from the origin problem.
+    A1: Distractor immunity:
+    Whether the current step correctly ignores irrelevant or distracting facts and
+    reasons only from information that is necessary to solve the problem.
     A2: Clarity for further reasoning:
-    Whether the current step is clearly presented, without ambiguity, to support further reasoning.
+    Whether the current step is clearly presented, without ambiguity, to support
+    further multi-step reasoning.
     A3: Correctness of calculation:
-    Whether the numerical computation in the current step is performed correctly. 
+    Whether every numerical computation performed in the current step is correct.
 B) Complexity
-    B1: Complexity to reach the final answer:
-    Whether there still requires complex reasoning or calculation to reach the final answer from the current step.
+    B1: Remaining reasoning depth:
+    Whether significant chained multi-step arithmetic or reasoning is still required
+    to reach the final answer from the current step.
     B2: Alternative methods in further reasoning:
-    Whether there exist multiple alternative methods to solve the problem in the current step.
+    Whether multiple alternative solution paths exist from the current step onward.
 C) Completeness
     C1: Closeness to the final solution:
-    Whether the current step is close enough to directly reach the final answer.
+    Whether the current step is close enough to directly yield the final answer.
     C2: Completeness within the step:
-    Whether all necessary elements within this specific step are known from the problem or previous steps.
-For each aspect, please score 1 for False, 2 for Unsure, 3 for True, and socre 0 if the current step does not involve this aspect. Please attach reason for each score.
+    Whether all elements needed for this step are correctly derived from the problem
+    or prior steps, with no intermediate steps collapsed or skipped.
+For each aspect, score 1 for False, 2 for Unsure, 3 for True, and 0 if the current
+step does not involve this aspect. Attach a brief reason for each score.
 Use the format 'A1 score=[SCORE] reason=[REASON]'.
 Only score the current reasoning step here, and DONOT conduct further reasonings.
 '''
@@ -642,11 +658,10 @@ Only score the current reasoning step here, and DONOT conduct further reasonings
             thought_id = self.current_tid
 
         prompt = 'Here is a problem and several reasoning steps.\n' + self.thoughts[thought_id].get_thought() + template
-    
-        ## Call LLM and get a new thought
+
         if self.debug:
             print('\n\n\n\n\n[thought_2_state]\n===========prompt===========', prompt, '==========response=============', sep="\n")
-        LLM_response = self.LLM.get_text(prompt)
+        LLM_response = self.eval_LLM.get_text(prompt)
         if self.debug:
             print(LLM_response, "\n==========================")
         state = extract_state(LLM_response)

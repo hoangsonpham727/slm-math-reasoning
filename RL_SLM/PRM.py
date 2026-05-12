@@ -44,6 +44,38 @@ class PRM():
 
         return step_scores,n_tokens
 
+# ---------------------------------------------------------------------------
+# Reward model factory
+# ---------------------------------------------------------------------------
+
+def get_reward_model(reward_type: str, **kwargs):
+    """
+    Return a reward model selected by name.
+
+    reward_type choices
+    -------------------
+    "prm"           Original Math-Shepherd PRM (requires PRM_name and device).
+    "ccqa"          CCQA cycle-consistency via frozen Flan-T5-base.
+    "programmatic"  Arithmetic step verifier; no extra kwargs needed.
+
+    All returned objects expose the same adapter interface:
+      covert_to_input(problem, thoughts) -> prm_input
+      get_step_scores(prm_input)         -> (scores_list, n_tokens_or_steps)
+    """
+    if reward_type == "prm":
+        return PRM(**kwargs)
+    if reward_type == "ccqa":
+        from reward_ccqa import CCQAReward
+        return CCQAReward(**kwargs)
+    if reward_type == "programmatic":
+        from reward_programmatic import ProgrammaticReward
+        return ProgrammaticReward()
+    raise ValueError(
+        f"Unknown reward_type '{reward_type}'. "
+        "Choose from: prm, ccqa, programmatic"
+    )
+
+
 # Test
 if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
