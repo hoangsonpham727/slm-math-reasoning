@@ -20,7 +20,7 @@ verification:
 # Local HuggingFace verifier (preferred — no rate limits, fully local)
 verifier_local_hf:
   enabled: true
-  model_id: "meta-llama/Meta-Llama-3.1-8B-Instruct"
+  model_id: "Qwen/Qwen3.5-9B"
   device: "auto"
   quantization: "none"   # "none" (bf16, ~16 GB) | "4bit" (~5 GB) | "8bit" (~9 GB)
 

@@ -245,7 +245,7 @@ def main():
         "--pull-verifier",
         metavar="MODEL_ID",
         nargs="?",
-        const="meta-llama/Meta-Llama-3.1-8B-Instruct",
+        const="Qwen/Qwen3.5-9B",
         default=None,
         help=(
             "Download a verifier model from HuggingFace Hub and exit. "

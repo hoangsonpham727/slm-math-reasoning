@@ -97,11 +97,14 @@ class LocalHFVerifierAdapter:
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt},
         ]
-        input_ids = self._tokenizer.apply_chat_template(
+        encoded = self._tokenizer.apply_chat_template(
             messages,
             add_generation_prompt=True,
             return_tensors="pt",
-        ).to(next(self._model.parameters()).device)
+        )
+        # Some tokenizers (e.g. Qwen3) return a BatchEncoding dict; others return a raw tensor.
+        input_ids = encoded["input_ids"] if isinstance(encoded, dict) else encoded
+        input_ids = input_ids.to(next(self._model.parameters()).device)
 
         gen_kwargs: dict = {
             "max_new_tokens": max_new_tokens,
