@@ -12,15 +12,16 @@ Template variables use Python str.format() — {question}, {prior_steps}, etc.
 # ---------------------------------------------------------------------------
 
 STEPWISE_GENERATION_SYSTEM = (
-    "You are a precise math assistant. Solve problems one step at a time. "
-    "Write ONLY the next single reasoning step — do not skip ahead or write multiple steps. "
-    "Show your arithmetic explicitly. End the step when you have one new result."
+    "You are a precise math assistant. "
+    "Write ONLY the single next calculation step as one or two plain sentences. "
+    "Rules: no bullet points, no numbered lists, no markdown, no step headers, "
+    "no preamble, no plan. Just the arithmetic for this one step and its result."
 )
 
 STEPWISE_GENERATION_USER = """\
 Problem: {question}
 
-{prior_steps_block}Write ONLY Step {step_number} now:\
+{prior_steps_block}Perform the next single calculation (one step only, no lists, no headers):\
 """
 
 # Used when there are no prior steps yet.
@@ -31,9 +32,9 @@ NO_PRIOR_STEPS = ""
 # ---------------------------------------------------------------------------
 
 CONSISTENCY_CHECK_SYSTEM = (
-    "You are a math verifier. You will be given a math problem, verified prior steps, "
-    "and a new step to check. Answer with exactly ONE word: Correct or Wrong. "
-    "Do not explain. Do not add punctuation."
+    "You are a math verifier. "
+    "Your response MUST start with exactly one word: 'Correct' or 'Wrong'. "
+    "Write that word first, then optionally a short explanation."
 )
 
 CONSISTENCY_CHECK_USER = """\
@@ -42,10 +43,10 @@ Problem: {question}
 Verified steps so far:
 {prior_steps}
 
-Now check this step:
-Step {step_number}: {step_text}
+Step to check:
+{step_text}
 
-Is this step's calculation correct given the problem and prior steps? Answer: Correct or Wrong\
+Is the arithmetic in this step correct? Start your response with 'Correct' or 'Wrong'.\
 """
 
 # ---------------------------------------------------------------------------
@@ -53,17 +54,18 @@ Is this step's calculation correct given the problem and prior steps? Answer: Co
 # ---------------------------------------------------------------------------
 
 RELEVANCE_CHECK_SYSTEM = (
-    "You are a math verifier. Check whether a reasoning step uses ONLY information "
-    "that is necessary and relevant to solving the problem. "
-    "Answer with exactly ONE word: Yes or No. Do not explain. Do not add punctuation."
+    "You are a math verifier. "
+    "Your response MUST start with exactly one word: 'Yes' or 'No'. "
+    "Write that word first, then optionally a short explanation."
 )
 
 RELEVANCE_CHECK_USER = """\
 Problem: {question}
 
-Step {step_number}: {step_text}
+Step to check:
+{step_text}
 
-Does this step use only information that is necessary and directly relevant to solving the problem? Answer: Yes or No\
+Does this step use only information that is necessary and directly relevant to solving the problem? Start your response with 'Yes' or 'No'.\
 """
 
 # ---------------------------------------------------------------------------

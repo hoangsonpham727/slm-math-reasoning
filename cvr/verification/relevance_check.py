@@ -55,7 +55,6 @@ class RelevanceChecker:
         """
         user_prompt = RELEVANCE_CHECK_USER.format(
             question=question,
-            step_number=current_step["index"],
             step_text=current_step["text"],
         )
 

@@ -180,28 +180,59 @@ __all__ = [
 # Step parsing
 # ---------------------------------------------------------------------------
 
-_STEP_HEADER = re.compile(r"Step\s*(\d+)\s*:", re.IGNORECASE)
+# Matches any "Step N:" header, with optional surrounding markdown bold markers.
+_STEP_HEADER = re.compile(r"\*{0,2}\s*Step\s*(\d+)\s*[:.]\*{0,2}", re.IGNORECASE)
+# Matches numbered-list intro lines like "1. Do something" or "2) Do something".
+_NUMBERED_LIST_LINE = re.compile(r"^\s*\d+[.)]\s+\S")
+# Matches markdown bold/header markers at line start.
+_MD_HEADER = re.compile(r"^\s*\*{1,2}|^\s*#{1,3}\s")
 
 
 def parse_step_text(raw_output: str, expected_step_num: int) -> str:
     """
     Extract the content of step `expected_step_num` from raw model output.
 
-    SLMs sometimes generate multiple steps at once. This function truncates
-    the output at the start of the *next* step header (Step N+1:) so only
-    the current step is returned.
+    Handles three common failure modes for small models:
+    1. Multiple steps generated at once — truncated at the next step boundary.
+    2. Markdown bold step headers like **Step 2:** — handled by _STEP_HEADER regex.
+    3. Numbered-list preamble ("1. Calculate X\n2. Calculate Y\n...") before the
+       actual arithmetic — stripped by discarding lines that look like list items
+       without numeric content.
     """
     raw_output = raw_output.strip()
-    # Find the start of Step (expected_step_num + 1) and cut there.
+
+    # Truncate at the next step boundary (handles plain and bold markdown headers).
     next_step = expected_step_num + 1
-    pattern = re.compile(rf"Step\s*{next_step}\s*:", re.IGNORECASE)
-    m = pattern.search(raw_output)
+    boundary = re.compile(rf"\*{{0,2}}\s*Step\s*{next_step}\s*[:.]\*{{0,2}}", re.IGNORECASE)
+    m = boundary.search(raw_output)
     if m:
         raw_output = raw_output[: m.start()].strip()
-    # Also strip the "Step N:" prefix if the model included it.
-    current_pattern = re.compile(rf"^\s*Step\s*{expected_step_num}\s*:\s*", re.IGNORECASE)
-    raw_output = current_pattern.sub("", raw_output, count=1).strip()
-    return raw_output
+
+    # If the current step header appears somewhere mid-text (model wrote a preamble
+    # before the actual step content), take only what comes after the header.
+    current_header = re.compile(
+        rf"\*{{0,2}}\s*Step\s*{expected_step_num}\s*[:.][^\n]*\*{{0,2}}",
+        re.IGNORECASE,
+    )
+    m2 = current_header.search(raw_output)
+    if m2:
+        raw_output = raw_output[m2.end():].strip()
+
+    # Drop pure numbered-list lines that are a plan/outline with no arithmetic.
+    # Keep a line if the body (after "N. ") contains any digit.
+    filtered_lines = []
+    for line in raw_output.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            filtered_lines.append(line)
+            continue
+        if _NUMBERED_LIST_LINE.match(stripped):
+            body = re.sub(r"^\d+[.)]\s*", "", stripped)
+            if not re.search(r"\d", body):
+                continue  # pure label like "1. Calculate the fee" — drop it
+        filtered_lines.append(line)
+
+    return "\n".join(filtered_lines).strip()
 
 
 def format_steps_as_text(steps: list[dict]) -> str:

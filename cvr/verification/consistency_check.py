@@ -64,7 +64,6 @@ class ConsistencyChecker:
         user_prompt = CONSISTENCY_CHECK_USER.format(
             question=question,
             prior_steps=prior_text,
-            step_number=current_step["index"],
             step_text=current_step["text"],
         )
 
