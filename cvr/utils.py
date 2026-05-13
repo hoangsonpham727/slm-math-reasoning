@@ -210,17 +210,37 @@ def format_steps_as_text(steps: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def parse_binary_vote(raw_token: str) -> bool:
-    """
-    Parse the first token of a NCV binary response.
+_VOTE_CORRECT_RE = re.compile(r"\b(correct|yes|right|true)\b", re.IGNORECASE)
+_VOTE_WRONG_RE = re.compile(r"\b(wrong|no|incorrect|false)\b", re.IGNORECASE)
 
-    Returns True for 'Correct'/'Yes'/'Right'/'True'.
-    Returns False for 'Wrong'/'No'/'Incorrect'/'False' or anything unparseable
+
+def parse_binary_vote(raw_output: str) -> bool:
+    """
+    Parse a NCV binary verification response.
+
+    Small models (1.5B–4B) often output preamble before the verdict word, so we
+    search the full response with word-boundary regex and take the LAST match
+    from each verdict group, then compare positions.
+
+    Using word boundaries avoids 'correct' matching inside 'incorrect', or
+    'no' matching inside 'known'.
+
+    Returns True  for last verdict in {correct, yes, right, true}.
+    Returns False for last verdict in {wrong, no, incorrect, false} or unparseable
     (conservative: unknown → fail).
     """
-    tok = raw_token.strip().split()[0].lower() if raw_token.strip() else ""
-    tok = re.sub(r"[^a-z]", "", tok)  # strip punctuation
-    return tok in {"correct", "yes", "right", "true"}
+    if not raw_output or not raw_output.strip():
+        return False
+
+    correct_matches = list(_VOTE_CORRECT_RE.finditer(raw_output))
+    wrong_matches = list(_VOTE_WRONG_RE.finditer(raw_output))
+
+    if not correct_matches and not wrong_matches:
+        return False  # unparseable → conservative fail
+
+    last_correct = correct_matches[-1].start() if correct_matches else -1
+    last_wrong = wrong_matches[-1].start() if wrong_matches else -1
+    return last_correct > last_wrong
 
 
 def is_final_step(step_text: str) -> bool:

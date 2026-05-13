@@ -9,7 +9,7 @@ verification:
   consistency_votes: 3        # NCV@3 default
   relevance_votes: 3
   enable_relevance: true
-  max_output_tokens: 4        # NCV binary constraint
+  max_output_tokens: 32       # 4 is too tight for sub-7B models; they prepend preamble
   verification_temperature: 0.3
 
 restart:

@@ -53,6 +53,7 @@ class CVRPipeline:
             consistency_votes=ver_cfg["consistency_votes"],
             relevance_votes=ver_cfg["relevance_votes"],
             verification_temperature=ver_cfg["verification_temperature"],
+            max_output_tokens=ver_cfg["max_output_tokens"],
             enable_relevance=ver_cfg["enable_relevance"],
         )
         self.restarter = CheckpointRestarter(

@@ -31,18 +31,21 @@ class NodeVerifier:
         consistency_votes: int = 3,
         relevance_votes: int = 3,
         verification_temperature: float = 0.3,
+        max_output_tokens: int = 32,
         enable_relevance: bool = True,
         one_veto: bool = False,
     ):
         self.consistency = ConsistencyChecker(
             adapter,
             num_votes=consistency_votes,
+            max_tokens=max_output_tokens,
             temperature=verification_temperature,
             one_veto=one_veto,
         )
         self.relevance = RelevanceChecker(
             adapter,
             num_votes=relevance_votes,
+            max_tokens=max_output_tokens,
             temperature=verification_temperature,
             one_veto=one_veto,
         )

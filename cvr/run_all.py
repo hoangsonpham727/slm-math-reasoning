@@ -44,15 +44,61 @@ def _model_filter(arg: str) -> list[str] | None:
     return names
 
 
+class _DebugAdapter:
+    """
+    Wraps CVRModelAdapter for sanity mode: logs every prompt+response pair to
+    a list and prints a compact trace to stdout.
+    """
+
+    def __init__(self, adapter, log: list, problem_idx: int):
+        self._adapter = adapter
+        self._log = log
+        self._problem_idx = problem_idx
+        self._call_idx = 0
+
+    def _record(self, kind: str, system: str, user: str, response: str, **kw):
+        entry = {
+            "problem": self._problem_idx,
+            "call": self._call_idx,
+            "kind": kind,
+            "system_prompt": system,
+            "user_prompt": user,
+            "response": response,
+            **kw,
+        }
+        self._log.append(entry)
+        # Compact stdout trace
+        label = f"[P{self._problem_idx} #{self._call_idx} {kind}]"
+        print(f"\n    {label}")
+        print(f"      SYS : {system[:120]}")
+        print(f"      USER: {user[-300:]}")  # tail of user prompt (contains the step)
+        print(f"      OUT : {repr(response)}")
+        self._call_idx += 1
+
+    def generate_greedy(self, system_prompt, user_prompt, max_new_tokens=512):
+        r = self._adapter.generate_greedy(system_prompt, user_prompt, max_new_tokens)
+        self._record("greedy", system_prompt, user_prompt, r, max_new_tokens=max_new_tokens)
+        return r
+
+    def generate_sampled(self, system_prompt, user_prompt, max_new_tokens=256, temperature=0.7):
+        r = self._adapter.generate_sampled(system_prompt, user_prompt, max_new_tokens, temperature)
+        self._record("sampled", system_prompt, user_prompt, r,
+                     max_new_tokens=max_new_tokens, temperature=temperature)
+        return r
+
+    @property
+    def model_key(self):
+        return self._adapter.model_key
+
+
 def run_sanity(model_filter, device, limit=5):
-    """Quick smoke-test: 5 depth-2 problems with a single model."""
+    """Quick smoke-test: 5 depth-2 problems with full prompt/response logging."""
     import json
     from cvr.model_adapter import CVRModelAdapter
     from cvr.pipeline import CVRPipeline
     from cvr.utils import load_yaml_config
 
     config = load_yaml_config("cvr/config.yaml")
-    # Reduce chains for sanity speed
     config["generation"]["num_chains"] = 2
 
     models = MODEL_CONFIGS if not model_filter else [c for c in MODEL_CONFIGS if c.short_name in model_filter]
@@ -69,13 +115,20 @@ def run_sanity(model_filter, device, limit=5):
         print(f"\n{'='*60}\nSanity test: {cfg.short_name}")
         wrapper = get_model_wrapper(cfg, device=device)
         wrapper.load()
-        adapter = CVRModelAdapter(wrapper)
-        pipeline = CVRPipeline(adapter, config)
+        base_adapter = CVRModelAdapter(wrapper)
 
+        debug_log: list[dict] = []
         correct = 0
+
         for i, prob in enumerate(problems):
-            print(f"\n  Problem {i+1}: {prob['question'][:80]}...")
+            print(f"\n  {'─'*56}")
+            print(f"  Problem {i+1}: {prob['question']}")
+            print(f"  GT: {prob['ground_truth']}")
+
+            debug_adapter = _DebugAdapter(base_adapter, debug_log, problem_idx=i + 1)
+            pipeline = CVRPipeline(debug_adapter, config)
             result = pipeline.solve(prob["question"])
+
             gt = float(prob["ground_truth"])
             pred = result.get("answer")
             try:
@@ -84,14 +137,22 @@ def run_sanity(model_filter, device, limit=5):
                 pred_f = None
             ok = pred_f is not None and abs(pred_f - gt) / (abs(gt) + 1e-9) < 0.01
             correct += ok
+
             n_chains = result.get("total_chains", 0)
             ok_chains = result.get("successful_chains", 0)
-            print(f"  GT: {gt}  Pred: {pred}  {'✓' if ok else '✗'}  chains: {ok_chains}/{n_chains}  conf: {result.get('confidence', 0):.2f}")
-            print(f"  Steps in first chain: {len(result['chains'][0]['steps']) if result.get('chains') else 0}")
             restarts = sum(c.get("total_restarts", 0) for c in result.get("chains", []))
-            if restarts > 0:
-                print(f"  Restarts triggered: {restarts}")
+            first_chain_steps = len(result["chains"][0]["steps"]) if result.get("chains") else 0
 
+            print(f"\n  ── Result ──")
+            print(f"  Pred: {pred}  GT: {gt}  {'✓' if ok else '✗'}")
+            print(f"  Chains: {ok_chains}/{n_chains} successful  |  Steps in chain 0: {first_chain_steps}  |  Restarts: {restarts}")
+
+        # Save full debug log
+        log_path = Path(f"cvr/sanity_debug_{cfg.short_name}.json")
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(log_path, "w") as f:
+            json.dump(debug_log, f, indent=2)
+        print(f"\n  Full prompt/response log saved to {log_path}")
         print(f"\n  Sanity result: {correct}/{len(problems)} correct")
         wrapper.unload()
 
