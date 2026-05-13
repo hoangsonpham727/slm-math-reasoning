@@ -1,0 +1,17 @@
+generation:
+  temperature: 0.7
+  top_p: 0.9
+  max_new_tokens_per_step: 256
+  max_steps: 12
+  num_chains: 5
+
+verification:
+  consistency_votes: 3        # NCV@3 default
+  relevance_votes: 3
+  enable_relevance: true
+  max_output_tokens: 4        # NCV binary constraint
+  verification_temperature: 0.3
+
+restart:
+  max_restarts: 2
+  temperature_increment: 0.15
