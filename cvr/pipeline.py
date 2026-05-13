@@ -82,6 +82,8 @@ class CVRPipeline:
             verification_temperature=ver_cfg["verification_temperature"],
             max_output_tokens=ver_cfg["max_output_tokens"],
             enable_relevance=ver_cfg["enable_relevance"],
+            call_delay_s=ver_cfg.get("call_delay_s", 1.0),
+            retry_delay_s=ver_cfg.get("retry_delay_s", 2.0),
         )
 
         # Restart uses same token budget as full solution (continuation = remaining steps).

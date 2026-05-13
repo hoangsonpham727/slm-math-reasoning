@@ -18,22 +18,27 @@ class NodeVerifier:
 
     Args:
         adapter: CVRModelAdapter wrapping a loaded model
-        consistency_votes: k for consistency check (default: 3)
-        relevance_votes: k for relevance check (default: 3)
+        consistency_votes: k for consistency check (default: 1 for cloud)
+        relevance_votes: k for relevance check (default: 1 for cloud)
         verification_temperature: sampling temperature for all checks
-        enable_relevance: if False, only consistency is checked (ablation mode)
+        max_output_tokens: token budget per check call
+        enable_relevance: if False, only consistency is checked (default for Exp2)
         one_veto: if True, use one-vote-veto instead of majority
+        call_delay_s: seconds between consecutive API calls (rate limiting guard)
+        retry_delay_s: seconds to wait before retrying an empty response
     """
 
     def __init__(
         self,
         adapter: CVRModelAdapter,
-        consistency_votes: int = 3,
-        relevance_votes: int = 3,
+        consistency_votes: int = 1,
+        relevance_votes: int = 1,
         verification_temperature: float = 0.3,
-        max_output_tokens: int = 32,
-        enable_relevance: bool = True,
+        max_output_tokens: int = 64,
+        enable_relevance: bool = False,
         one_veto: bool = False,
+        call_delay_s: float = 1.0,
+        retry_delay_s: float = 2.0,
     ):
         self.consistency = ConsistencyChecker(
             adapter,
@@ -41,6 +46,8 @@ class NodeVerifier:
             max_tokens=max_output_tokens,
             temperature=verification_temperature,
             one_veto=one_veto,
+            call_delay_s=call_delay_s,
+            retry_delay_s=retry_delay_s,
         )
         self.relevance = RelevanceChecker(
             adapter,
@@ -48,6 +55,8 @@ class NodeVerifier:
             max_tokens=max_output_tokens,
             temperature=verification_temperature,
             one_veto=one_veto,
+            call_delay_s=call_delay_s,
+            retry_delay_s=retry_delay_s,
         )
         self.enable_relevance = enable_relevance
 

@@ -7,11 +7,12 @@ generation:
   num_chains: 5
 
 verification:
-  consistency_votes: 3        # NCV@3 default
-  relevance_votes: 3
-  enable_relevance: true
+  consistency_votes: 1        # 1 call to gpt-oss:120b is sufficient; reduces burst rate limiting
+  relevance_votes: 1
+  enable_relevance: false     # disable for Exp2 (no distractors); enable only for Exp1
   max_output_tokens: 64
   verification_temperature: 0.3
+  call_delay_s: 1.0           # seconds between consecutive cloud API calls
 
 # Optional: use a cloud model for verification only.
 # Generation stays on the local SLM; only binary verify calls go to the cloud.
