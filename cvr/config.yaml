@@ -12,16 +12,23 @@ verification:
   enable_relevance: false     # disable for Exp2 (no distractors); enable only for Exp1
   max_output_tokens: 64
   verification_temperature: 0.3
-  call_delay_s: 1.0           # seconds between consecutive cloud API calls
+  call_delay_s: 0.0           # no delay needed for local Ollama
 
 # Optional: use a cloud model for verification only.
 # Generation stays on the local SLM; only binary verify calls go to the cloud.
 # Remove or set enabled: false to verify with the local SLM.
-verifier_cloud:
+# Local HuggingFace verifier (preferred — no rate limits, fully local)
+verifier_local_hf:
   enabled: true
-  host: "https://ollama.com"    # Ollama cloud endpoint
-  model: "gpt-oss:120b"         # model name as registered in Ollama
-  # api_key: read from OLLAMA_API_KEY env var (set via load_dotenv or export)
+  model_id: "meta-llama/Meta-Llama-3.1-8B-Instruct"
+  device: "auto"
+  quantization: "none"   # "none" (bf16, ~16 GB) | "4bit" (~5 GB) | "8bit" (~9 GB)
+
+# Cloud Ollama verifier (fallback — requires OLLAMA_API_KEY or local Ollama server)
+verifier_cloud:
+  enabled: false
+  host: "http://localhost:11434"
+  model: "qwen2.5-math:7b-instruct"
 
 restart:
   max_restarts: 2

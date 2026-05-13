@@ -98,8 +98,53 @@ class _DebugAdapter:
         return self._adapter.model_key
 
 
-def run_sanity(model_filter, device, limit=5):
-    """Quick smoke-test: 5 depth-2 problems with full prompt/response logging."""
+def _load_sanity_problems() -> list[dict]:
+    """
+    Load the fixed sanity problem set: 2 depth-8 problems + 1 distractor problem.
+
+    Returns a list of dicts with keys: question, ground_truth, label
+    """
+    import json, glob, re
+
+    problems = []
+
+    # 2 depth-8 problems (hard multi-step)
+    depth8_path = Path("Experiment2/data/problems_depth08.json")
+    with open(depth8_path) as f:
+        depth8 = json.load(f)
+    for p in depth8[:2]:
+        problems.append({
+            "question": p["question"],
+            "ground_truth": str(p["ground_truth"]),
+            "label": f"depth8/{p['problem_id']}",
+        })
+
+    # 1 distractor problem (inject first distractor from pool into question)
+    dist_files = sorted(glob.glob("Experiment1/gsm_enhanced_templates/*.json"))
+    if dist_files:
+        with open(dist_files[0]) as f:
+            tmpl = json.load(f)
+        base_q = tmpl["question"]
+        pool = tmpl.get("dynamic_distractor_pool", [])
+        distractor_text = pool[0]["text"] if pool else ""
+        distracted_q = f"{base_q} {distractor_text}".strip()
+
+        # Extract numeric ground truth from GSM-style answer string
+        ans_text = tmpl.get("answer", "")
+        nums = re.findall(r"####\s*([\d,\.]+)", ans_text)
+        gt = nums[-1].replace(",", "") if nums else ""
+
+        problems.append({
+            "question": distracted_q,
+            "ground_truth": gt,
+            "label": f"distractor/{Path(dist_files[0]).stem}",
+        })
+
+    return problems
+
+
+def run_sanity(model_filter, device, limit=None):
+    """Smoke-test: 2 depth-8 problems + 1 distractor, with full prompt/response logging."""
     import json
     from cvr.model_adapter import CVRModelAdapter
     from cvr.pipeline import CVRPipeline
@@ -107,7 +152,6 @@ def run_sanity(model_filter, device, limit=5):
 
     config = load_yaml_config("cvr/config.yaml")
     config["generation"]["num_chains"] = 2
-    # Full-solution generation needs more tokens than per-step budget.
     config["generation"].setdefault(
         "max_new_tokens_full_solution",
         config["generation"]["max_new_tokens_per_step"] * config["generation"]["max_steps"],
@@ -118,9 +162,10 @@ def run_sanity(model_filter, device, limit=5):
         print("No matching models found.")
         return
 
-    problems_path = Path("Experiment2/data/problems_depth02.json")
-    with open(problems_path) as f:
-        problems = json.load(f)[:limit]
+    problems = _load_sanity_problems()
+    if limit:
+        problems = problems[:limit]
+    print(f"  Sanity problems: {[p['label'] for p in problems]}")
 
     from models import get_model_wrapper
     for cfg in models:
@@ -139,13 +184,19 @@ def run_sanity(model_filter, device, limit=5):
 
             debug_adapter = _DebugAdapter(base_adapter, debug_log, problem_idx=i + 1)
 
-            # If cloud verifier is configured, wrap it too so calls appear in the log.
+            # Wrap whichever verifier is active so its calls appear in the log.
+            hf_cfg = config.get("verifier_local_hf", {})
             cloud_cfg = config.get("verifier_cloud", {})
-            if cloud_cfg.get("enabled", False):
+            if hf_cfg.get("enabled", False):
+                from cvr.hf_verifier import build_hf_verifier
+                hf_adapter = build_hf_verifier(hf_cfg)
+                debug_ver = _DebugAdapter(hf_adapter, debug_log, problem_idx=i + 1)
+                pipeline = CVRPipeline(debug_adapter, config, verifier_adapter=debug_ver)
+            elif cloud_cfg.get("enabled", False):
                 from cvr.cloud_verifier import build_cloud_verifier
                 cloud_adapter = build_cloud_verifier(cloud_cfg)
-                debug_cloud = _DebugAdapter(cloud_adapter, debug_log, problem_idx=i + 1)
-                pipeline = CVRPipeline(debug_adapter, config, verifier_adapter=debug_cloud)
+                debug_ver = _DebugAdapter(cloud_adapter, debug_log, problem_idx=i + 1)
+                pipeline = CVRPipeline(debug_adapter, config, verifier_adapter=debug_ver)
             else:
                 pipeline = CVRPipeline(debug_adapter, config)
             result = pipeline.solve(prob["question"])
@@ -190,7 +241,25 @@ def main():
     parser.add_argument("--config", default="cvr/config.yaml", help="Path to CVR config YAML")
     parser.add_argument("--depths", default=None, help="Comma-separated depths for Exp2, e.g. 1,2,3,4")
     parser.add_argument("--ablation-model", default="qwen25_math_1.5b", help="Model to use for ablation (Exp3)")
+    parser.add_argument(
+        "--pull-verifier",
+        metavar="MODEL_ID",
+        nargs="?",
+        const="meta-llama/Meta-Llama-3.1-8B-Instruct",
+        default=None,
+        help=(
+            "Download a verifier model from HuggingFace Hub and exit. "
+            "Defaults to meta-llama/Meta-Llama-3.1-8B-Instruct if no MODEL_ID given. "
+            "Requires HF_TOKEN env var for gated models."
+        ),
+    )
     args = parser.parse_args()
+
+    # Handle --pull-verifier before anything else.
+    if args.pull_verifier:
+        from cvr.hf_verifier import pull_model
+        pull_model(args.pull_verifier)
+        return
 
     try:
         model_filter = _model_filter(args.model)
@@ -208,7 +277,7 @@ def main():
     if exp in ("sanity", "all"):
         print("\n" + "="*60)
         print("SANITY TEST")
-        run_sanity(model_filter, args.device, limit=args.limit or 5)
+        run_sanity(model_filter, args.device, limit=args.limit)
 
     if exp in ("1", "all"):
         print("\n" + "="*60)

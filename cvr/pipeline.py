@@ -62,13 +62,21 @@ class CVRPipeline:
             max_new_tokens=full_solution_tokens,
         )
 
-        # Verifier: caller-supplied adapter takes priority (sanity/debug mode),
-        # then cloud verifier if configured, then the local generation adapter.
+        # Verifier priority:
+        #   1. caller-supplied (sanity/debug mode wraps it in _DebugAdapter)
+        #   2. local HuggingFace model (verifier_local_hf.enabled)
+        #   3. cloud Ollama model  (verifier_cloud.enabled)
+        #   4. same local SLM as generator (fallback)
         if verifier_adapter is not None:
             _verifier_adapter = verifier_adapter
         else:
+            hf_cfg = config.get("verifier_local_hf", {})
             cloud_cfg = config.get("verifier_cloud", {})
-            if cloud_cfg.get("enabled", False):
+            if hf_cfg.get("enabled", False):
+                from cvr.hf_verifier import build_hf_verifier
+                _verifier_adapter = build_hf_verifier(hf_cfg)
+                print(f"  [CVR] Using local HF verifier: {_verifier_adapter.model_key}")
+            elif cloud_cfg.get("enabled", False):
                 from cvr.cloud_verifier import build_cloud_verifier
                 _verifier_adapter = build_cloud_verifier(cloud_cfg)
                 print(f"  [CVR] Using cloud verifier: {_verifier_adapter.model_key}")
