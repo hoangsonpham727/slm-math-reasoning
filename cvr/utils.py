@@ -171,6 +171,7 @@ __all__ = [
     "answers_match",
     "parse_answer",
     "parse_step_text",
+    "parse_all_steps",
     "format_steps_as_text",
     "parse_binary_vote",
     "is_final_step",
@@ -272,6 +273,29 @@ def parse_binary_vote(raw_output: str) -> bool:
     last_correct = correct_matches[-1].start() if correct_matches else -1
     last_wrong = wrong_matches[-1].start() if wrong_matches else -1
     return last_correct > last_wrong
+
+
+def parse_all_steps(raw_output: str) -> list[dict]:
+    """
+    Parse a complete model solution into a list of step dicts.
+
+    Finds all 'Step N:' headers (including markdown bold variants) and splits
+    the output at those boundaries. Returns [{"index": N, "text": "..."}, ...].
+    If no step headers are found, returns the entire output as step 1.
+    """
+    raw_output = raw_output.strip()
+    matches = list(_STEP_HEADER.finditer(raw_output))
+    if not matches:
+        return [{"index": 1, "text": raw_output}]
+
+    steps = []
+    for i, match in enumerate(matches):
+        step_num = int(match.group(1))
+        content_start = match.end()
+        content_end = matches[i + 1].start() if i + 1 < len(matches) else len(raw_output)
+        text = raw_output[content_start:content_end].strip()
+        steps.append({"index": step_num, "text": text})
+    return steps
 
 
 def is_final_step(step_text: str) -> bool:

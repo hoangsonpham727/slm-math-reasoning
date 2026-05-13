@@ -13,15 +13,15 @@ Template variables use Python str.format() — {question}, {prior_steps}, etc.
 
 STEPWISE_GENERATION_SYSTEM = (
     "You are a precise math assistant. "
-    "Write ONLY the single next calculation step as one or two plain sentences. "
-    "Rules: no bullet points, no numbered lists, no markdown, no step headers, "
-    "no preamble, no plan. Just the arithmetic for this one step and its result."
+    "Solve math problems step by step. "
+    "Label every step exactly as 'Step 1:', 'Step 2:', etc. "
+    "Show the arithmetic calculation on each step explicitly."
 )
 
 STEPWISE_GENERATION_USER = """\
 Problem: {question}
 
-{prior_steps_block}Perform the next single calculation (one step only, no lists, no headers):\
+Solve completely. Label each step as 'Step 1:', 'Step 2:', etc. Show the arithmetic on every step.\
 """
 
 # Used when there are no prior steps yet.
@@ -73,32 +73,31 @@ Does this step use only information that is necessary and directly relevant to s
 # ---------------------------------------------------------------------------
 
 RESTART_CONSISTENCY_SYSTEM = (
-    "You are a precise math assistant. A previous attempt at the next step contained "
-    "an arithmetic error. Solve problems one step at a time. "
-    "Double-check every calculation before writing your answer. "
-    "Write ONLY the next single step."
+    "You are a precise math assistant. A previous attempt at a step contained "
+    "an arithmetic error. Double-check every calculation before writing. "
+    "Label each step exactly as 'Step N:' and show all arithmetic explicitly."
 )
 
 RESTART_CONSISTENCY_USER = """\
 Problem: {question}
 
-{prior_steps_block}The previous attempt at Step {step_number} had an arithmetic error. Try again carefully.
-Write ONLY Step {step_number}:\
+{prior_steps_block}The previous attempt at Step {step_number} had an arithmetic error. Continue carefully from Step {step_number}, double-checking every calculation.
+Label each step as 'Step {step_number}:', 'Step {step_number_plus1}:', etc.\
 """
 
 RESTART_RELEVANCE_SYSTEM = (
-    "You are a precise math assistant. A previous attempt at the next step used "
+    "You are a precise math assistant. A previous attempt at a step used "
     "information that is NOT needed to solve the problem. "
-    "IMPORTANT: Use ONLY the numbers and facts that are directly required. "
+    "Use ONLY the numbers and facts that are directly required. "
     "Ignore any extra or irrelevant information in the problem statement. "
-    "Write ONLY the next single step."
+    "Label each step exactly as 'Step N:' and show all arithmetic explicitly."
 )
 
 RESTART_RELEVANCE_USER = """\
 Problem: {question}
 
-{prior_steps_block}The previous attempt at Step {step_number} used irrelevant information. Try again, ignoring unnecessary details.
-Write ONLY Step {step_number}:\
+{prior_steps_block}The previous attempt at Step {step_number} used irrelevant information. Continue from Step {step_number}, using only information directly needed.
+Label each step as 'Step {step_number}:', 'Step {step_number_plus1}:', etc.\
 """
 
 # ---------------------------------------------------------------------------

@@ -107,6 +107,11 @@ def run_sanity(model_filter, device, limit=5):
 
     config = load_yaml_config("cvr/config.yaml")
     config["generation"]["num_chains"] = 2
+    # Full-solution generation needs more tokens than per-step budget.
+    config["generation"].setdefault(
+        "max_new_tokens_full_solution",
+        config["generation"]["max_new_tokens_per_step"] * config["generation"]["max_steps"],
+    )
 
     models = MODEL_CONFIGS if not model_filter else [c for c in MODEL_CONFIGS if c.short_name in model_filter]
     if not models:
@@ -133,7 +138,16 @@ def run_sanity(model_filter, device, limit=5):
             print(f"  GT: {prob['ground_truth']}")
 
             debug_adapter = _DebugAdapter(base_adapter, debug_log, problem_idx=i + 1)
-            pipeline = CVRPipeline(debug_adapter, config)
+
+            # If cloud verifier is configured, wrap it too so calls appear in the log.
+            cloud_cfg = config.get("verifier_cloud", {})
+            if cloud_cfg.get("enabled", False):
+                from cvr.cloud_verifier import build_cloud_verifier
+                cloud_adapter = build_cloud_verifier(cloud_cfg)
+                debug_cloud = _DebugAdapter(cloud_adapter, debug_log, problem_idx=i + 1)
+                pipeline = CVRPipeline(debug_adapter, config, verifier_adapter=debug_cloud)
+            else:
+                pipeline = CVRPipeline(debug_adapter, config)
             result = pipeline.solve(prob["question"])
 
             gt = float(prob["ground_truth"])

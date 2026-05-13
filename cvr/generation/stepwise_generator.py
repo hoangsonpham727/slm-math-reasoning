@@ -1,9 +1,14 @@
 """
-StepwiseGenerator — generates one reasoning step at a time.
+SolutionGenerator — generates a complete solution then parses it into steps.
 
-At each call, the generator receives the verified prior steps and produces
-only the next step. If the model generates multiple steps, everything after
-the next step header is discarded.
+Small math-trained SLMs (Qwen2.5-Math, Phi-4, Gemma4) are trained to produce
+full solutions, not single steps. Asking for "one step only" causes the model to
+ignore the instruction. The correct approach is to let the model generate its full
+chain-of-thought and then parse the output into individual Step N: blocks for
+per-step verification.
+
+On restart, the generator receives verified steps as context and generates the
+remaining steps (from the failed step number onwards).
 """
 
 from __future__ import annotations
@@ -14,47 +19,37 @@ from cvr.prompts import (
     STEPWISE_GENERATION_USER,
     format_prior_steps_block,
 )
-from cvr.utils import parse_step_text
+from cvr.utils import parse_all_steps
 
 
 class StepwiseGenerator:
     """
-    Generates one reasoning step conditioned on verified prior steps.
+    Generates a complete solution and returns a parsed list of step dicts.
 
     Args:
         adapter: CVRModelAdapter wrapping a loaded model
         temperature: sampling temperature for generation (default: 0.7)
-        max_new_tokens: token budget per step (default: 256)
+        max_new_tokens: token budget for the full solution (default: 1024)
     """
 
     def __init__(
         self,
         adapter: CVRModelAdapter,
         temperature: float = 0.7,
-        max_new_tokens: int = 256,
+        max_new_tokens: int = 1024,
     ):
         self.adapter = adapter
         self.temperature = temperature
         self.max_new_tokens = max_new_tokens
 
-    def generate_step(
-        self,
-        question: str,
-        verified_steps: list[dict],
-        step_number: int,
-    ) -> dict:
+    def generate_all_steps(self, question: str) -> list[dict]:
         """
-        Generate step `step_number` given the verified prior steps.
+        Generate a full solution to the problem and parse it into step dicts.
 
         Returns:
-            dict with 'index' (int) and 'text' (str) keys
+            list of {"index": int, "text": str} dicts
         """
-        prior_block = format_prior_steps_block(verified_steps)
-        user_prompt = STEPWISE_GENERATION_USER.format(
-            question=question,
-            prior_steps_block=prior_block,
-            step_number=step_number,
-        )
+        user_prompt = STEPWISE_GENERATION_USER.format(question=question)
 
         raw_output = self.adapter.generate_sampled(
             system_prompt=STEPWISE_GENERATION_SYSTEM,
@@ -63,9 +58,4 @@ class StepwiseGenerator:
             temperature=self.temperature,
         )
 
-        step_text = parse_step_text(raw_output, step_number)
-
-        return {
-            "index": step_number,
-            "text": step_text,
-        }
+        return parse_all_steps(raw_output)

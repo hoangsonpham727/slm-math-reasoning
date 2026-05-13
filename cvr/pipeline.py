@@ -3,7 +3,12 @@ CVRPipeline — end-to-end Checkpoint Verification and Restart pipeline.
 
 For a single math problem:
   1. Run N independent reasoning chains
-  2. Each chain: stepwise generate → NCV verify → restart from checkpoint on failure
+  2. Each chain:
+     a. Generate complete solution (let the model do what it's trained for)
+     b. Parse output into individual Step N: blocks
+     c. Verify each step sequentially with NCV binary checks
+     d. On failure: restart from the last verified checkpoint, generating a
+        continuation (step k onward), parse + re-verify step k
   3. Majority vote over chains' final answers
 
 The pipeline is stateless between problems and can be reused across a dataset.
@@ -30,9 +35,11 @@ class CVRPipeline:
     Args:
         adapter: CVRModelAdapter wrapping a loaded BaseModelWrapper
         config: dict loaded from cvr/config.yaml (via load_yaml_config)
+        verifier_adapter: optional pre-built adapter for the verifier (used in
+            debug/sanity mode to intercept cloud verifier calls)
     """
 
-    def __init__(self, adapter: CVRModelAdapter, config: dict):
+    def __init__(self, adapter: CVRModelAdapter, config: dict, verifier_adapter=None):
         self.adapter = adapter
         self.config = config
 
@@ -43,28 +50,44 @@ class CVRPipeline:
         self.num_chains = gen_cfg["num_chains"]
         self.max_steps = gen_cfg["max_steps"]
 
+        # Use higher token budget: model generates the full solution, not one step.
+        full_solution_tokens = gen_cfg.get(
+            "max_new_tokens_full_solution",
+            gen_cfg["max_new_tokens_per_step"] * self.max_steps,
+        )
+
         self.generator = StepwiseGenerator(
             adapter,
             temperature=gen_cfg["temperature"],
-            max_new_tokens=gen_cfg["max_new_tokens_per_step"],
+            max_new_tokens=full_solution_tokens,
         )
 
-        # Use cloud verifier if configured, otherwise fall back to the local adapter.
-        cloud_cfg = config.get("verifier_cloud", {})
-        if cloud_cfg.get("enabled", False):
-            from cvr.cloud_verifier import build_cloud_verifier
-            verifier_adapter = build_cloud_verifier(cloud_cfg)
-            print(f"  [CVR] Using cloud verifier: {verifier_adapter.model_key}")
+        # Verifier: caller-supplied adapter takes priority (sanity/debug mode),
+        # then cloud verifier if configured, then the local generation adapter.
+        if verifier_adapter is not None:
+            _verifier_adapter = verifier_adapter
         else:
-            verifier_adapter = adapter
+            cloud_cfg = config.get("verifier_cloud", {})
+            if cloud_cfg.get("enabled", False):
+                from cvr.cloud_verifier import build_cloud_verifier
+                _verifier_adapter = build_cloud_verifier(cloud_cfg)
+                print(f"  [CVR] Using cloud verifier: {_verifier_adapter.model_key}")
+            else:
+                _verifier_adapter = adapter
 
         self.verifier = NodeVerifier(
-            verifier_adapter,
+            _verifier_adapter,
             consistency_votes=ver_cfg["consistency_votes"],
             relevance_votes=ver_cfg["relevance_votes"],
             verification_temperature=ver_cfg["verification_temperature"],
             max_output_tokens=ver_cfg["max_output_tokens"],
             enable_relevance=ver_cfg["enable_relevance"],
+        )
+
+        # Restart uses same token budget as full solution (continuation = remaining steps).
+        restart_tokens = gen_cfg.get(
+            "max_new_tokens_full_solution",
+            gen_cfg["max_new_tokens_per_step"] * self.max_steps,
         )
         self.restarter = CheckpointRestarter(
             adapter,
@@ -72,6 +95,7 @@ class CVRPipeline:
             base_temperature=gen_cfg["temperature"],
             temperature_increment=rst_cfg["temperature_increment"],
         )
+        self._restart_tokens = restart_tokens
 
     def solve(self, question: str) -> dict:
         """
@@ -102,62 +126,78 @@ class CVRPipeline:
         return {**vote_result, "chains": chains, "elapsed_s": elapsed}
 
     def _solve_single_chain(self, question: str, chain_idx: int) -> dict:
-        """Generate and verify one reasoning chain. Returns a chain result dict."""
+        """
+        Generate and verify one reasoning chain.
+
+        Strategy:
+          - Generate the full solution once (model outputs its natural format).
+          - Parse into Step N: blocks.
+          - Verify each block; on failure restart from the last verified checkpoint,
+            generating a continuation that replaces the failed step onward.
+        """
         verified_steps: list[dict] = []
         total_restarts = 0
         consistency_failures = 0
         relevance_failures = 0
 
-        for step_idx in range(self.max_steps):
-            step_number = step_idx + 1
+        # Generate complete solution upfront; parse into step list.
+        pending_steps = self.generator.generate_all_steps(question)
 
-            # Generate next step
-            current_step = self.generator.generate_step(
-                question, verified_steps, step_number
-            )
+        step_pos = 0
+        while step_pos < len(pending_steps) and len(verified_steps) < self.max_steps:
+            current_step = pending_steps[step_pos]
 
-            final = is_final_step(current_step["text"])
-
-            # Verify the step
+            # Verify the step.
             vresult = self.verifier.verify_step(question, verified_steps, current_step)
 
             if vresult["passed"]:
                 current_step["verification"] = vresult
                 verified_steps.append(current_step)
-                if final:
+                if is_final_step(current_step["text"]):
                     break
+                step_pos += 1
+
             else:
-                # Track failure type before restart loop
+                # Track failure type.
                 if vresult["failure_type"] == "relevance":
                     relevance_failures += 1
                 else:
                     consistency_failures += 1
 
-                # Restart loop
+                step_number = current_step["index"]
                 restarted = False
+
                 for attempt in range(self.restarter.max_restarts):
                     total_restarts += 1
-                    new_step = self.restarter.restart(
+                    new_steps = self.restarter.restart_and_continue(
                         question,
                         verified_steps,
                         step_number,
                         vresult["failure_type"],
                         attempt,
-                        max_new_tokens=self.config["generation"]["max_new_tokens_per_step"],
+                        max_new_tokens=self._restart_tokens,
                     )
+                    if not new_steps:
+                        continue
+
+                    # Verify only the first new step; if it passes, accept the
+                    # continuation and replace the pending queue.
+                    first_new = new_steps[0]
                     new_vresult = self.verifier.verify_step(
-                        question, verified_steps, new_step
+                        question, verified_steps, first_new
                     )
                     if new_vresult["passed"]:
-                        new_step["verification"] = new_vresult
-                        verified_steps.append(new_step)
+                        first_new["verification"] = new_vresult
+                        verified_steps.append(first_new)
+                        # Replace remaining queue with the model-generated continuation.
+                        pending_steps = new_steps[1:]
+                        step_pos = 0
                         restarted = True
-                        if is_final_step(new_step["text"]):
-                            final = True
+                        if is_final_step(first_new["text"]):
+                            pending_steps = []
                         break
 
                 if not restarted:
-                    # All restarts exhausted — chain fails
                     return {
                         "success": False,
                         "steps": verified_steps,
@@ -168,11 +208,12 @@ class CVRPipeline:
                         "relevance_failures": relevance_failures,
                     }
 
-                if final:
+                if not pending_steps:
                     break
 
-        # Extract final answer from the full verified chain
-        full_solution = "\n".join(s["text"] for s in verified_steps)
+        full_solution = "\n".join(
+            f"Step {s['index']}: {s['text']}" for s in verified_steps
+        )
         answer = extract_model_final(full_solution)
 
         return {
