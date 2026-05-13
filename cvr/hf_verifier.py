@@ -100,11 +100,17 @@ class LocalHFVerifierAdapter:
         # apply_chat_template(tokenize=False) always returns a plain string.
         # Tokenizing separately guarantees we get a plain tensor, avoiding the
         # BatchEncoding vs. tensor ambiguity across different tokenizer versions.
-        prompt_text = self._tokenizer.apply_chat_template(
-            messages,
-            add_generation_prompt=True,
-            tokenize=False,
-        )
+        #
+        # enable_thinking=False suppresses the <think>...</think> block on Qwen3
+        # models. Older tokenizers don't accept this kwarg, so we fall back silently.
+        template_kwargs: dict = {"add_generation_prompt": True, "tokenize": False}
+        try:
+            prompt_text = self._tokenizer.apply_chat_template(
+                messages, **template_kwargs, enable_thinking=False
+            )
+        except TypeError:
+            prompt_text = self._tokenizer.apply_chat_template(messages, **template_kwargs)
+
         device = next(self._model.parameters()).device
         input_ids = self._tokenizer(
             prompt_text, return_tensors="pt"
