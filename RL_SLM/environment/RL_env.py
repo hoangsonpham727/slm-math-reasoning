@@ -9,7 +9,7 @@ import json
 import os
 
 class RLEnv():
-    def __init__(self,dataset,is_test,LLM_name,problem_indexs,max_depth,max_width,random_problems,random_seed,eval_config=None,data_dir=None):
+    def __init__(self,dataset,is_test,LLM_name,problem_indexs,max_depth,max_width,random_problems,random_seed,eval_config=None,data_dir=None,train_depths=None):
         super(RLEnv, self).__init__()
         self.action_space = {0:"R", 1:"D", 2:"Db", 3:"Rf", 4:"Ga"}
         self.observation_space = {0:"A1", 1:"A2", 2:"A3", 3:"B1", 4: "B2", 5: "C1", 6:"C2"}
@@ -119,6 +119,13 @@ class RLEnv():
                     f"No training depth files found in {train_dir}. "
                     "Run RL_SLM/data_prep/generate_exp2_train.py first."
                 )
+            if train_depths is not None:
+                allowed = {f"problems_depth{d:02d}.json" for d in train_depths}
+                files = [f for f in files if os.path.basename(f) in allowed]
+                if not files:
+                    raise ValueError(
+                        f"--train_depths {train_depths} matched no files in {train_dir}."
+                    )
             self.ds = []
             for f in files:
                 self.ds.extend(json.load(open(f)))

@@ -69,6 +69,10 @@ def parse_args():
                    help="Repo root for EXP1/EXP2 data; auto-detected if omitted")
     p.add_argument("--max_depth",     type=int, default=5)
     p.add_argument("--max_width",     type=int, default=5)
+    p.add_argument("--train_depths",  type=int, nargs="+", default=None,
+                   metavar="DEPTH",
+                   help="Restrict TRAIN_EXP2 to specific depths (e.g. --train_depths 7 8). "
+                        "Defaults to all depths (1–8).")
 
     # State evaluator
     p.add_argument("--eval_type",     default="ollama",
@@ -146,6 +150,7 @@ def train_one_model(model_name: str, args) -> None:
         random_seed    = args.seed,
         eval_config    = eval_config,
         data_dir       = args.data_dir,
+        train_depths   = args.train_depths,
     )
 
     rm_kwargs = {}
