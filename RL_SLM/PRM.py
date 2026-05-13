@@ -7,7 +7,8 @@ from tqdm import tqdm
 
 class PRM():
     def __init__(self, PRM_name, device, max_length=4096):
-        self.model_dir = os.path.join('PRM',PRM_name)
+        _local = os.path.join('PRM', PRM_name)
+        self.model_dir = _local if os.path.isdir(_local) else PRM_name
         self.max_length = max_length
         self.device = device
         self.model = AutoModelForCausalLM.from_pretrained(self.model_dir).to(self.device)
@@ -48,15 +49,18 @@ class PRM():
 # Reward model factory
 # ---------------------------------------------------------------------------
 
+_MATH_SHEPHERD_DEFAULT = "peiyi9979/math-shepherd-mistral-7b-prm"
+
 def get_reward_model(reward_type: str, **kwargs):
     """
     Return a reward model selected by name.
 
     reward_type choices
     -------------------
-    "prm"           Original Math-Shepherd PRM (requires PRM_name and device).
-    "ccqa"          CCQA cycle-consistency via frozen Flan-T5-base.
-    "programmatic"  Arithmetic step verifier; no extra kwargs needed.
+    "prm"            Generic PRM checkpoint (requires PRM_name and device).
+    "math_shepherd"  Convenience alias for peiyi9979/math-shepherd-mistral-7b-prm.
+                     Accepts an optional PRM_name kwarg to override the default.
+    "programmatic"   Arithmetic step verifier; no extra kwargs needed.
 
     All returned objects expose the same adapter interface:
       covert_to_input(problem, thoughts) -> prm_input
@@ -64,15 +68,15 @@ def get_reward_model(reward_type: str, **kwargs):
     """
     if reward_type == "prm":
         return PRM(**kwargs)
-    if reward_type == "ccqa":
-        from reward_ccqa import CCQAReward
-        return CCQAReward(**kwargs)
+    if reward_type == "math_shepherd":
+        kwargs.setdefault("PRM_name", _MATH_SHEPHERD_DEFAULT)
+        return PRM(**kwargs)
     if reward_type == "programmatic":
         from reward_programmatic import ProgrammaticReward
         return ProgrammaticReward()
     raise ValueError(
         f"Unknown reward_type '{reward_type}'. "
-        "Choose from: prm, ccqa, programmatic"
+        "Choose from: prm, math_shepherd, programmatic"
     )
 
 

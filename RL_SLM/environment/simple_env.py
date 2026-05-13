@@ -623,37 +623,37 @@ Use the format \'The most promising plan is Plan[INDEX]: [REASON]\', where [INDE
             return state
         # thought to state
         template = '''
-Please evaluate the current reasoning step from the following aspects.
-Two failure modes are of special interest: (1) noise sensitivity — being distracted
-by irrelevant information injected into the problem; (2) depth collapse — skipping
-or conflating chained intermediate arithmetic steps.
+        Please evaluate the current reasoning step from the following aspects.
+        Two failure modes are of special interest: (1) noise sensitivity — being distracted
+        by irrelevant information injected into the problem; (2) depth collapse — skipping
+        or conflating chained intermediate arithmetic steps.
 
-A) Correctness
-    A1: Distractor immunity:
-    Whether the current step correctly ignores irrelevant or distracting facts and
-    reasons only from information that is necessary to solve the problem.
-    A2: Clarity for further reasoning:
-    Whether the current step is clearly presented, without ambiguity, to support
-    further multi-step reasoning.
-    A3: Correctness of calculation:
-    Whether every numerical computation performed in the current step is correct.
-B) Complexity
-    B1: Remaining reasoning depth:
-    Whether significant chained multi-step arithmetic or reasoning is still required
-    to reach the final answer from the current step.
-    B2: Alternative methods in further reasoning:
-    Whether multiple alternative solution paths exist from the current step onward.
-C) Completeness
-    C1: Closeness to the final solution:
-    Whether the current step is close enough to directly yield the final answer.
-    C2: Completeness within the step:
-    Whether all elements needed for this step are correctly derived from the problem
-    or prior steps, with no intermediate steps collapsed or skipped.
-For each aspect, score 1 for False, 2 for Unsure, 3 for True, and 0 if the current
-step does not involve this aspect. Attach a brief reason for each score.
-Use the format 'A1 score=[SCORE] reason=[REASON]'.
-Only score the current reasoning step here, and DONOT conduct further reasonings.
-'''
+        A) Correctness
+            A1: Distractor immunity:
+            Whether the current step correctly ignores irrelevant or distracting facts and
+            reasons only from information that is necessary to solve the problem.
+            A2: Clarity for further reasoning:
+            Whether the current step is clearly presented, without ambiguity, to support
+            further multi-step reasoning.
+            A3: Correctness of calculation:
+            Whether every numerical computation performed in the current step is correct.
+        B) Complexity
+            B1: Remaining reasoning depth:
+            Whether significant chained multi-step arithmetic or reasoning is still required
+            to reach the final answer from the current step.
+            B2: Alternative methods in further reasoning:
+            Whether multiple alternative solution paths exist from the current step onward.
+        C) Completeness
+            C1: Closeness to the final solution:
+            Whether the current step is close enough to directly yield the final answer.
+            C2: Completeness within the step:
+            Whether all elements needed for this step are correctly derived from the problem
+            or prior steps, with no intermediate steps collapsed or skipped.
+        For each aspect, score 1 for False, 2 for Unsure, 3 for True, and 0 if the current
+        step does not involve this aspect. Attach a brief reason for each score.
+        Use the format 'A1 score=[SCORE] reason=[REASON]'.
+        Only score the current reasoning step here, and DONOT conduct further reasonings.
+        '''
         if thought_id is None:
             thought_id = self.current_tid
 

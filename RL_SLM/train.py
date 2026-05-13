@@ -2,20 +2,31 @@
 RL-of-Thoughts training entry point for SLM Math Reasoning.
 
 Wires together:
-  - RLEnv (dataset + ENV reasoning loop with Ollama evaluator for state)
+  - RLEnv (dataset + ENV reasoning loop with configurable state evaluator)
   - Dueling DQN (policy + target networks)
   - ExperienceReplay buffer
-  - Reward model selected via --reward_type {prm,ccqa,programmatic}
+  - Reward model selected via --reward_type {prm,math_shepherd,programmatic}
+  - State evaluator selected via --eval_type {ollama,self}
 
 The reward model swap is handled entirely via PRM.get_reward_model();
 the DQN training loop itself is not reward-model-aware.
 
 Usage:
+    # GPT-OSS-120B evaluator + programmatic reward (original):
     python train.py \\
         --dataset TRAIN_EXP2 \\
         --models qwen25_math_1.5b gemma4_e2b phi4_mini \\
         --reward_type programmatic \\
+        --eval_type ollama \\
         --eval_model gpt-oss:120b \\
+        --n_episodes 500
+
+    # Self-evaluation + Math-Shepherd PRM (no Ollama needed):
+    python train.py \\
+        --dataset TRAIN_EXP2 \\
+        --models qwen25_math_1.5b \\
+        --reward_type math_shepherd \\
+        --eval_type self \\
         --n_episodes 500
 """
 import argparse
@@ -59,8 +70,13 @@ def parse_args():
     p.add_argument("--max_depth",     type=int, default=5)
     p.add_argument("--max_width",     type=int, default=5)
 
-    # Ollama evaluator (state scoring)
-    p.add_argument("--eval_model",    default="gpt-oss:120b")
+    # State evaluator
+    p.add_argument("--eval_type",     default="ollama",
+                   choices=["ollama", "self"],
+                   help="State evaluator: 'ollama' uses an external model via Ollama "
+                        "(default); 'self' uses the reasoning SLM itself (no Ollama needed).")
+    p.add_argument("--eval_model",    default="gpt-oss:120b",
+                   help="Ollama model name for state scoring (only used with --eval_type ollama).")
     p.add_argument("--eval_base_url", default=None,
                    help="Ollama base URL; reads OLLAMA_URL env var if omitted")
     p.add_argument("--eval_api_key",  default=None,
@@ -68,10 +84,13 @@ def parse_args():
 
     # Reward model
     p.add_argument("--reward_type",   default="programmatic",
-                   choices=["prm", "ccqa", "programmatic"],
-                   help="Reward model: original PRM, CCQA, or arithmetic verifier")
+                   choices=["prm", "math_shepherd", "programmatic"],
+                   help="Reward model: generic PRM checkpoint, Math-Shepherd PRM, "
+                        "or arithmetic verifier")
     p.add_argument("--prm_name",      default=None,
-                   help="PRM checkpoint name (required when --reward_type prm)")
+                   help="HF Hub ID or local dirname under PRM/ for the PRM checkpoint. "
+                        "Required for --reward_type prm; overrides default for "
+                        "--reward_type math_shepherd.")
 
     # DQN hyper-parameters
     p.add_argument("--n_episodes",    type=int,   default=500)
@@ -99,28 +118,22 @@ def parse_args():
 
 # ── Per-model training ────────────────────────────────────────────────────────
 
-def main():
-    os.environ["HF_HOME"] = "/mnt/data/hf"
-    os.environ["TRANSFORMERS_CACHE"] = "/mnt/data/hf/transformers"
-    os.environ["HUGGINGFACE_HUB_CACHE"] = "/mnt/data/hf/hub"
-    os.environ["TMPDIR"] = "/mnt/data/tmp"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"   # use first GPU only
-    args = parse_args()
-    torch.manual_seed(args.seed)
-    np.random.seed(args.seed)
-    os.makedirs(args.save_dir, exist_ok=True)
+def train_one_model(model_name: str, args) -> None:
+    if args.eval_type == "ollama":
+        eval_config = {
+            "model_name": args.eval_model,
+            "base_url":   args.eval_base_url,
+            "api_key":    args.eval_api_key,
+        }
+    else:  # "self"
+        eval_config = None
 
-    eval_config = {
-        "model_name": args.eval_model,
-        "base_url":   args.eval_base_url,
-        "api_key":    args.eval_api_key,
-    }
-
+    _eval_label = args.eval_model if args.eval_type == "ollama" else f"{model_name} (self-eval)"
     print(f"[train] Dataset:     {args.dataset}")
     print(f"[train] Reasoning:   {model_name}")
-    print(f"[train] Evaluator:   {args.eval_model}")
+    print(f"[train] Evaluator:   {_eval_label}  [--eval_type {args.eval_type}]")
     print(f"[train] Reward type: {args.reward_type}")
-    print(f"[train] Checkpoints: {save_dir}")
+    print(f"[train] Checkpoints: {args.save_dir}")
 
     env = RLEnv(
         dataset        = args.dataset,
@@ -140,8 +153,11 @@ def main():
         if args.prm_name is None:
             raise ValueError("--prm_name is required when --reward_type prm")
         rm_kwargs = {"PRM_name": args.prm_name, "device": args.device}
-    elif args.reward_type == "ccqa":
+    elif args.reward_type == "math_shepherd":
         rm_kwargs = {"device": args.device}
+        if args.prm_name is not None:
+            rm_kwargs["PRM_name"] = args.prm_name
+        # If prm_name is absent, get_reward_model inserts the Hub default via setdefault.
     reward_model = get_reward_model(args.reward_type, **rm_kwargs)
 
     device = torch.device(args.device)
@@ -218,13 +234,13 @@ def main():
         pbar.set_postfix(reward=f"{episode_reward:.3f}", eps=f"{epsilon:.3f}", buf=len(buffer))
 
         if episode % args.save_every == 0:
-            ckpt = os.path.join(save_dir, f"policy_ep{episode:04d}.pt")
+            ckpt = os.path.join(args.save_dir, f"policy_ep{episode:04d}.pt")
             torch.save(policy.state_dict(), ckpt)
             pbar.write(f"[ep {episode:4d}]  reward={episode_reward:.3f}  "
                        f"eps={epsilon:.3f}  buf={len(buffer)}  saved → {ckpt}")
 
     pbar.close()
-    final = os.path.join(save_dir, "policy_final.pt")
+    final = os.path.join(args.save_dir, "policy_final.pt")
     torch.save(policy.state_dict(), final)
     print(f"[train] Final checkpoint saved → {final}")
 
@@ -239,6 +255,11 @@ def main():
 # ── Entry point ───────────────────────────────────────────────────────────────
 
 def main():
+    os.environ["HF_HOME"] = "/mnt/data/hf"
+    os.environ["TRANSFORMERS_CACHE"] = "/mnt/data/hf/transformers"
+    os.environ["HUGGINGFACE_HUB_CACHE"] = "/mnt/data/hf/hub"
+    os.environ["TMPDIR"] = "/mnt/data/tmp"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"   # use first GPU only
     args = parse_args()
     torch.manual_seed(args.seed)
     np.random.seed(args.seed)
