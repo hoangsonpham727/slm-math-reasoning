@@ -9,8 +9,17 @@ verification:
   consistency_votes: 3        # NCV@3 default
   relevance_votes: 3
   enable_relevance: true
-  max_output_tokens: 64       # small models need room to write a verdict sentence
+  max_output_tokens: 64
   verification_temperature: 0.3
+
+# Optional: use a cloud model for verification only.
+# Generation stays on the local SLM; only binary verify calls go to the cloud.
+# Remove or set enabled: false to verify with the local SLM.
+verifier_cloud:
+  enabled: true
+  host: "https://ollama.com"    # Ollama cloud endpoint
+  model: "gpt-oss:120b"         # model name as registered in Ollama
+  # api_key: read from OLLAMA_API_KEY env var (set via load_dotenv or export)
 
 restart:
   max_restarts: 2

@@ -48,8 +48,18 @@ class CVRPipeline:
             temperature=gen_cfg["temperature"],
             max_new_tokens=gen_cfg["max_new_tokens_per_step"],
         )
+
+        # Use cloud verifier if configured, otherwise fall back to the local adapter.
+        cloud_cfg = config.get("verifier_cloud", {})
+        if cloud_cfg.get("enabled", False):
+            from cvr.cloud_verifier import build_cloud_verifier
+            verifier_adapter = build_cloud_verifier(cloud_cfg)
+            print(f"  [CVR] Using cloud verifier: {verifier_adapter.model_key}")
+        else:
+            verifier_adapter = adapter
+
         self.verifier = NodeVerifier(
-            adapter,
+            verifier_adapter,
             consistency_votes=ver_cfg["consistency_votes"],
             relevance_votes=ver_cfg["relevance_votes"],
             verification_temperature=ver_cfg["verification_temperature"],

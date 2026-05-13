@@ -30,6 +30,13 @@ _repo_root = Path(__file__).resolve().parent.parent
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
 
+# Load .env so OLLAMA_API_KEY (and other secrets) are available.
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # dotenv optional; key can also be set via export OLLAMA_API_KEY=...
+
 from models import MODEL_CONFIGS
 
 
