@@ -46,7 +46,7 @@ Verified steps so far:
 Step to check:
 {step_text}
 
-Is the arithmetic in this step correct? Start your response with 'Correct' or 'Wrong'.\
+Check ONLY the arithmetic calculations shown. Do not evaluate the approach, units, or whether this step is necessary. Is the arithmetic correct? Start your response with 'Correct' or 'Wrong'.\
 """
 
 # ---------------------------------------------------------------------------

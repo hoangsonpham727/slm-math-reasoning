@@ -183,6 +183,8 @@ __all__ = [
 
 # Matches any "Step N:" header, with optional surrounding markdown bold markers.
 _STEP_HEADER = re.compile(r"\*{0,2}\s*Step\s*(\d+)\s*[:.]\*{0,2}", re.IGNORECASE)
+# Matches numbered bold markdown items like "1. **...**" that models use instead of Step N:.
+_NUMBERED_BOLD_STEP = re.compile(r"(?m)^\s*(\d+)\.\s+\*\*")
 # Matches numbered-list intro lines like "1. Do something" or "2) Do something".
 _NUMBERED_LIST_LINE = re.compile(r"^\s*\d+[.)]\s+\S")
 # Matches markdown bold/header markers at line start.
@@ -280,12 +282,24 @@ def parse_all_steps(raw_output: str) -> list[dict]:
     Parse a complete model solution into a list of step dicts.
 
     Finds all 'Step N:' headers (including markdown bold variants) and splits
-    the output at those boundaries. Returns [{"index": N, "text": "..."}, ...].
-    If no step headers are found, returns the entire output as step 1.
+    the output at those boundaries. Falls back to numbered bold markdown format
+    ("1. **...") when no Step N: headers are found. Returns the entire output
+    as step 1 only when both patterns fail.
+    Returns [{"index": N, "text": "..."}, ...].
     """
     raw_output = raw_output.strip()
     matches = list(_STEP_HEADER.finditer(raw_output))
     if not matches:
+        nb_matches = list(_NUMBERED_BOLD_STEP.finditer(raw_output))
+        if nb_matches:
+            steps = []
+            for i, m in enumerate(nb_matches):
+                step_num = int(m.group(1))
+                content_start = m.start()
+                content_end = nb_matches[i + 1].start() if i + 1 < len(nb_matches) else len(raw_output)
+                text = raw_output[content_start:content_end].strip()
+                steps.append({"index": step_num, "text": text})
+            return steps
         return [{"index": 1, "text": raw_output}]
 
     steps = []

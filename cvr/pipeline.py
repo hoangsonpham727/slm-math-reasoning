@@ -153,6 +153,19 @@ class CVRPipeline:
         # Generate complete solution upfront; parse into step list.
         pending_steps = self.generator.generate_all_steps(question)
 
+        _LARGE_BLOCK_CHARS = 300
+        if len(pending_steps) == 1 and len(pending_steps[0]["text"]) > _LARGE_BLOCK_CHARS:
+            answer = extract_model_final(pending_steps[0]["text"])
+            return {
+                "success": True,
+                "steps": pending_steps,
+                "answer": answer,
+                "chain_idx": chain_idx,
+                "total_restarts": 0,
+                "consistency_failures": 0,
+                "relevance_failures": 0,
+            }
+
         step_pos = 0
         while step_pos < len(pending_steps) and len(verified_steps) < self.max_steps:
             current_step = pending_steps[step_pos]
