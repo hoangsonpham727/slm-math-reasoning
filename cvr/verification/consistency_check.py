@@ -15,12 +15,8 @@ Design (from NCV paper arXiv:2510.02816, Section 2.3–2.4):
 from __future__ import annotations
 
 from cvr.model_adapter import CVRModelAdapter
-from cvr.prompts import (
-    CONSISTENCY_CHECK_SYSTEM,
-    CONSISTENCY_CHECK_USER,
-    format_steps_as_text,
-)
-from cvr.utils import parse_binary_vote
+from cvr.prompts import CONSISTENCY_CHECK_SYSTEM, CONSISTENCY_CHECK_USER
+from cvr.utils import format_steps_as_text, parse_binary_vote
 
 
 class ConsistencyChecker:
