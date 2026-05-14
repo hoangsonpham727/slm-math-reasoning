@@ -274,6 +274,8 @@ def parse_args():
     p.add_argument("--n_problems",     type=int, default=None,
                    help="Limit total problems evaluated (default: all)")
     p.add_argument("--no_resume",      action="store_true")
+    p.add_argument("--smoke_test",     action="store_true",
+                   help="Quick sanity check: force n_problems=2 and k=2 per model.")
     return p.parse_args()
 
 
@@ -285,6 +287,10 @@ def main():
     os.environ.setdefault("CUDA_VISIBLE_DEVICES", "0")
 
     args = parse_args()
+    if args.smoke_test:
+        args.n_problems = 2
+        args.k = 2
+        print("[smoke-test] forcing n_problems=2, k=2.", file=sys.stderr)
     Path(args.output_dir).mkdir(parents=True, exist_ok=True)
 
     all_configs = get_all_configs()
@@ -299,8 +305,9 @@ def main():
 
     problems = load_problems(args.data_path, args.n_problems)
 
+    smoke_tag = "  [SMOKE TEST]" if args.smoke_test else ""
     print(f"\n{'='*60}")
-    print(f"Experiment 4 — PoT + Execution Verification")
+    print(f"Experiment 4 — PoT + Execution Verification{smoke_tag}")
     print(f"  Started:     {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"  Models:      {[c.short_name for c in configs]}")
     print(f"  Problems:    {len(problems)} (k={args.k}, temp={args.temperature})")
