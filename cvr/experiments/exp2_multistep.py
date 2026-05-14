@@ -47,6 +47,23 @@ def load_problems(data_dir: str, depths: list[int], n_per_depth: int = 200) -> l
     return all_problems
 
 
+def _build_verifier_once(config):
+    """Build the HF or cloud verifier adapter once; returns None to fall back to the SLM."""
+    hf_cfg = config.get("verifier_local_hf", {})
+    cloud_cfg = config.get("verifier_cloud", {})
+    if hf_cfg.get("enabled", False):
+        from cvr.hf_verifier import build_hf_verifier
+        v = build_hf_verifier(hf_cfg)
+        print(f"  [CVR] Verifier loaded once: {v.model_key}")
+        return v
+    if cloud_cfg.get("enabled", False):
+        from cvr.cloud_verifier import build_cloud_verifier
+        v = build_cloud_verifier(cloud_cfg)
+        print(f"  [CVR] Verifier loaded once: {v.model_key}")
+        return v
+    return None
+
+
 def run_method_on_problems(
     method: str,
     problems: list[dict],
@@ -54,6 +71,7 @@ def run_method_on_problems(
     config: dict,
     model_name: str,
     limit: Optional[int] = None,
+    verifier_adapter=None,
 ) -> list[dict]:
     """
     Run one method on all problems. Returns list of result records (JSONL-compatible).
@@ -70,6 +88,7 @@ def run_method_on_problems(
             adapter, examples,
             num_chains=config["generation"]["num_chains"],
             temperature=config["generation"]["temperature"],
+            desc=f"{model_name}/sc",
         )
         for rec, prob in zip(records, problems):
             rec.setdefault("model", model_name)
@@ -84,9 +103,9 @@ def run_method_on_problems(
     if method == "cvr_verifyonly":
         cfg["restart"]["max_restarts"] = 0
     cfg["verification"] = dict(config["verification"])
-    cfg["verification"]["enable_relevance"] = False  # Exp2 has no distractors
+    cfg["verification"]["enable_relevance"] = True
 
-    pipeline = CVRPipeline(adapter, cfg)
+    pipeline = CVRPipeline(adapter, cfg, verifier_adapter=verifier_adapter)
 
     for prob in tqdm(problems, desc=f"{model_name}/{method}"):
         t0 = time.perf_counter()
@@ -150,7 +169,7 @@ def run_experiment2(
     if model_filter:
         configs = [c for c in configs if c.short_name in model_filter]
 
-    methods = ["sc", "cvr_verifyonly", "cvr_full"]
+    methods = ["cvr_full"]
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
 
@@ -166,11 +185,13 @@ def run_experiment2(
         wrapper = get_model_wrapper(cfg, device=device)
         wrapper.load()
         adapter = CVRModelAdapter(wrapper)
+        verifier_adapter = _build_verifier_once(config)
 
         for method in methods:
             print(f"\n  Method: {method}")
             records = run_method_on_problems(
-                method, problems, adapter, config, cfg.short_name, limit
+                method, problems, adapter, config, cfg.short_name, limit,
+                verifier_adapter=verifier_adapter,
             )
             # Save JSONL
             out_file = output_path / f"{cfg.short_name}_{method}.jsonl"

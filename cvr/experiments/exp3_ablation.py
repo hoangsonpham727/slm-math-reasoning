@@ -47,15 +47,33 @@ def load_ablation_problems(data_dir: str, depths: list[int] = None, n_per_depth:
     return problems
 
 
+def _build_verifier_once(config):
+    """Build the HF or cloud verifier adapter once; returns None to fall back to the SLM."""
+    hf_cfg = config.get("verifier_local_hf", {})
+    cloud_cfg = config.get("verifier_cloud", {})
+    if hf_cfg.get("enabled", False):
+        from cvr.hf_verifier import build_hf_verifier
+        v = build_hf_verifier(hf_cfg)
+        print(f"  [CVR] Verifier loaded once: {v.model_key}")
+        return v
+    if cloud_cfg.get("enabled", False):
+        from cvr.cloud_verifier import build_cloud_verifier
+        v = build_cloud_verifier(cloud_cfg)
+        print(f"  [CVR] Verifier loaded once: {v.model_key}")
+        return v
+    return None
+
+
 def run_ablation_config(
     problems: list[dict],
     adapter: CVRModelAdapter,
     config: dict,
+    verifier_adapter=None,
 ) -> dict:
     """Run CVR with given config on all problems. Returns accuracy metrics."""
-    pipeline = CVRPipeline(adapter, config)
+    pipeline = CVRPipeline(adapter, config, verifier_adapter=verifier_adapter)
     records = []
-    for prob in problems:
+    for prob in tqdm(problems, desc="ablation", leave=False):
         result = pipeline.solve(prob["question"])
         gt = float(prob["ground_truth"])
         pred_str = result.get("answer")
@@ -98,6 +116,7 @@ def run_experiment3(
     wrapper = get_model_wrapper(model_cfg, device=device)
     wrapper.load()
     adapter = CVRModelAdapter(wrapper)
+    verifier_adapter = _build_verifier_once(base_config)
 
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
@@ -111,7 +130,7 @@ def run_experiment3(
 
     def _run(label: str, cfg: dict):
         print(f"\n  Ablation [{label}] ...")
-        metrics = run_ablation_config(problems, adapter, cfg)
+        metrics = run_ablation_config(problems, adapter, cfg, verifier_adapter=verifier_adapter)
         results["ablations"][label] = {**metrics, "config_patch": label}
         print(f"    acc={metrics['overall_accuracy']:.3f}  collapse={metrics['collapse_rate']:.3f}  restarts={metrics['avg_restarts']:.2f}")
 
@@ -121,7 +140,7 @@ def run_experiment3(
     for k in [1, 3, 5]:
         cfg = copy.deepcopy(base_config)
         cfg["verification"]["consistency_votes"] = k
-        cfg["verification"]["enable_relevance"] = False
+        cfg["verification"]["enable_relevance"] = True
         _run(f"consistency_votes={k}", cfg)
 
     # 2. Relevance check on/off
@@ -134,30 +153,30 @@ def run_experiment3(
     for max_r in [0, 1, 2, 3]:
         cfg = copy.deepcopy(base_config)
         cfg["restart"]["max_restarts"] = max_r
-        cfg["verification"]["enable_relevance"] = False
+        cfg["verification"]["enable_relevance"] = True
         _run(f"max_restarts={max_r}", cfg)
 
     # 4. Number of chains
     for n_chains in [1, 3, 5, 7]:
         cfg = copy.deepcopy(base_config)
         cfg["generation"]["num_chains"] = n_chains
-        cfg["verification"]["enable_relevance"] = False
+        cfg["verification"]["enable_relevance"] = True
         _run(f"num_chains={n_chains}", cfg)
 
     # 5. One-vote-veto vs majority (requires NodeVerifier one_veto flag)
     # We patch the pipeline's verifier after construction
     for veto in [False, True]:
         cfg = copy.deepcopy(base_config)
-        cfg["verification"]["enable_relevance"] = False
+        cfg["verification"]["enable_relevance"] = True
         cfg["verification"]["one_veto"] = veto  # read by NodeVerifier if we add support
         label = f"one_veto={veto}"
         print(f"\n  Ablation [{label}] ...")
         # Temporarily patch NodeVerifier to support one_veto
-        pipeline = CVRPipeline(adapter, cfg)
+        pipeline = CVRPipeline(adapter, cfg, verifier_adapter=verifier_adapter)
         pipeline.verifier.consistency.one_veto = veto
         pipeline.verifier.relevance.one_veto = veto
         records = []
-        for prob in problems:
+        for prob in tqdm(problems, desc=f"one_veto={veto}", leave=False):
             result = pipeline.solve(prob["question"])
             gt = float(prob["ground_truth"])
             pred_str = result.get("answer")

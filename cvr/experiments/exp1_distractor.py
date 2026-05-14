@@ -41,12 +41,30 @@ from cvr.utils import load_yaml_config
 from cvr.evaluation.eval_distractor import compute_distractor_metrics, compute_distractor_metrics_by_type
 
 
+def _build_verifier_once(config):
+    """Build the HF or cloud verifier adapter once; returns None to fall back to the SLM."""
+    hf_cfg = config.get("verifier_local_hf", {})
+    cloud_cfg = config.get("verifier_cloud", {})
+    if hf_cfg.get("enabled", False):
+        from cvr.hf_verifier import build_hf_verifier
+        v = build_hf_verifier(hf_cfg)
+        print(f"  [CVR] Verifier loaded once: {v.model_key}")
+        return v
+    if cloud_cfg.get("enabled", False):
+        from cvr.cloud_verifier import build_cloud_verifier
+        v = build_cloud_verifier(cloud_cfg)
+        print(f"  [CVR] Verifier loaded once: {v.model_key}")
+        return v
+    return None
+
+
 def run_method_on_examples(
     method: str,
     examples: list[dict],
     adapter: CVRModelAdapter,
     config: dict,
     limit: Optional[int] = None,
+    verifier_adapter=None,
 ) -> dict:
     """
     Run one method on a list of examples. Returns accuracy + result records.
@@ -61,6 +79,7 @@ def run_method_on_examples(
             adapter, examples,
             num_chains=config["generation"]["num_chains"],
             temperature=config["generation"]["temperature"],
+            desc=method,
         )
     else:
         # CVR
@@ -69,7 +88,7 @@ def run_method_on_examples(
         cfg["verification"] = dict(config["verification"])
         cfg["verification"]["enable_relevance"] = enable_rel
 
-        pipeline = CVRPipeline(adapter, cfg)
+        pipeline = CVRPipeline(adapter, cfg, verifier_adapter=verifier_adapter)
         records = []
         for ex in tqdm(examples, desc=f"{method}"):
             result = pipeline.solve(ex["question"])
@@ -136,7 +155,7 @@ def run_experiment1(  # noqa: C901
     if model_filter:
         configs = [c for c in configs if c.short_name in model_filter]
 
-    methods = ["sc", "cvr_norel", "cvr_full"]
+    methods = ["cvr_full"]
 
     all_results: dict = {
         "meta": {
@@ -156,11 +175,13 @@ def run_experiment1(  # noqa: C901
         wrapper.load()
         adapter = CVRModelAdapter(wrapper)
 
+        verifier_adapter = _build_verifier_once(config)
+
         model_results: dict = {}
         for method in methods:
             print(f"\n  Method: {method}")
-            orig_out = run_method_on_examples(method, original_examples, adapter, config, limit)
-            dist_out = run_method_on_examples(method, enhanced_examples, adapter, config, limit)
+            orig_out = run_method_on_examples(method, original_examples, adapter, config, limit, verifier_adapter=verifier_adapter)
+            dist_out = run_method_on_examples(method, enhanced_examples, adapter, config, limit, verifier_adapter=verifier_adapter)
             dist_metrics = compute_distractor_metrics(orig_out["results"], dist_out["results"])
             by_type = compute_distractor_metrics_by_type(dist_out["results"])
             model_results[method] = {
@@ -179,3 +200,34 @@ def run_experiment1(  # noqa: C901
         json.dump(all_results, f, indent=2)
     print(f"\nResults saved to {output_path}")
     return all_results
+
+
+def run_exp1_for_adapter(
+    adapter,
+    verifier_adapter,
+    model_short_name: str,
+    original_examples: list,
+    enhanced_examples: list,
+    config: dict,
+    limit: Optional[int] = None,
+) -> dict:
+    """
+    Run Exp1 methods against a pre-loaded adapter. No model loading/unloading.
+    Returns the per-model results dict (keyed by method).
+    """
+    methods = ["cvr_full"]
+    model_results: dict = {}
+    for method in methods:
+        print(f"\n  [Exp1] Method: {method}")
+        orig_out = run_method_on_examples(method, original_examples, adapter, config, limit, verifier_adapter=verifier_adapter)
+        dist_out = run_method_on_examples(method, enhanced_examples, adapter, config, limit, verifier_adapter=verifier_adapter)
+        dist_metrics = compute_distractor_metrics(orig_out["results"], dist_out["results"])
+        by_type = compute_distractor_metrics_by_type(dist_out["results"])
+        model_results[method] = {
+            "original": orig_out,
+            "enhanced": dist_out,
+            "distractor_metrics": dist_metrics,
+            "by_distractor_type": by_type,
+        }
+        print(f"    Clean acc: {orig_out['accuracy']:.3f}  |  Distractor acc: {dist_out['accuracy']:.3f}  |  Drop: {dist_metrics['accuracy_drop']:.3f}")
+    return model_results

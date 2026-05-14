@@ -54,7 +54,8 @@ Check ONLY the arithmetic calculations shown. Do not evaluate the approach, unit
 # ---------------------------------------------------------------------------
 
 RELEVANCE_CHECK_SYSTEM = (
-    "You are a math verifier. "
+    "You are a math verifier checking whether a solution step uses distractor information. "
+    "Math problems sometimes contain extra numbers or facts that are NOT needed to reach the answer. "
     "Your response MUST start with exactly one word: 'Yes' or 'No'. "
     "Write that word first, then optionally a short explanation."
 )
@@ -65,7 +66,10 @@ Problem: {question}
 Step to check:
 {step_text}
 
-Does this step use only information that is necessary and directly relevant to solving the problem? Start your response with 'Yes' or 'No'.\
+Some problems contain distractor numbers or facts that are not needed to solve the problem. \
+Does this step use ONLY numbers and facts that are required to reach the answer? \
+Answer 'No' if the step relies on any extra or irrelevant information from the problem. \
+Start your response with 'Yes' or 'No'.\
 """
 
 # ---------------------------------------------------------------------------

@@ -15,6 +15,8 @@ import time
 from pathlib import Path
 from collections import Counter
 
+from tqdm import tqdm
+
 _repo_root = Path(__file__).resolve().parents[2]
 if str(_repo_root) not in sys.path:
     sys.path.insert(0, str(_repo_root))
@@ -110,6 +112,7 @@ def run_sc_on_dataset(
     temperature: float = 0.7,
     max_new_tokens: int = 512,
     limit: int | None = None,
+    desc: str = "sc",
 ) -> list[dict]:
     """
     Run SC on a list of example dicts.
@@ -124,7 +127,7 @@ def run_sc_on_dataset(
         examples = examples[:limit]
 
     results = []
-    for ex in examples:
+    for ex in tqdm(examples, desc=desc):
         result = sc.solve(ex["question"])
 
         # Determine ground truth
