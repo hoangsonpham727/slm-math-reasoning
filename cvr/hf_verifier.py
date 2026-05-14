@@ -112,14 +112,15 @@ class LocalHFVerifierAdapter:
             prompt_text = self._tokenizer.apply_chat_template(messages, **template_kwargs)
 
         device = next(self._model.parameters()).device
-        input_ids = self._tokenizer(
-            prompt_text, return_tensors="pt"
-        ).input_ids.to(device)
+        encoding = self._tokenizer(prompt_text, return_tensors="pt").to(device)
+        input_ids = encoding.input_ids
+        attention_mask = encoding.attention_mask
 
         gen_kwargs: dict = {
             "max_new_tokens": max_new_tokens,
             "do_sample": do_sample,
             "pad_token_id": self._tokenizer.pad_token_id,
+            "attention_mask": attention_mask,
         }
         if do_sample:
             gen_kwargs["temperature"] = temperature
