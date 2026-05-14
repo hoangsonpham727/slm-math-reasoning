@@ -2,14 +2,21 @@
 Experiment 3: Distractor Filtering
 
 Two-stage pipeline on the enhanced GSM8K dataset:
-  Stage 1 — Filter: ask the model to label each clause RELEVANT or IRRELEVANT.
-  Stage 2 — Solve: run CoT solve on the relevant-only problem text.
+  Stage 1 — Filter: label each clause RELEVANT or IRRELEVANT.
+             Runs once and caches results; reused across all solver models.
+  Stage 2 — Solve (each SLM): CoT solve on the relevant-only problem text.
+
+Filter model options (--filter_model):
+  qwen25_7b   — Qwen/Qwen2.5-7B-Instruct loaded locally via HuggingFace (default)
+  gpt-oss     — gpt-oss:120b via Ollama cloud (requires OLLAMA_API_KEY env var)
 
 Usage:
-    python run_experiment3.py [--models all] [--enhanced_dir ../Experiment1/gsm_enhanced_templates]
+    python run_experiment3.py [--solver_models all]
+                              [--filter_model qwen25_7b|gpt-oss]
+                              [--enhanced_dir ../Experiment1/gsm_enhanced_templates]
                               [--output_dir results] [--device cuda:0]
                               [--max_new_tokens 1024] [--limit None] [--no_resume]
-                              [--distractor_seed 42]
+                              [--distractor_seed 42] [--smoke_test]
 """
 
 import argparse
@@ -29,8 +36,52 @@ from models import get_all_configs, get_model_wrapper, ModelConfig
 
 
 # ---------------------------------------------------------------------------
+# Ollama cloud wrapper — same .load() / .generate() / .unload() interface
+# as the HuggingFace wrappers in models.py
+# ---------------------------------------------------------------------------
+
+_OLLAMA_MODEL = "gpt-oss:120b"
+_OLLAMA_HOST  = "https://ollama.com"
+
+
+class OllamaFilterWrapper:
+    """Thin wrapper around the Ollama cloud API for the filtering stage."""
+
+    def __init__(self):
+        self.short_name = "gpt-oss"
+
+    def load(self):
+        api_key = os.getenv("OLLAMA_API_KEY")
+        if not api_key:
+            raise EnvironmentError(
+                "OLLAMA_API_KEY environment variable is not set. "
+                "Export it before running with --filter_model gpt-oss."
+            )
+        print(f"  [gpt-oss] Using Ollama cloud ({_OLLAMA_HOST}, model={_OLLAMA_MODEL}).")
+
+    def generate(self, system_prompt: str, user_prompt: str,
+                 max_new_tokens: int = 1024, **_) -> str:
+        from ollama import Client
+        client = Client(
+            host=_OLLAMA_HOST,
+            headers={"Authorization": "Bearer " + os.getenv("OLLAMA_API_KEY", "")},
+        )
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user",   "content": user_prompt},
+        ]
+        response = ""
+        for part in client.chat(_OLLAMA_MODEL, messages=messages, stream=True):
+            response += part["message"]["content"]
+        return response
+
+    def unload(self):
+        print(f"  [gpt-oss] Done (no GPU resources to free).")
+
+
+# ---------------------------------------------------------------------------
 # Inlined helpers from Experiment1 (avoids importing data_preparation.py
-# which requires google.genai / ollama that are not needed here)
+# which requires google.genai that is not needed here)
 # ---------------------------------------------------------------------------
 
 def _append_distractor(question: str, distractor, position: str = "mid") -> str:
@@ -193,18 +244,44 @@ FILTER_SYSTEM = (
     "the question and which are irrelevant distractors."
 )
 
-FILTER_USER = """Problem:
-{problem}
-
-Instructions:
+FILTER_USER = """Instructions:
 1. Break the problem into individual clauses (one per line).
 2. For each clause, label it RELEVANT or IRRELEVANT.
-   - RELEVANT: the clause contains a quantity or fact directly needed to answer the question.
+   - RELEVANT: the clause contains a quantity or fact directly needed to compute the answer.
    - IRRELEVANT: the clause does not affect the answer (it may sound related but is not needed).
 
-Output format (one clause per line, nothing else):
-Clause 1: <text> | RELEVANT
-Clause 2: <text> | IRRELEVANT
+Output format — one clause per line, nothing else:
+Clause N: <text> | RELEVANT
+Clause N: <text> | IRRELEVANT
+
+--- Example 1 ---
+Problem:
+John has 10 hectares of a pineapple field. There are 100 pineapples per hectare. John can harvest his pineapples every 3 months. Some agronomists suggest adding a 5% loss factor due to pests each harvest. How many pineapples can John harvest within a year?
+
+Clause 1: John has 10 hectares of a pineapple field. | RELEVANT
+Clause 2: There are 100 pineapples per hectare. | RELEVANT
+Clause 3: John can harvest his pineapples every 3 months. | RELEVANT
+Clause 4: Some agronomists suggest adding a 5% loss factor due to pests each harvest. | IRRELEVANT
+
+--- Example 2 ---
+Problem:
+A tower is made out of 4 blue blocks, twice as many yellow blocks, and an unknown number of red blocks. Each blue block measures about 3 inches in side length. If there are 32 blocks in the tower in total, how many red blocks are there?
+
+Clause 1: A tower is made out of 4 blue blocks, twice as many yellow blocks, and an unknown number of red blocks. | RELEVANT
+Clause 2: Each blue block measures about 3 inches in side length. | IRRELEVANT
+Clause 3: If there are 32 blocks in the tower in total, how many red blocks are there? | RELEVANT
+
+--- Example 3 ---
+Problem:
+It takes Carmen 10 minutes to finish a crossword puzzle and 5 minutes to finish a sudoku puzzle. Over the weekend she solved 3 crossword puzzles and 8 sudoku puzzles. Carmen started the weekend with a cup of coffee at 7 am, which she drank before any puzzles. How much time did she spend playing these games?
+
+Clause 1: It takes Carmen 10 minutes to finish a crossword puzzle and 5 minutes to finish a sudoku puzzle. | RELEVANT
+Clause 2: Over the weekend she solved 3 crossword puzzles and 8 sudoku puzzles. | RELEVANT
+Clause 3: Carmen started the weekend with a cup of coffee at 7 am, which she drank before any puzzles. | IRRELEVANT
+
+--- Now label this problem ---
+Problem:
+{problem}
 """
 
 SOLVE_SYSTEM = (
@@ -279,19 +356,103 @@ def append_record(record: dict, out_path: Path) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Per-model inference loop
+# Stage 1: filtering (Qwen2.5-7B runs once, results cached to disk)
 # ---------------------------------------------------------------------------
 
-def run_model(
-    config: ModelConfig,
+FILTER_CACHE_FILENAME = "filter_cache_{filter_model}.jsonl"
+
+
+def run_filtering(
+    filter_wrapper,           # HF BaseModelWrapper or OllamaFilterWrapper
     examples: list[dict],
+    output_dir: str,
+    max_new_tokens: int,
+) -> list[dict]:
+    """
+    Run Stage 1 with filter_wrapper over all examples.
+    Results are cached to disk so solver models can reuse them without
+    reloading the filter model.
+    Returns the full list of filtered records (one per example).
+    """
+    cache_path = Path(output_dir) / FILTER_CACHE_FILENAME.format(
+        filter_model=filter_wrapper.short_name
+    )
+
+    # Load existing cache
+    cached: dict[str, dict] = {}
+    if cache_path.exists():
+        with open(cache_path) as f:
+            for line in f:
+                try:
+                    rec = json.loads(line)
+                    cached[rec["problem_id"]] = rec
+                except (json.JSONDecodeError, KeyError):
+                    pass
+        print(f"  [filter cache] {len(cached)} problems already filtered.")
+
+    need_filtering = [ex for ex in examples if ex["problem_id"] not in cached]
+
+    if need_filtering:
+        print(f"  [filter] Running {filter_wrapper.short_name} on "
+              f"{len(need_filtering)} problems ...")
+        filter_wrapper.load()
+
+        for i, ex in enumerate(need_filtering):
+            pid = ex["problem_id"]
+            distracted_q = ex["question"]
+            filter_prompt = FILTER_USER.format(problem=distracted_q)
+            try:
+                filter_response = filter_wrapper.generate(
+                    FILTER_SYSTEM, filter_prompt, max_new_tokens=max_new_tokens,
+                )
+            except Exception as e:
+                filter_response = f"[ERROR: {e}]"
+
+            relevant, irrelevant = parse_filter_response(filter_response)
+            filter_failed = not relevant
+            clean_problem = distracted_q if filter_failed else " ".join(relevant)
+
+            rec = {
+                "problem_id":       pid,
+                "filter_model":     filter_wrapper.short_name,
+                "filter_response":  filter_response,
+                "relevant_clauses": relevant,
+                "irrelevant_clauses": irrelevant,
+                "filter_failed":    filter_failed,
+                "clean_problem":    clean_problem,
+            }
+            cached[pid] = rec
+            with open(cache_path, "a") as f:
+                f.write(json.dumps(rec) + "\n")
+
+            ff = " [fail]" if filter_failed else ""
+            print(f"    [filter {i+1}/{len(need_filtering)}] {pid}{ff}")
+
+        filter_wrapper.unload()
+        print(f"  [filter] Done. Cache saved to {cache_path}")
+    else:
+        print(f"  [filter] All problems already in cache — skipping filter model load.")
+
+    # Return in original example order
+    return [cached[ex["problem_id"]] for ex in examples]
+
+
+# ---------------------------------------------------------------------------
+# Stage 2: solving (one SLM at a time)
+# ---------------------------------------------------------------------------
+
+def run_solving(
+    solver_config: ModelConfig,
+    examples: list[dict],
+    filter_records: list[dict],
+    filter_model_name: str,
     output_dir: str,
     device: str,
     max_new_tokens: int,
-    limit: int | None,
     resume: bool,
 ):
-    out_path = Path(output_dir) / f"{config.short_name}_distractor_filter.jsonl"
+    """Run Stage 2 for one solver model using pre-computed filter_records."""
+    out_path = Path(output_dir) / f"{solver_config.short_name}_distractor_filter.jsonl"
 
     completed_ids = set()
     if resume:
@@ -299,16 +460,13 @@ def run_model(
         if completed_ids:
             print(f"    [resume] {len(completed_ids)} problems already done.")
 
-    todo = examples[:limit] if limit else examples
-    total = len(todo)
-
-    wrapper = get_model_wrapper(config, device)
+    total = len(examples)
+    wrapper = get_model_wrapper(solver_config, device)
     model_loaded = False
-
     correct_count = 0
     done = 0
 
-    for ex in todo:
+    for ex, fr in zip(examples, filter_records):
         pid = ex["problem_id"]
         if pid in completed_ids:
             done += 1
@@ -318,29 +476,11 @@ def run_model(
             wrapper.load()
             model_loaded = True
 
-        distracted_q = ex["question"]           # already has distractor appended
         gold_raw = extract_gsm_final(ex["answer"]) or extract_model_final(ex["answer"])
+        clean_problem = fr["clean_problem"]
+        filter_failed = fr["filter_failed"]
 
         t0 = time.time()
-
-        # ── Stage 1: filter ──────────────────────────────────────────────────
-        filter_prompt = FILTER_USER.format(problem=distracted_q)
-        try:
-            filter_response = wrapper.generate(
-                FILTER_SYSTEM, filter_prompt, max_new_tokens=max_new_tokens,
-            )
-        except Exception as e:
-            filter_response = f"[ERROR: {e}]"
-
-        relevant, irrelevant = parse_filter_response(filter_response)
-        if not relevant:
-            clean_problem = distracted_q
-            filter_failed = True
-        else:
-            clean_problem = " ".join(relevant)
-            filter_failed = False
-
-        # ── Stage 2: solve ───────────────────────────────────────────────────
         solve_prompt = SOLVE_USER.format(clean_problem=clean_problem)
         try:
             solve_response = wrapper.generate(
@@ -358,16 +498,17 @@ def run_model(
         done += 1
 
         record = {
-            "model":               config.short_name,
+            "solver_model":        solver_config.short_name,
+            "filter_model":        filter_model_name,
             "problem_id":          pid,
-            "distracted_question": distracted_q,
+            "distracted_question": ex["question"],
             "question_original":   ex.get("question_original", ""),
             "distractor":          ex.get("distractor", ""),
             "distractor_type":     ex.get("distractor_type", "UNKNOWN"),
             "ground_truth":        gold_raw,
-            "filter_response":     filter_response,
-            "relevant_clauses":    relevant,
-            "irrelevant_clauses":  irrelevant,
+            "filter_response":     fr["filter_response"],
+            "relevant_clauses":    fr["relevant_clauses"],
+            "irrelevant_clauses":  fr["irrelevant_clauses"],
             "filter_failed":       filter_failed,
             "clean_problem":       clean_problem,
             "solve_response":      solve_response,
@@ -379,7 +520,7 @@ def run_model(
 
         sym = "✓" if is_correct else ("∅" if predicted is None else "✗")
         ff  = " [filter_fail]" if filter_failed else ""
-        print(f"    [{config.short_name}] {done}/{total}  "
+        print(f"    [{solver_config.short_name}] {done}/{total}  "
               f"GT={gold_raw}  Pred={predicted}  {sym}{ff}  ({elapsed:.1f}s)")
 
         if done % 50 == 0:
@@ -391,7 +532,7 @@ def run_model(
 
     n_done = done
     acc = correct_count / n_done if n_done else 0.0
-    print(f"\n  [{config.short_name}] Accuracy: {acc:.4f} ({correct_count}/{n_done})")
+    print(f"\n  [{solver_config.short_name}] Accuracy: {acc:.4f} ({correct_count}/{n_done})")
     print(f"  Results saved to: {out_path}")
 
 
@@ -399,9 +540,23 @@ def run_model(
 # Main
 # ---------------------------------------------------------------------------
 
+# The three original SLMs used as solvers (filter model excluded)
+_SOLVER_SHORT_NAMES = {"qwen25_math_1.5b", "gemma4_e2b", "phi4_mini"}
+
+
+_OLLAMA_FILTER_NAME = "gpt-oss"
+
+
 def parse_args():
     p = argparse.ArgumentParser(description="Experiment 3: Distractor Filtering")
-    p.add_argument("--models",         type=str, default="all")
+    p.add_argument("--solver_models",  type=str, default="all",
+                   help="Comma-separated solver short_names or 'all' "
+                        f"(choices: {', '.join(sorted(_SOLVER_SHORT_NAMES))})")
+    p.add_argument("--filter_model",   type=str, default="qwen25_7b",
+                   help="Model used for Stage 1 clause labeling. "
+                        "Use a HuggingFace short_name (e.g. qwen25_7b) "
+                        f"or '{_OLLAMA_FILTER_NAME}' for Ollama cloud (requires OLLAMA_API_KEY). "
+                        "(default: qwen25_7b)")
     p.add_argument("--enhanced_dir",   type=str,
                    default=str(repo_root / "Experiment1" / "gsm_enhanced_templates"))
     p.add_argument("--output_dir",     type=str, default="results")
@@ -410,7 +565,24 @@ def parse_args():
     p.add_argument("--limit",          type=int, default=None)
     p.add_argument("--distractor_seed",type=int, default=42)
     p.add_argument("--no_resume",      action="store_true")
+    p.add_argument("--smoke_test",     action="store_true",
+                   help="Quick sanity check: force limit=2.")
     return p.parse_args()
+
+
+def _resolve_filter_wrapper(filter_model_name: str, device: str):
+    """Return a wrapper object (HF or Ollama) for the requested filter model."""
+    if filter_model_name == _OLLAMA_FILTER_NAME:
+        return OllamaFilterWrapper()
+    all_configs = get_all_configs()
+    config_by_name = {c.short_name: c for c in all_configs}
+    if filter_model_name not in config_by_name:
+        raise ValueError(
+            f"Unknown filter_model: '{filter_model_name}'. "
+            f"Use '{_OLLAMA_FILTER_NAME}' for Ollama cloud, or one of: "
+            f"{sorted(config_by_name)}"
+        )
+    return get_model_wrapper(config_by_name[filter_model_name], device)
 
 
 def main():
@@ -421,38 +593,66 @@ def main():
     os.environ.setdefault("CUDA_VISIBLE_DEVICES", "0")
 
     args = parse_args()
+    if args.smoke_test:
+        args.limit = 2
+        print("[smoke-test] forcing limit=2.", file=sys.stderr)
+
     Path(args.output_dir).mkdir(parents=True, exist_ok=True)
 
     all_configs = get_all_configs()
-    if args.models == "all":
-        configs = all_configs
+    config_by_name = {c.short_name: c for c in all_configs}
+
+    # Resolve filter wrapper (HF model or Ollama cloud)
+    filter_wrapper = _resolve_filter_wrapper(args.filter_model, args.device)
+
+    # Resolve solver model configs
+    if args.solver_models == "all":
+        solver_configs = [c for c in all_configs if c.short_name in _SOLVER_SHORT_NAMES]
     else:
-        wanted = set(args.models.split(","))
-        configs = [c for c in all_configs if c.short_name in wanted]
-        missing = wanted - {c.short_name for c in configs}
+        wanted = set(args.solver_models.split(","))
+        solver_configs = [config_by_name[n] for n in wanted if n in config_by_name]
+        missing = wanted - set(config_by_name)
         if missing:
-            raise ValueError(f"Unknown model short_name(s): {sorted(missing)}")
+            raise ValueError(f"Unknown solver model short_name(s): {sorted(missing)}")
 
     examples = load_examples(args.enhanced_dir, seed=args.distractor_seed)
+    if args.limit:
+        examples = examples[:args.limit]
+
+    smoke_tag = "  [SMOKE TEST]" if args.smoke_test else ""
     print(f"\n{'='*60}")
-    print(f"Experiment 3 — Distractor Filtering")
-    print(f"  Started:     {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"  Models:      {[c.short_name for c in configs]}")
-    print(f"  Problems:    {len(examples)} (limit={args.limit})")
-    print(f"  Output dir:  {args.output_dir}")
+    print(f"Experiment 3 — Distractor Filtering{smoke_tag}")
+    print(f"  Started:       {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"  Filter model:  {filter_wrapper.short_name}")
+    print(f"  Solver models: {[c.short_name for c in solver_configs]}")
+    print(f"  Problems:      {len(examples)}")
+    print(f"  Output dir:    {args.output_dir}")
     print(f"{'='*60}\n")
 
-    for cfg in configs:
+    # ── Stage 1: filter once, cache to disk ──────────────────────────────────
+    print(f"\n{'─'*50}")
+    print(f"  Stage 1 — Filtering with {filter_config.short_name}")
+    print(f"{'─'*50}")
+    filter_records = run_filtering(
+        filter_wrapper=filter_wrapper,
+        examples=examples,
+        output_dir=args.output_dir,
+        max_new_tokens=args.max_new_tokens,
+    )
+
+    # ── Stage 2: solve with each SLM ─────────────────────────────────────────
+    for cfg in solver_configs:
         print(f"\n{'─'*50}")
-        print(f"  Model: {cfg.short_name}  ({cfg.model_id})")
+        print(f"  Stage 2 — Solving with {cfg.short_name}  ({cfg.model_id})")
         print(f"{'─'*50}")
-        run_model(
-            config=cfg,
+        run_solving(
+            solver_config=cfg,
             examples=examples,
+            filter_records=filter_records,
+            filter_model_name=filter_wrapper.short_name,
             output_dir=args.output_dir,
             device=args.device,
             max_new_tokens=args.max_new_tokens,
-            limit=args.limit,
             resume=not args.no_resume,
         )
 

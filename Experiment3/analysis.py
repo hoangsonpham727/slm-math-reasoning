@@ -35,8 +35,9 @@ def accuracy(records: list[dict]) -> float:
 
 def analyse_model(records: list[dict], model_name: str) -> None:
     total = len(records)
+    filter_model = records[0].get("filter_model", "unknown") if records else "unknown"
     print(f"\n{'─'*55}")
-    print(f"  Model: {model_name}   (n={total})")
+    print(f"  Solver: {model_name}   Filter: {filter_model}   (n={total})")
     print(f"{'─'*55}")
 
     print(f"  Overall accuracy          : {accuracy(records):.4f}")
