@@ -121,6 +121,8 @@ class BaseModelWrapper:
         system_prompt: str,
         user_prompt: str,
         max_new_tokens: int = 512,
+        temperature: float = 0.0,
+        do_sample: bool = False,
     ) -> str:
         raise NotImplementedError
 
@@ -159,7 +161,8 @@ class QwenMathWrapper(BaseModelWrapper):
         print(f"  [{self.config.short_name}] loaded on {self.device}.")
 
     def generate(self, system_prompt: str, user_prompt: str,
-                 max_new_tokens: int = 512) -> str:
+                 max_new_tokens: int = 512,
+                 temperature: float = 0.0, do_sample: bool = False) -> str:
         tokenizer = self.tokenizer_or_processor
         messages = [
             {"role": "system", "content": system_prompt},
@@ -170,15 +173,19 @@ class QwenMathWrapper(BaseModelWrapper):
         )
         inputs = tokenizer([text], return_tensors="pt").to(self.model.device)
 
+        gen_kwargs = dict(
+            max_new_tokens=max_new_tokens,
+            pad_token_id=tokenizer.eos_token_id,
+        )
+        if do_sample:
+            gen_kwargs["do_sample"] = True
+            gen_kwargs["temperature"] = temperature
+        else:
+            gen_kwargs["do_sample"] = False
+            gen_kwargs["temperature"] = None
+
         with torch.no_grad():
-            output_ids = self.model.generate(
-                **inputs,
-                max_new_tokens=max_new_tokens,
-                do_sample=False,
-                temperature=None,
-                pad_token_id=tokenizer.eos_token_id,
-            )
-        # Decode only the newly generated tokens
+            output_ids = self.model.generate(**inputs, **gen_kwargs)
         new_tokens = output_ids[0][inputs["input_ids"].shape[1]:]
         return tokenizer.decode(new_tokens, skip_special_tokens=True)
 
@@ -209,9 +216,9 @@ class Gemma4Wrapper(BaseModelWrapper):
         print(f"  [{self.config.short_name}] loaded on {self.device}.")
 
     def generate(self, system_prompt: str, user_prompt: str,
-                 max_new_tokens: int = 512) -> str:
+                 max_new_tokens: int = 512,
+                 temperature: float = 0.0, do_sample: bool = False) -> str:
         processor = self.tokenizer_or_processor
-        # Standard system/user/assistant roles 
         messages = [
             {"role": "system", "content": [{"type": "text", "text": system_prompt}]},
             {"role": "user",   "content": [{"type": "text", "text": user_prompt}]},
@@ -226,12 +233,15 @@ class Gemma4Wrapper(BaseModelWrapper):
 
         input_len = inputs["input_ids"].shape[-1]
 
+        gen_kwargs = dict(max_new_tokens=max_new_tokens)
+        if do_sample:
+            gen_kwargs["do_sample"] = True
+            gen_kwargs["temperature"] = temperature
+        else:
+            gen_kwargs["do_sample"] = False
+
         with torch.inference_mode():
-            output_ids = self.model.generate(
-                **inputs,
-                max_new_tokens=max_new_tokens,
-                do_sample=False,
-            )
+            output_ids = self.model.generate(**inputs, **gen_kwargs)
         new_tokens = output_ids[0][input_len:]
         return processor.decode(new_tokens, skip_special_tokens=True)
 
@@ -291,14 +301,14 @@ class Phi4MiniWrapper(BaseModelWrapper):
         print(f"  [{self.config.short_name}] loaded on {self.device}.")
 
     def generate(self, system_prompt: str, user_prompt: str,
-                 max_new_tokens: int = 512) -> str:
+                 max_new_tokens: int = 512,
+                 temperature: float = 0.0, do_sample: bool = False) -> str:
         tokenizer = self.tokenizer_or_processor
         messages = [
             {"role": "system", "content": system_prompt},
             {"role": "user",   "content": user_prompt},
         ]
         try:
-            # Preferred path: let tokenizer produce model-ready tensors directly.
             raw_inputs = tokenizer.apply_chat_template(
                 messages,
                 tokenize=True,
@@ -306,9 +316,6 @@ class Phi4MiniWrapper(BaseModelWrapper):
                 return_tensors="pt",
             ).to(self.model.device)
         except Exception as e:
-            # Some tokenizer/template/runtime combinations (seen with Phi-4) can
-            # fail inside apply_chat_template with errors like
-            # "the first argument must be callable". Fall back to plain prompting.
             print(
                 f"    apply_chat_template failed for {self.config.short_name}: {e}. "
                 "Falling back to raw prompt formatting."
@@ -322,21 +329,22 @@ class Phi4MiniWrapper(BaseModelWrapper):
 
         inputs, _ = self._normalize_model_inputs(raw_inputs, self.model.device)
 
+        gen_kwargs = dict(
+            max_new_tokens=max_new_tokens,
+            pad_token_id=tokenizer.eos_token_id,
+        )
+        if do_sample:
+            gen_kwargs["do_sample"] = True
+            gen_kwargs["temperature"] = temperature
+        else:
+            gen_kwargs["do_sample"] = False
+
         with torch.no_grad():
             if isinstance(inputs, Mapping):
-                output_ids = self.model.generate(
-                    **inputs,
-                    max_new_tokens=max_new_tokens,
-                    do_sample=False,
-                    pad_token_id=tokenizer.eos_token_id,
-                )
+                output_ids = self.model.generate(**inputs, **gen_kwargs)
             else:
-                output_ids = self.model.generate(
-                    inputs,
-                    max_new_tokens=max_new_tokens,
-                    do_sample=False,
-                    pad_token_id=tokenizer.eos_token_id,
-                )
+                output_ids = self.model.generate(inputs, **gen_kwargs)
+
         if isinstance(inputs, Mapping):
             input_len = inputs["input_ids"].shape[1]
         else:
