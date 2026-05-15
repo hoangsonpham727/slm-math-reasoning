@@ -348,6 +348,104 @@ def run_exp4(
     return results
 
 
+# ── Multi-model runner ───────────────────────────────────────────────────────
+
+_ALL_MODELS = ["qwen25_math_1.5b", "gemma4_e2b", "phi4_mini"]
+
+_FIELD_DEFAULTS = dict(
+    problem_field = "question",
+    answer_field  = "ground_truth",
+    depth_field   = "depth",
+    steps_field   = None,
+    chunk_size    = 2,
+)
+
+
+def run_all_models(
+    models: list[str] | None = None,
+    device: str = "cuda:0",
+    data_path: str | None = None,
+    output_dir: str | None = None,
+) -> dict[str, list[dict]]:
+    """
+    Run Experiment 4 for every model in sequence.
+    Each model is loaded, evaluated over the full dataset, then unloaded
+    before the next model is loaded — keeps peak VRAM at one model at a time.
+    Checkpoints are written every 50 problems per model.
+
+    Args:
+        models:     List of short_names to run. Defaults to all three SLMs.
+        device:     HuggingFace device string ('cuda:0', 'cpu', 'auto').
+        data_path:  Path to problems_all.json. Defaults to Experiment2/data/.
+        output_dir: Directory for result files. Defaults to <root>/results/.
+
+    Returns:
+        Dict mapping short_name → results list.
+    """
+    from datetime import datetime
+    from llm_wrapper import init_model, llm as _llm_fn
+    import llm_wrapper as _lw
+
+    if models is None:
+        models = _ALL_MODELS
+
+    dataset_path = data_path or str(
+        ROOT / "Experiment2" / "data" / "problems_all.json"
+    )
+    out_dir = Path(output_dir) if output_dir else ROOT / "results"
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    all_results: dict[str, list[dict]] = {}
+
+    print(f"\n{'='*65}")
+    print(f"EXPERIMENT 4 — All models  ({datetime.now():%Y-%m-%d %H:%M:%S})")
+    print(f"  Models  : {models}")
+    print(f"  Dataset : {dataset_path}")
+    print(f"  Output  : {out_dir}")
+    print(f"{'='*65}")
+
+    for short_name in models:
+        output_path = str(out_dir / f"exp4_chunked_{short_name}.json")
+
+        print(f"\n{'─'*65}")
+        print(f"  Model: {short_name}  —  started {datetime.now():%H:%M:%S}")
+        print(f"{'─'*65}")
+
+        init_model(short_name, device=device)
+
+        results = run_exp4(
+            dataset_path=dataset_path,
+            output_path=output_path,
+            llm_fn=_lw.llm,
+            **_FIELD_DEFAULTS,
+        )
+
+        all_results[short_name] = results
+        _lw._wrapper.unload()
+
+        print(f"  [{short_name}] done — results saved to {output_path}")
+
+    # ── Cross-model summary ──────────────────────────────────────────────────
+    print(f"\n{'='*65}")
+    print("FINAL SUMMARY — All models")
+    print(f"{'='*65}")
+    print(f"\n{'Model':<22}{'Overall':>10}  per-depth accuracy")
+    print("-" * 65)
+
+    for short_name, results in all_results.items():
+        overall = sum(r["correct"] for r in results) / len(results)
+        depth_groups: dict[int, list] = {}
+        for r in results:
+            depth_groups.setdefault(r["depth"], []).append(r)
+        depth_acc = "  ".join(
+            f"d{d}={sum(r['correct'] for r in g)/len(g):.2f}"
+            for d, g in sorted(depth_groups.items())
+        )
+        print(f"  {short_name:<20}{overall:>8.4f}  {depth_acc}")
+
+    return all_results
+
+
 # ── Entry point ──────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":
@@ -358,7 +456,11 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--model", default="qwen25_math_1.5b",
-        help="Model short_name (default: qwen25_math_1.5b)",
+        help="Single model short_name (ignored when --all is set)",
+    )
+    parser.add_argument(
+        "--all", action="store_true",
+        help="Run all three models in sequence",
     )
     parser.add_argument(
         "--device", default="cuda:0",
@@ -370,33 +472,30 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--output", default=None,
-        help="Output JSON path (default: results/exp4_chunked_<model>.json)",
+        help="Output path / dir (single model: file path; --all: directory)",
     )
     args = parser.parse_args()
 
-    DATASET_B_PATH = args.data or str(
-        ROOT / "Experiment2" / "data" / "problems_all.json"
-    )
-    OUTPUT_PATH = args.output or str(
-        ROOT / "results" / f"exp4_chunked_{args.model}.json"
-    )
+    if args.all:
+        run_all_models(
+            device=args.device,
+            data_path=args.data,
+            output_dir=args.output,
+        )
+    else:
+        dataset_path = args.data or str(
+            ROOT / "Experiment2" / "data" / "problems_all.json"
+        )
+        output_path = args.output or str(
+            ROOT / "results" / f"exp4_chunked_{args.model}.json"
+        )
 
-    PROBLEM_FIELD = "question"
-    ANSWER_FIELD  = "ground_truth"
-    DEPTH_FIELD   = "depth"
-    STEPS_FIELD   = None   # no text steps in Dataset B; use sentence splitting
-    CHUNK_SIZE    = 2
+        from llm_wrapper import init_model, llm
+        init_model(args.model, device=args.device)
 
-    from llm_wrapper import init_model, llm
-    init_model(args.model, device=args.device)
-
-    run_exp4(
-        dataset_path=DATASET_B_PATH,
-        output_path=OUTPUT_PATH,
-        problem_field=PROBLEM_FIELD,
-        answer_field=ANSWER_FIELD,
-        depth_field=DEPTH_FIELD,
-        steps_field=STEPS_FIELD,
-        chunk_size=CHUNK_SIZE,
-        llm_fn=llm,
-    )
+        run_exp4(
+            dataset_path=dataset_path,
+            output_path=output_path,
+            llm_fn=llm,
+            **_FIELD_DEFAULTS,
+        )
