@@ -33,6 +33,17 @@ from utils import (
     checkpoint_results,
 )
 
+
+def extract_answer_tag(text: str) -> float | None:
+    """Extract the number from an explicit ANSWER: <number> line."""
+    m = re.search(r'ANSWER\s*:\s*([-\d,]+(?:\.\d+)?)', text)
+    if m:
+        try:
+            return float(m.group(1).replace(',', ''))
+        except ValueError:
+            return None
+    return None
+
 # ── Prompt templates ─────────────────────────────────────────────────────────
 
 CHUNK_SYSTEM = (
@@ -51,7 +62,9 @@ New information (follow these steps IN ORDER):
 Using ONLY the known values and the new information above, \
 work through each numbered step IN THE ORDER GIVEN. \
 Show each calculation as: number operation number = result.
-State the result clearly at the end.
+After all steps, compute the single final value that remains after \
+applying every operation in sequence. Write your final answer as:
+ANSWER: <number>
 """
 
 
@@ -146,20 +159,28 @@ def solve_chunk(
         chunk_text=chunk_text,
     )
 
+    temperatures = [0.0, 0.3, 0.6]
     slm_response = ""
     for attempt in range(max_retries):
-        slm_response = llm_fn(prompt, system=CHUNK_SYSTEM, temperature=0.0)
+        temp = temperatures[attempt] if attempt < len(temperatures) else 0.6
+        slm_response = llm_fn(prompt, system=CHUNK_SYSTEM, temperature=temp)
         expressions = extract_arithmetic_expressions(slm_response)
-        if expressions:
-            verification_log = verify_and_correct_expressions(
-                expressions, context
-            )
+
+        answer_tag = extract_answer_tag(slm_response)
+
+        if expressions or answer_tag is not None:
+            verification_log = []
+            if expressions:
+                verification_log = verify_and_correct_expressions(
+                    expressions, context
+                )
             return {
                 "chunk_text":         chunk_text,
                 "context_before":     context_before,
                 "slm_response":       slm_response,
                 "expressions_found":  [e["full_match"] for e in expressions],
                 "verification_log":   verification_log,
+                "answer_tag":         answer_tag,
                 "context_after":      _snapshot(context),
                 "extraction_method":  "arithmetic",
                 "num_retries":        attempt,
@@ -177,6 +198,7 @@ def solve_chunk(
         "slm_response":       slm_response,
         "expressions_found":  [],
         "verification_log":   [],
+        "answer_tag":         None,
         "context_after":      _snapshot(context),
         "extraction_method":  "last_number" if last_num is not None else "failed",
         "num_retries":        max_retries,
@@ -249,19 +271,28 @@ def run_exp4(
         for ci, chunk in enumerate(chunks):
             chunk_result = solve_chunk(chunk, context, llm_fn, max_retries)
 
-            if chunk_result["verification_log"]:
+            # Decide the chunk's final value:
+            # 1. Prefer explicit ANSWER: tag (model's combined final value)
+            # 2. Fall back to last verified expression
+            # 3. Fall back to last_number extraction
+            chunk_value = None
+
+            answer_tag = chunk_result.get("answer_tag")
+            if answer_tag is not None:
+                chunk_value = answer_tag
+
+            if chunk_value is None and chunk_result["verification_log"]:
                 last_v = chunk_result["verification_log"][-1]
                 if last_v["corrected_value"] is not None:
-                    update_context_with_name(
-                        context, " ".join(chunk), ci,
-                        last_v["corrected_value"],
-                    )
-            elif chunk_result["extraction_method"] == "last_number":
-                last_val = context.get("__last__")
-                if last_val is not None:
-                    update_context_with_name(
-                        context, " ".join(chunk), ci, last_val
-                    )
+                    chunk_value = last_v["corrected_value"]
+
+            if chunk_value is None and chunk_result["extraction_method"] == "last_number":
+                chunk_value = context.get("__last__")
+
+            if chunk_value is not None:
+                update_context_with_name(
+                    context, " ".join(chunk), ci, chunk_value
+                )
 
             # Refresh context_after now that update_context_with_name has run
             chunk_result["context_after"] = _snapshot(context)

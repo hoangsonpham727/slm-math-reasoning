@@ -1,5 +1,25 @@
-import sys, json, textwrap
+import sys, json, textwrap, io
 sys.path.insert(0, '.')
+
+OUTPUT_FILE = "output.txt"
+
+class Tee:
+    """Write to both stdout and a file simultaneously."""
+    def __init__(self, filepath):
+        self.terminal = sys.stdout
+        self.file = open(filepath, "w", encoding="utf-8")
+    def write(self, data):
+        self.terminal.write(data)
+        self.file.write(data)
+    def flush(self):
+        self.terminal.flush()
+        self.file.flush()
+    def close(self):
+        self.file.close()
+        sys.stdout = self.terminal
+
+_tee = Tee(OUTPUT_FILE)
+sys.stdout = _tee
 
 SEP  = "=" * 70
 DASH = "-" * 50
@@ -14,7 +34,7 @@ with open("Experiment2/data/problems_all.json") as f:
 print(f"  Total problems in dataset: {len(full)}")
 
 
-d8 = [p for p in full if p["depth"] == 8][:2]
+d8 = [p for p in full if p["depth"] == 8][:3]
 subset =  d8
 
 for p in subset:
@@ -136,4 +156,7 @@ for r in results:
 total = len(results)
 passed = sum(r["correct"] for r in results)
 print(f"\n  {passed}/{total} correct")
-print(f"  Total LLM calls: {_call_counter[0]}") 
+print(f"  Total LLM calls: {_call_counter[0]}")
+
+_tee.close()
+print(f"Output written to {OUTPUT_FILE}")

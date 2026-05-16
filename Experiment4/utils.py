@@ -13,19 +13,46 @@ from pathlib import Path
 def _normalize_latex(text: str) -> str:
     """
     Convert LaTeX math notation to plain arithmetic so the regex can match.
-      \\frac{a}{b}  →  decimal string  (e.g. \\frac{1}{4} → 0.25)
-      \\times       →  ×
-      \\div         →  ÷
+
+    Processing order:
+      1. \\frac{a}{b}  →  decimal
+      2. \\text{...}, \\mathrm{...}, \\mathbf{...}  →  discard unit words
+      3. $ and \\$  →  removed
+      4. \\times → ×,  \\div → ÷,  \\cdot → ×
+      5. Commas in numbers: 1,000 → 1000
     """
+    # 1. \frac{a}{b} → decimal  (all fractions, including those before '=')
     def _frac(m):
         try:
             num, den = float(m.group(1)), float(m.group(2))
             return str(num / den) if den != 0 else "0"
         except ValueError:
             return m.group(0)
-
     text = re.sub(r'\\frac\{([\d.]+)\}\{([\d.]+)\}', _frac, text)
+
+    # 3. Strip LaTeX wrappers: \text{...}, \mathrm{...}, \mathbf{...}
+    #    Keep numeric content, discard unit words like "dollars", "hours"
+    def _unwrap_text(m):
+        inner = m.group(1).strip()
+        # If inner is purely numeric, keep it
+        if re.match(r'^[\d.]+$', inner):
+            return inner
+        # Otherwise discard (it's a unit label like " dollars")
+        return ' '
+    text = re.sub(r'\\(?:text|mathrm|mathbf)\{([^}]*)\}', _unwrap_text, text)
+
+    # 4. Strip dollar signs (both $ and \$)
+    text = text.replace(r'\$', '')
+    text = text.replace('$', '')
+
+    # 5. Operator conversions
     text = text.replace(r'\times', '×').replace(r'\div', '÷')
+    text = text.replace(r'\cdot', '×')
+
+    # 6. Remove commas from numbers (1,000 → 1000)
+    text = re.sub(r'(\d),(\d{3})', r'\1\2', text)
+    text = re.sub(r'(\d),(\d{3})', r'\1\2', text)  # handle millions
+
     return text
 
 
@@ -80,19 +107,20 @@ def verify_and_correct_expressions(
     tolerance: float = 1e-4,
 ) -> list[dict]:
     """
-    Verify each expression and correct arithmetic errors.
-    For each expression:
-      1. Resolve operands against context (replaces wrong SLM values
-         with previously corrected values).
-      2. Compute the true result.
-      3. If claimed != computed, CORRECT it and propagate forward.
-    Context is MUTATED in-place so subsequent expressions and
-    subsequent chunks can reference corrected values.
+    Verify each arithmetic expression the SLM produced (read-only audit).
+
+    Does NOT mutate context or resolve operands against previous corrections,
+    because aggressive propagation causes collisions when the same numeric
+    value appears in unrelated semantic roles (e.g. "135" as both total
+    earnings and a wrong claimed result).
+
+    Each expression is verified using its literal operands.  The caller
+    decides what value to carry forward (prefer ANSWER: tag).
     """
     log = []
     for expr in expressions:
-        left  = resolve_operand(expr["left"],  context)
-        right = resolve_operand(expr["right"], context)
+        left = expr["left"]
+        right = expr["right"]
         computed = compute_expression(left, expr["op"], right)
 
         if computed is None:
@@ -108,12 +136,6 @@ def verify_and_correct_expressions(
 
         is_correct = abs(computed - expr["claimed"]) <= tolerance
         corrected_value = computed if not is_correct else expr["claimed"]
-
-        # Map the SLM's (possibly wrong) claimed value → corrected value
-        # so downstream expressions that cite the wrong number get fixed.
-        context[str(round(expr["claimed"],     10))] = corrected_value
-        context[str(round(corrected_value,     10))] = corrected_value
-        context["__last__"] = corrected_value
 
         log.append({
             **expr,
