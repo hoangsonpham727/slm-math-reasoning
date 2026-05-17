@@ -40,8 +40,9 @@ def extract_answer_tag(text: str) -> float | None:
     fractions (ANSWER: 200/3 → 66.667).
     """
     m = re.search(
-        r'ANSWER\s*:\s*\$?\s*([-\d,]+(?:\.\d+)?(?:\s*/\s*[-\d,]+(?:\.\d+)?)?)',
+        r'(?:final\s+)?answer\s*:\s*\$?\s*([-\d,]+(?:\.\d+)?(?:\s*/\s*[-\d,]+(?:\.\d+)?)?)',
         text,
+        re.IGNORECASE,
     )
     if m:
         val_str = m.group(1).replace(',', '').replace(' ', '')
@@ -399,6 +400,15 @@ def run_exp4(
 
             elif chunk_result["extraction_method"] == "last_number":
                 chunk_value = context.get("__last__")
+
+            # Emergency fallback: if chunk_value is still None after all checks,
+            # grab the last number in the raw response rather than silently
+            # breaking the carry-forward chain.
+            if chunk_value is None:
+                emergency = extract_last_number(chunk_result["slm_response"])
+                if emergency is not None:
+                    chunk_value = emergency
+                    chunk_result["extraction_method"] = "emergency_fallback"
 
             if chunk_value is not None:
                 update_context_with_name(

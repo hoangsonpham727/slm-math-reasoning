@@ -41,7 +41,7 @@ ITEMS     = ["apples", "books", "boxes", "tickets", "pens", "bags", "coins", "ca
 UNITS     = ["$", "kg", "km", "points", "hours", "liters", "metres", "items"]
 JOBS      = ["earns", "collects", "receives", "gathers"]
 SHOPS     = ["store", "market", "shop", "warehouse"]
-VERBS_BUY = ["buys", "purchases", "orders", "picks up"]
+VERBS_BUY = ["buys", "purchases"]
 VERBS_USE = ["uses", "spends", "donates", "gives away"]
 
 OPS = ["multiply", "divide_half", "divide_third", "divide_quarter",
@@ -132,8 +132,8 @@ def _make_step_sequence(depth: int, seed_val: int):
     ops          = []
 
     # --- Step 1: always an earning step (establishes base value) ---
-    rate  = random.randint(5, 20)
-    hours = random.randint(3, 10)
+    rate  = random.randint(10, 30)
+    hours = random.randint(5, 15)
     s, val = step_earn(actor, rate, hours, unit)
     sentences.append(s)
     intermediates.append(val)
@@ -152,8 +152,12 @@ def _make_step_sequence(depth: int, seed_val: int):
         def _spend_quarter(v):
             return step_spend_fraction(actor, v, 1, 4, next(item_iter), unit)
         def _buy(v):
-            return step_buy_items(actor, v, random.randint(2, 5),
-                                  random.randint(2, 8), next(item_iter), unit)
+            n = random.randint(2, 5)
+            p = random.randint(2, 8)
+            max_affordable = max(1, int(v) - 1)
+            if n * p > max_affordable:
+                p = max(1, max_affordable // n)
+            return step_buy_items(actor, v, n, p, next(item_iter), unit)
         def _bonus(v):
             return step_add_bonus(actor, v, random.randint(5, 15), unit)
         def _fee(v):
@@ -161,8 +165,10 @@ def _make_step_sequence(depth: int, seed_val: int):
         def _double(v):
             return step_double_production(actor, v, unit)
         def _fixed_sub(v):
-            return step_fixed_subtract(actor, v, random.randint(2, 10),
-                                       next(item_iter), unit)
+            amount = random.randint(2, 10)
+            max_sub = max(1, int(v) - 1)
+            amount = min(amount, max_sub)
+            return step_fixed_subtract(actor, v, amount, next(item_iter), unit)
         return [_spend_half, _spend_third, _spend_quarter,
                 _buy, _bonus, _fee, _double, _fixed_sub]
 
@@ -177,9 +183,6 @@ def _make_step_sequence(depth: int, seed_val: int):
         step_fn = available[i % len(available)]
         current = intermediates[-1]
         s, new_val = step_fn(current)
-        # Guard: result must stay positive and non-zero
-        if new_val <= 0:
-            new_val = abs(new_val) + Fraction(1)
         sentences.append(s)
         intermediates.append(new_val)
         ops.append("derived")

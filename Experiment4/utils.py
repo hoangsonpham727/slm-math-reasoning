@@ -68,6 +68,20 @@ def _normalize_latex(text: str) -> str:
     return text
 
 
+def _expand_paren_fractions(text: str) -> str:
+    """Replace (A/B) parenthesised fractions with their decimal value.
+    Turns '5 * (1/5) = 1' into '5 * 0.2 = 1' so the binary regex can match.
+    """
+    def _eval(m):
+        try:
+            num = float(m.group(1))
+            den = float(m.group(2))
+            return str(num / den) if den != 0 else m.group(0)
+        except ValueError:
+            return m.group(0)
+    return re.sub(r'\(\s*([\d.]+)\s*/\s*([\d.]+)\s*\)', _eval, text)
+
+
 def _is_numeric_key(k: str) -> bool:
     """Check if a string is a numeric value (used to filter context keys)."""
     try:
@@ -114,6 +128,7 @@ def extract_arithmetic_expressions(text: str, context: dict | None = None) -> li
     downstream chain-tracing and double-count detection see them in order.
     """
     text = _normalize_latex(text)
+    text = _expand_paren_fractions(text)
     if context:
         text = _substitute_symbolic_operands(text, context)
 
@@ -231,6 +246,10 @@ def _is_double_count(expr: dict, prev: dict, tolerance: float = 1e-4) -> bool:
         return False
     # Don't fire if prev was itself arithmetically wrong — current likely fixes it.
     if prev.get("status") == "corrected":
+        return False
+    # Only flag multiplicative double-counts. Additive/subtractive repetition
+    # (same bonus applied twice, same fixed cost on two items) is legitimate.
+    if expr["op"] not in ('*', '/'):
         return False
     left_chains   = abs(expr["left"]  - prev["claimed"]) <= tolerance
     right_reused  = (abs(expr["right"] - prev["right"]) <= tolerance or
