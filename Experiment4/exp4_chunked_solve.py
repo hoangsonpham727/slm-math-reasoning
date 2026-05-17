@@ -136,6 +136,41 @@ def update_context_with_name(
     context["__last__"] = value
 
 
+# ── Chain-tracing heuristic ───────────────────────────────────────────────────
+
+def _select_chain_terminal(vlog: list[dict], context: dict, tolerance: float = 1e-4) -> int:
+    """
+    Among multiple verified expressions, find the last one that chains on
+    either a previous expression's result or the current_total from context.
+
+    "Chains on" means: left operand ≈ a previous claimed value OR current_total.
+    Returns index into vlog.  Falls back to first expression if no chaining found.
+    """
+    if len(vlog) <= 1:
+        return len(vlog) - 1
+
+    current_total = context.get("current_total")
+    claimed_values: set[float] = set()
+    chain_terminal_idx = 0
+
+    for i, entry in enumerate(vlog):
+        if entry.get("status") == "double_count":
+            continue
+
+        left = entry["left"]
+        chains_on_prev = any(abs(left - cv) <= tolerance for cv in claimed_values)
+        chains_on_context = (
+            current_total is not None and abs(left - current_total) <= tolerance
+        )
+
+        if chains_on_prev or chains_on_context or i == 0:
+            chain_terminal_idx = i
+
+        claimed_values.add(entry["claimed"])
+
+    return chain_terminal_idx
+
+
 # ── Single chunk solver ──────────────────────────────────────────────────────
 
 def solve_chunk(
@@ -164,7 +199,7 @@ def solve_chunk(
     for attempt in range(max_retries):
         temp = temperatures[attempt] if attempt < len(temperatures) else 0.6
         slm_response = llm_fn(prompt, system=CHUNK_SYSTEM, temperature=temp)
-        expressions = extract_arithmetic_expressions(slm_response)
+        expressions = extract_arithmetic_expressions(slm_response, context)
 
         answer_tag = extract_answer_tag(slm_response)
 
@@ -278,33 +313,30 @@ def run_exp4(
             chunk_result = solve_chunk(chunk, context, llm_fn, max_retries)
 
             # ── Decide the chunk's carry-forward value ────────────────────
-            # Priority order (data-driven from regression analysis):
-            #
-            # 1. Last arithmetic expression's CLAIMED value (not corrected).
-            #    The verifier is read-only; we trust the model's own stated
-            #    result because "correcting" it causes more harm than good
-            #    when the model reasoned correctly but the verifier disagrees.
-            #
-            # 2. ANSWER: tag — only when no expressions found, OR when the
-            #    tag agrees with the last expression within 10%.
-            #    (Trusting the tag blindly hurts Phi4 and adds noise for Gemma4.)
-            #
-            # 3. last_number fallback.
+            # Priority order:
+            #   1. ANSWER: tag (model's stated final answer) — unless double-count
+            #   2. Chain-traced expression (last expr that continues the chain)
+            #   3. last_number fallback
             chunk_value = None
             answer_tag  = chunk_result.get("answer_tag")
             vlog        = chunk_result["verification_log"]
 
             if vlog:
-                # Use the verifier's corrected value (catches genuine arithmetic
-                # errors). The context-collision bug that used to make this
-                # harmful is now fixed — the verifier is read-only on context.
-                chunk_value = vlog[-1]["corrected_value"]
+                last_is_double_count = vlog[-1].get("status") == "double_count"
 
-                # ANSWER: tag overrides the last expression when present —
-                # the tag represents the model's combined final answer across
-                # ALL steps in the chunk, not just the last expression.
-                if answer_tag is not None:
+                if answer_tag is not None and not last_is_double_count:
+                    # ANSWER tag is the primary signal — the model's combined
+                    # final answer across ALL steps in the chunk.
                     chunk_value = answer_tag
+                elif last_is_double_count:
+                    # Double-count detected (e.g. Phi4: 6*5=30, 30*5=150).
+                    # Use verifier's corrected value (prev step's result).
+                    chunk_value = vlog[-1]["corrected_value"]
+                else:
+                    # No ANSWER tag: chain-trace to find the terminal expression
+                    # instead of blindly using vlog[-1] (which may be speculation).
+                    terminal_idx = _select_chain_terminal(vlog, context)
+                    chunk_value = vlog[terminal_idx]["corrected_value"]
 
             elif answer_tag is not None:
                 # No expressions extracted — tag is our only signal

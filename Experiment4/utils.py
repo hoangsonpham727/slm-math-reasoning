@@ -56,13 +56,45 @@ def _normalize_latex(text: str) -> str:
     return text
 
 
-def extract_arithmetic_expressions(text: str) -> list[dict]:
+def _is_numeric_key(k: str) -> bool:
+    """Check if a string is a numeric value (used to filter context keys)."""
+    try:
+        float(k)
+        return True
+    except ValueError:
+        return False
+
+
+def _substitute_symbolic_operands(text: str, context: dict) -> str:
+    """
+    Replace known variable names with their numeric values so the arithmetic
+    regex can match symbolic expressions like 'current_total - 4 = 28'.
+
+    Only substitutes non-numeric, non-dunder context keys that map to numbers.
+    Sorts by length descending to avoid partial matches.
+    """
+    subs = {
+        k: str(round(v, 10) if isinstance(v, float) else v)
+        for k, v in context.items()
+        if not k.startswith("__") and not _is_numeric_key(k)
+           and isinstance(v, (int, float))
+    }
+    for name in sorted(subs.keys(), key=len, reverse=True):
+        text = re.sub(r'\b' + re.escape(name) + r'\b', subs[name], text)
+    return text
+
+
+def extract_arithmetic_expressions(text: str, context: dict | None = None) -> list[dict]:
     """
     Extract all 'a op b = c' patterns from natural CoT text.
     Normalises LaTeX operators (\\times, \\div, \\frac) before matching.
+    If context is provided, substitutes symbolic variable names with their
+    numeric values before regex matching.
     Returns list of dicts: left, op, right, claimed, full_match.
     """
     text = _normalize_latex(text)
+    if context:
+        text = _substitute_symbolic_operands(text, context)
     pattern = (
         r'([\d]+(?:\.[\d]+)?)\s*'
         r'([+\-*/×÷])\s*'
@@ -101,6 +133,29 @@ def resolve_operand(value: float, context: dict) -> float:
     return context.get(str(round(value, 10)), value)
 
 
+def _is_double_count(expr: dict, prev: dict, tolerance: float = 1e-4) -> bool:
+    """
+    Detect the double-counting pattern where a model re-applies an operand
+    that was already consumed in the previous expression.
+
+    Classic Phi4 failure:
+        6 * 5 = 30     ← correct
+        30 * 5 = 150   ← re-uses 5 that was already multiplied in step above
+
+    Signature:
+      - current left  ≈ previous claimed result  (chains on the result)
+      - current right ≈ previous right OR left   (reuses an already-used operand)
+      - same operator
+    """
+    if prev is None:
+        return False
+    left_chains   = abs(expr["left"]  - prev["claimed"]) <= tolerance
+    right_reused  = (abs(expr["right"] - prev["right"]) <= tolerance or
+                     abs(expr["right"] - prev["left"])  <= tolerance)
+    same_op       = expr["op"] == prev["op"]
+    return left_chains and right_reused and same_op
+
+
 def verify_and_correct_expressions(
     expressions: list[dict],
     context: dict,
@@ -115,36 +170,55 @@ def verify_and_correct_expressions(
     earnings and a wrong claimed result).
 
     Each expression is verified using its literal operands.  The caller
-    decides what value to carry forward (prefer ANSWER: tag).
+    decides what value to carry forward (prefer ANSWER: tag, then last
+    non-double-counted corrected_value).
+
+    Adds status="double_count" when the model re-applies an already-consumed
+    operand (e.g. Phi4 double-multiplying "hours" in a rate × time problem).
     """
     log = []
+    prev = None
     for expr in expressions:
         left = expr["left"]
         right = expr["right"]
         computed = compute_expression(left, expr["op"], right)
 
         if computed is None:
-            log.append({
+            entry = {
                 **expr,
                 "resolved_left":  left,
                 "resolved_right": right,
                 "computed":       None,
                 "status":         "error",
                 "corrected_value": None,
-            })
+            }
+            log.append(entry)
+            prev = expr
             continue
 
         is_correct = abs(computed - expr["claimed"]) <= tolerance
         corrected_value = computed if not is_correct else expr["claimed"]
 
-        log.append({
+        # Detect double-count AFTER verifying arithmetic (it may be arithmetically
+        # correct but semantically wrong — the hallmark of this failure mode).
+        if _is_double_count(expr, prev, tolerance):
+            status = "double_count"
+            # The correct carry-forward value is the PREVIOUS expression's result,
+            # not this one. Store it so the caller can use it directly.
+            corrected_value = prev["claimed"]
+        else:
+            status = "correct" if is_correct else "corrected"
+
+        entry = {
             **expr,
             "resolved_left":  left,
             "resolved_right": right,
             "computed":       round(computed,         10),
-            "status":         "correct" if is_correct else "corrected",
+            "status":         status,
             "corrected_value": round(corrected_value, 10),
-        })
+        }
+        log.append(entry)
+        prev = expr
     return log
 
 
