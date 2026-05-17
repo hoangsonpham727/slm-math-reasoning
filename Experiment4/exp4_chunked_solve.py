@@ -262,6 +262,12 @@ def run_exp4(
             if not _is_goal_clause(c)
         ]
 
+        # Single-clause problems (depth-1 or failed splits): chunking adds
+        # no value and the numbered-step format causes models to re-apply the
+        # same operation twice. Treat the whole problem as one chunk.
+        if len(clauses) <= 1:
+            clauses = clauses or [problem]
+
         chunks = chunk_clauses(clauses, chunk_size)
 
         # Incremental solve
@@ -271,22 +277,40 @@ def run_exp4(
         for ci, chunk in enumerate(chunks):
             chunk_result = solve_chunk(chunk, context, llm_fn, max_retries)
 
-            # Decide the chunk's final value:
-            # 1. Prefer explicit ANSWER: tag (model's combined final value)
-            # 2. Fall back to last verified expression
-            # 3. Fall back to last_number extraction
+            # ── Decide the chunk's carry-forward value ────────────────────
+            # Priority order (data-driven from regression analysis):
+            #
+            # 1. Last arithmetic expression's CLAIMED value (not corrected).
+            #    The verifier is read-only; we trust the model's own stated
+            #    result because "correcting" it causes more harm than good
+            #    when the model reasoned correctly but the verifier disagrees.
+            #
+            # 2. ANSWER: tag — only when no expressions found, OR when the
+            #    tag agrees with the last expression within 10%.
+            #    (Trusting the tag blindly hurts Phi4 and adds noise for Gemma4.)
+            #
+            # 3. last_number fallback.
             chunk_value = None
+            answer_tag  = chunk_result.get("answer_tag")
+            vlog        = chunk_result["verification_log"]
 
-            answer_tag = chunk_result.get("answer_tag")
-            if answer_tag is not None:
+            if vlog:
+                # Use the verifier's corrected value (catches genuine arithmetic
+                # errors). The context-collision bug that used to make this
+                # harmful is now fixed — the verifier is read-only on context.
+                chunk_value = vlog[-1]["corrected_value"]
+
+                # ANSWER: tag overrides the last expression when present —
+                # the tag represents the model's combined final answer across
+                # ALL steps in the chunk, not just the last expression.
+                if answer_tag is not None:
+                    chunk_value = answer_tag
+
+            elif answer_tag is not None:
+                # No expressions extracted — tag is our only signal
                 chunk_value = answer_tag
 
-            if chunk_value is None and chunk_result["verification_log"]:
-                last_v = chunk_result["verification_log"][-1]
-                if last_v["corrected_value"] is not None:
-                    chunk_value = last_v["corrected_value"]
-
-            if chunk_value is None and chunk_result["extraction_method"] == "last_number":
+            elif chunk_result["extraction_method"] == "last_number":
                 chunk_value = context.get("__last__")
 
             if chunk_value is not None:
@@ -388,8 +412,18 @@ _FIELD_DEFAULTS = dict(
     answer_field  = "ground_truth",
     depth_field   = "depth",
     steps_field   = None,
-    chunk_size    = 2,
 )
+
+# Per-model chunk sizes (data-driven):
+#   Qwen  → 2: chunking + verification gives +4.3% vs CoT baseline.
+#   Gemma4/Phi4 → 4: these are strong CoT models; chunk_size=2 fragments
+#   their reasoning. Size 4 means depths 1-4 become a single chunk
+#   (no inter-chunk handoff at all), and depths 5-8 use only 2 chunks.
+_MODEL_CHUNK_SIZE: dict[str, int] = {
+    "qwen25_math_1.5b": 2,
+    "gemma4_e2b":       4,
+    "phi4_mini":        4,
+}
 
 
 def run_all_models(
@@ -444,10 +478,14 @@ def run_all_models(
 
         init_model(short_name, device=device)
 
+        chunk_size = _MODEL_CHUNK_SIZE.get(short_name, 2)
+        print(f"  chunk_size: {chunk_size}")
+
         results = run_exp4(
             dataset_path=dataset_path,
             output_path=output_path,
             llm_fn=_lw.llm,
+            chunk_size=chunk_size,
             **_FIELD_DEFAULTS,
         )
 
@@ -524,9 +562,12 @@ if __name__ == "__main__":
         from llm_wrapper import init_model, llm
         init_model(args.model, device=args.device)
 
+        chunk_size = _MODEL_CHUNK_SIZE.get(args.model, 2)
+
         run_exp4(
             dataset_path=dataset_path,
             output_path=output_path,
             llm_fn=llm,
+            chunk_size=chunk_size,
             **_FIELD_DEFAULTS,
         )
