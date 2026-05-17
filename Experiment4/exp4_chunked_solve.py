@@ -35,12 +35,22 @@ from utils import (
 
 
 def extract_answer_tag(text: str) -> float | None:
-    """Extract the number from an explicit ANSWER: <number> line."""
-    m = re.search(r'ANSWER\s*:\s*([-\d,]+(?:\.\d+)?)', text)
+    """Extract the number from an explicit ANSWER: <number> line.
+    Handles optional currency prefix (ANSWER: $30.375) and plain-text
+    fractions (ANSWER: 200/3 → 66.667).
+    """
+    m = re.search(
+        r'ANSWER\s*:\s*\$?\s*([-\d,]+(?:\.\d+)?(?:\s*/\s*[-\d,]+(?:\.\d+)?)?)',
+        text,
+    )
     if m:
+        val_str = m.group(1).replace(',', '').replace(' ', '')
         try:
-            return float(m.group(1).replace(',', ''))
-        except ValueError:
+            if '/' in val_str:
+                num, den = val_str.split('/', 1)
+                return float(num) / float(den)
+            return float(val_str)
+        except (ValueError, ZeroDivisionError):
             return None
     return None
 
@@ -303,20 +313,52 @@ def run_exp4(
         else:
             clauses = split_into_clauses(problem)
 
-        # Drop goal-only question sentences — they contain no computation,
-        # waste retries, and poison context via garbage fallback extraction.
-        clauses = [
-            c for c in clauses
-            if not _is_goal_clause(c)
-        ]
+        # ── Clause routing ────────────────────────────────────────────────
+        #
+        # Strategy depends on whether the problem fits in a single chunk:
+        #
+        # SINGLE-CHUNK (fact clauses ≤ chunk_size):
+        #   Pass the complete problem — all fact clauses PLUS the original
+        #   goal question — as one chunk.  Do NOT strip the question:
+        #   without it the model stops mid-computation and reports an
+        #   intermediate value instead of the final answer.
+        #
+        # MULTI-CHUNK (fact clauses > chunk_size):
+        #   • Intermediate chunks: append a "compute running total" sentence
+        #     so the model produces a single accumulated value to pass
+        #     forward as current_total.
+        #   • Last chunk: append the original goal question (or a synthetic
+        #     one) so the model knows what to compute as its final answer.
 
-        # Single-clause problems (depth-1 or failed splits): chunking adds
-        # no value and the numbered-step format causes models to re-apply the
-        # same operation twice. Treat the whole problem as one chunk.
-        if len(clauses) <= 1:
-            clauses = clauses or [problem]
+        goal_clauses = [c for c in clauses if     _is_goal_clause(c)]
+        fact_clauses = [c for c in clauses if not _is_goal_clause(c)]
 
-        chunks = chunk_clauses(clauses, chunk_size)
+        if not fact_clauses:
+            fact_clauses = [problem]
+
+        if len(fact_clauses) <= chunk_size:
+            # Single chunk — include the goal question verbatim
+            single_chunk = fact_clauses + (goal_clauses or [
+                "What is the final total after all operations above?"
+            ])
+            chunks = [single_chunk]
+        else:
+            chunks = chunk_clauses(fact_clauses, chunk_size)
+
+            # Intermediate chunks: force the model to output the running total
+            _RUNNING_TOTAL_PROMPT = (
+                "Compute the running total after applying all operations above."
+            )
+            for ci in range(len(chunks) - 1):
+                chunks[ci] = list(chunks[ci]) + [_RUNNING_TOTAL_PROMPT]
+
+            # Last chunk: append original goal question
+            goal_suffix = (
+                goal_clauses[0]
+                if goal_clauses
+                else "What is the final total after all operations above?"
+            )
+            chunks[-1] = list(chunks[-1]) + [goal_suffix]
 
         # Incremental solve
         context    = {}

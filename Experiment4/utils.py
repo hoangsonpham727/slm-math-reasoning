@@ -98,32 +98,93 @@ def _substitute_symbolic_operands(text: str, context: dict) -> str:
 
 def extract_arithmetic_expressions(text: str, context: dict | None = None) -> list[dict]:
     """
-    Extract all 'a op b = c' patterns from natural CoT text.
-    Normalises LaTeX operators (\\times, \\div, \\frac) before matching.
-    If context is provided, substitutes symbolic variable names with their
-    numeric values before regex matching.
-    Returns list of dicts: left, op, right, claimed, full_match.
+    Extract arithmetic expressions from natural CoT text.
+
+    Supports:
+      • Binary:  a op b = c
+      • Chained: a op b op c = d  (decomposed into two binary steps)
+
+    Processing order:
+      1. _normalize_latex  (strip $, LaTeX ops, unit words, commas)
+      2. _substitute_symbolic_operands  (replace context variable names)
+      3. Pass 1 — chained 3-operand regex; each match → two binary dicts
+      4. Pass 2 — binary regex; positions covered by Pass 1 are skipped
+
+    Results are returned sorted by their position in the text so that
+    downstream chain-tracing and double-count detection see them in order.
     """
     text = _normalize_latex(text)
     if context:
         text = _substitute_symbolic_operands(text, context)
-    pattern = (
-        r'(?<![\d/])([\d]+(?:\.[\d]+)?)\s*'   # left operand: not preceded by / or digit
+
+    raw: list[tuple[int, dict]] = []   # (start_pos, expr_dict)
+    covered: list[tuple[int, int]] = []  # spans claimed by chained matches
+
+    def _norm_op(op: str) -> str:
+        return op.replace('×', '*').replace('÷', '/')
+
+    # ── Pass 1: 3-operand chained expressions  a op1 b op2 c = d ─────────────
+    chain_pat = (
+        r'(?<![\d/])([\d]+(?:\.[\d]+)?)\s*'  # a
+        r'([+\-*/×÷])\s*'                     # op1
+        r'([\d]+(?:\.[\d]+)?)\s*'             # b
+        r'([+\-*/×÷])\s*'                     # op2
+        r'([\d]+(?:\.[\d]+)?)\s*=\s*'         # c =
+        r'([\d]+(?:\.[\d]+)?)'                # d (claimed)
+    )
+    for m in re.finditer(chain_pat, text):
+        a   = float(m.group(1))
+        op1 = _norm_op(m.group(2))
+        b   = float(m.group(3))
+        op2 = _norm_op(m.group(4))
+        c   = float(m.group(5))
+        d   = float(m.group(6))
+
+        intermediate = compute_expression(a, op1, b)
+        if intermediate is None:
+            continue
+
+        # Step 1: a op1 b = intermediate  (synthetic — no "= X" in text)
+        raw.append((m.start(), {
+            "left":       a,
+            "op":         op1,
+            "right":      b,
+            "claimed":    round(intermediate, 10),
+            "full_match": f"{m.group(1)} {m.group(2)} {m.group(3)}",
+        }))
+        # Step 2: intermediate op2 c = d
+        raw.append((m.start() + 1, {
+            "left":       round(intermediate, 10),
+            "op":         op2,
+            "right":      c,
+            "claimed":    d,
+            "full_match": m.group(0),
+        }))
+        covered.append(m.span())
+
+    # ── Pass 2: binary expressions, skip positions covered by chained ─────────
+    binary_pat = (
+        r'(?<![\d/])([\d]+(?:\.[\d]+)?)\s*'
         r'([+\-*/×÷])\s*'
         r'([\d]+(?:\.[\d]+)?)\s*=\s*'
         r'([\d]+(?:\.[\d]+)?)'
     )
-    results = []
-    for m in re.finditer(pattern, text):
-        op = m.group(2).replace('×', '*').replace('÷', '/')
-        results.append({
-            "left":        float(m.group(1)),
-            "op":          op,
-            "right":       float(m.group(3)),
-            "claimed":     float(m.group(4)),
-            "full_match":  m.group(0),
-        })
-    return results
+    for m in re.finditer(binary_pat, text):
+        ms, me = m.span()
+        if any(cs <= ms < ce or cs < me <= ce for cs, ce in covered):
+            continue
+        op = _norm_op(m.group(2))
+        raw.append((ms, {
+            "left":       float(m.group(1)),
+            "op":         op,
+            "right":      float(m.group(3)),
+            "claimed":    float(m.group(4)),
+            "full_match": m.group(0),
+        }))
+
+    # Sort by text position to preserve the order expressions appear in
+    raw.sort(key=lambda x: x[0])
+    return [d for _, d in raw]
 
 
 def compute_expression(left: float, op: str, right: float) -> float | None:
@@ -158,8 +219,18 @@ def _is_double_count(expr: dict, prev: dict, tolerance: float = 1e-4) -> bool:
       - current left  ≈ previous claimed result  (chains on the result)
       - current right ≈ previous right OR left   (reuses an already-used operand)
       - same operator
+
+    Guard: if the previous expression was already arithmetically wrong
+    (status="corrected"), the current expression is likely a re-statement of
+    the same computation with the corrected answer — not a genuine double-count.
+    Example: model writes a template line "X - Y = X" then the actual
+    computation "X - Y = Z (correct)". Without this guard the second line
+    would be wrongly flagged as a double-count of the first.
     """
     if prev is None:
+        return False
+    # Don't fire if prev was itself arithmetically wrong — current likely fixes it.
+    if prev.get("status") == "corrected":
         return False
     left_chains   = abs(expr["left"]  - prev["claimed"]) <= tolerance
     right_reused  = (abs(expr["right"] - prev["right"]) <= tolerance or
@@ -205,7 +276,7 @@ def verify_and_correct_expressions(
                 "corrected_value": None,
             }
             log.append(entry)
-            prev = expr
+            prev = entry   # use enriched entry so status is available
             continue
 
         is_correct = abs(computed - expr["claimed"]) <= tolerance
@@ -230,25 +301,43 @@ def verify_and_correct_expressions(
             "corrected_value": round(corrected_value, 10),
         }
         log.append(entry)
-        prev = expr
+        prev = entry   # use enriched entry so status is available next iteration
     return log
 
 
 def extract_last_number(text: str) -> float | None:
     """
     Fallback: return the last plain number in the text.
-    Prefers \\boxed{N}. Strips LaTeX fractions first so denominators
-    like the '2' in \\frac{3}{2}M are never mistaken for the answer.
+    Prefers \\boxed{N}, then evaluates plain-text fractions N/M,
+    then falls back to the last bare number.
+    Strips LaTeX fractions first so denominators are not mistaken for answers.
     """
-    # Prefer an explicit boxed numeric answer
+    # 1. Prefer an explicit boxed numeric answer
     boxed = re.search(r'\\boxed\{([-\d.]+)\}', text)
     if boxed:
         try:
             return float(boxed.group(1))
         except ValueError:
             pass
-    # Remove LaTeX fractions (\frac{a}{b}) before scanning for numbers
+
+    # 2. Remove LaTeX fractions (\frac{a}{b}) before scanning
     cleaned = re.sub(r'\\frac\{[^}]*\}\{[^}]*\}', '', text)
+
+    # 3. Look for plain-text fractions N/M — find the LAST one and evaluate it
+    #    Handles "ANSWER: 200/3" → 66.667, "remaining = 280/3" → 93.333
+    frac_matches = list(re.finditer(
+        r'([-]?\d+(?:\.\d+)?)\s*/\s*([-]?\d+(?:\.\d+)?)', cleaned
+    ))
+    if frac_matches:
+        last = frac_matches[-1]
+        try:
+            den = float(last.group(2))
+            if den != 0:
+                return float(last.group(1)) / den
+        except ValueError:
+            pass
+
+    # 4. Fall back to last bare number
     numbers = re.findall(r'[-]?\d+(?:\.\d+)?', cleaned)
     try:
         return float(numbers[-1]) if numbers else None
