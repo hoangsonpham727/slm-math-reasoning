@@ -62,10 +62,18 @@ New information (follow these steps IN ORDER):
 Using ONLY the known values and the new information above, \
 work through each numbered step IN THE ORDER GIVEN. \
 Show each calculation as: number operation number = result.
-After all steps, compute the single final value that remains after \
-applying every operation in sequence. Write your final answer as:
+{combination_reminder}
+After all steps, write your final answer as:
 ANSWER: <number>
 """
+
+_COMBINATION_REMINDER = (
+    "IMPORTANT: current_total is your starting amount. "
+    "Your ANSWER must be the result of applying the new steps TO current_total, "
+    "not just the result of the new steps alone. "
+    "For example, if current_total=135 and a cost is 33.75, "
+    "write 135 - 33.75 = 101.25, then ANSWER: 101.25."
+)
 
 
 # ── Context helpers ──────────────────────────────────────────────────────────
@@ -189,9 +197,14 @@ def solve_chunk(
     )
     context_before = _snapshot(context)
 
+    # Inject combination reminder only when there's a running total to incorporate
+    combination_reminder = (
+        _COMBINATION_REMINDER if "current_total" in context else ""
+    )
     prompt = CHUNK_USER.format(
         context_text=format_context(context),
         chunk_text=chunk_text,
+        combination_reminder=combination_reminder,
     )
 
     temperatures = [0.0, 0.3, 0.6]

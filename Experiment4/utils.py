@@ -53,6 +53,18 @@ def _normalize_latex(text: str) -> str:
     text = re.sub(r'(\d),(\d{3})', r'\1\2', text)
     text = re.sub(r'(\d),(\d{3})', r'\1\2', text)  # handle millions
 
+    # 7. Strip plain-text unit words immediately after a digit
+    #    "9 hours × 15 dollars = 135" → "9 × 15 = 135"
+    text = re.sub(
+        r'(?<=[0-9])\s+(?:hours?|minutes?|seconds?|days?|weeks?|months?|years?|'
+        r'dollars?|cents?|euros?|rupees?|'
+        r'apples?|books?|miles?|cookies?|items?|pieces?|balls?|flowers?|coins?|'
+        r'marbles?|pencils?|stars?|tickets?|gallons?|points?|pounds?)\b',
+        '',
+        text,
+        flags=re.IGNORECASE,
+    )
+
     return text
 
 
@@ -96,7 +108,7 @@ def extract_arithmetic_expressions(text: str, context: dict | None = None) -> li
     if context:
         text = _substitute_symbolic_operands(text, context)
     pattern = (
-        r'([\d]+(?:\.[\d]+)?)\s*'
+        r'(?<![\d/])([\d]+(?:\.[\d]+)?)\s*'   # left operand: not preceded by / or digit
         r'([+\-*/×÷])\s*'
         r'([\d]+(?:\.[\d]+)?)\s*=\s*'
         r'([\d]+(?:\.[\d]+)?)'
