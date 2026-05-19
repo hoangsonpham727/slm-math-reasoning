@@ -6,6 +6,7 @@ Reads JSONL result files from Experiment3/results/ and prints:
   - Accuracy split by filter success vs. filter failure (fallback to full problem)
   - Accuracy split by distractor type
   - Average number of irrelevant clauses filtered
+    - Comparison bar chart against Experiment 1 accuracy
 
 Usage:
     python analysis.py [--results_dir results]
@@ -15,6 +16,9 @@ import argparse
 import json
 from collections import defaultdict
 from pathlib import Path
+
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def load_jsonl(path: Path) -> list[dict]:
@@ -69,12 +73,80 @@ def analyse_model(records: list[dict], model_name: str) -> None:
             print(f"    {dtype:<20} n={len(grp):>3}   acc={accuracy(grp):.4f}")
 
 
+def load_experiment1_accuracies(input_path: Path) -> dict[str, float]:
+    with input_path.open("r", encoding="utf-8") as f:
+        payload = json.load(f)
+
+    enhanced = payload.get("enhanced", {})
+    if not enhanced:
+        raise ValueError("Experiment 1 JSON must contain an 'enhanced' result block.")
+
+    return {model_name: float(metrics["accuracy"]) for model_name, metrics in enhanced.items()}
+
+
+def plot_experiment_comparison(
+    exp1_accuracies: dict[str, float],
+    exp3_accuracies: dict[str, float],
+    out_path: Path,
+) -> None:
+    models = sorted(set(exp1_accuracies) & set(exp3_accuracies))
+    if not models:
+        raise ValueError("No overlapping model keys found between Experiment 1 and Experiment 3.")
+
+    exp1_values = np.array([exp1_accuracies[model] for model in models], dtype=float)
+    exp3_values = np.array([exp3_accuracies[model] for model in models], dtype=float)
+
+    x = np.arange(len(models))
+    width = 0.36
+
+    fig, ax = plt.subplots(figsize=(9, 5))
+    bars_exp1 = ax.bar(x - width / 2, exp1_values, width=width, label="Baselines", color="#4C72B0")
+    bars_exp3 = ax.bar(x + width / 2, exp3_values, width=width, label="Our Method", color="#DD8452")
+
+    for bar in list(bars_exp1) + list(bars_exp3):
+        height = bar.get_height()
+        ax.annotate(
+            f"{height:.3f}",
+            xy=(bar.get_x() + bar.get_width() / 2, height),
+            xytext=(0, 6),
+            textcoords="offset points",
+            ha="center",
+            va="bottom",
+            fontsize=9,
+        )
+
+    ax.set_xlabel("Model")
+    ax.set_ylabel("Accuracy")
+    ax.set_xticks(x)
+    ax.set_xticklabels(models, rotation=0)
+    ax.set_ylim(0.0, 1.0)
+    ax.grid(axis="y", linestyle="--", alpha=0.35)
+    ax.legend()
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=300)
+    plt.close(fig)
+
+
 def main():
     p = argparse.ArgumentParser(description="Experiment 3 Analysis")
     p.add_argument("--results_dir", type=str, default="results")
+    p.add_argument(
+        "--experiment1_json",
+        type=str,
+        default="../Experiment1/inference_results.json",
+        help="Path to Experiment 1 inference results JSON.",
+    )
+    p.add_argument(
+        "--output_dir",
+        type=str,
+        default="figures",
+        help="Directory to save comparison figures.",
+    )
     args = p.parse_args()
 
     results_dir = Path(args.results_dir)
+    output_dir = Path(args.output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
     files = sorted(results_dir.glob("*_distractor_filter.jsonl"))
 
     if not files:
@@ -86,16 +158,24 @@ def main():
     print(f"{'='*55}")
 
     all_records = []
+    exp3_accuracies: dict[str, float] = {}
     for fpath in files:
         records = load_jsonl(fpath)
         model_name = fpath.stem.replace("_distractor_filter", "")
         analyse_model(records, model_name)
         all_records.extend(records)
+        exp3_accuracies[model_name] = accuracy(records)
 
     if len(files) > 1:
         print(f"\n{'─'*55}")
         print(f"  All models combined  (n={len(all_records)})")
         print(f"  Overall accuracy: {accuracy(all_records):.4f}")
+
+    exp1_path = Path(args.experiment1_json).resolve()
+    exp1_accuracies = load_experiment1_accuracies(exp1_path)
+    comparison_out = output_dir / "exp1_vs_exp3_accuracy.png"
+    plot_experiment_comparison(exp1_accuracies, exp3_accuracies, comparison_out)
+    print(f"Saved comparison bar chart: {comparison_out}")
 
     print(f"\n{'='*55}\n")
 
