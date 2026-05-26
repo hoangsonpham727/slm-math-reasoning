@@ -45,13 +45,7 @@ MODEL_CONFIGS = [
         dtype        = "bfloat16",
         trust_remote_code = False,
     ),
-    ModelConfig(
-        model_id     = "Qwen/Qwen2.5-7B-Instruct",
-        short_name   = "qwen25_7b",
-        family       = "qwen_math",   # same tokenizer/generate path as the math variant
-        dtype        = "bfloat16",
-        trust_remote_code = False,
-    ),
+
     ModelConfig(
         model_id     = "google/gemma-4-E2B-IT",
         short_name   = "gemma4_e2b",
