@@ -435,6 +435,171 @@ def save_corrections_by_model_csv(df4: pd.DataFrame, output_dir: str):
     print(table_df.to_string(index=False))
 
 
+# ── Multi-seed helpers ───────────────────────────────────────────────────────
+
+def _bootstrap_ci(values: list, n_bootstrap: int = 10_000) -> tuple:
+    """Bootstrap 95% CI for the mean of a small sample."""
+    import random as _rng
+    vals = list(values)
+    n = len(vals)
+    if n == 0:
+        return (float("nan"), float("nan"))
+    if n == 1:
+        return (vals[0], vals[0])
+    boot_means = [sum(_rng.choices(vals, k=n)) / n for _ in range(n_bootstrap)]
+    boot_means.sort()
+    return (boot_means[int(0.025 * n_bootstrap)], boot_means[int(0.975 * n_bootstrap)])
+
+
+def load_multi_seed_exp2(exp2_base: str) -> dict:
+    """Load Exp2 results from seed_* subdirectories under exp2_base."""
+    base = Path(exp2_base)
+    seed_dirs = sorted(d for d in base.iterdir() if d.is_dir() and d.name.startswith("seed_"))
+    if not seed_dirs:
+        raise FileNotFoundError(f"No seed_* dirs found in '{exp2_base}'")
+    return {sd.name: load_exp2(str(sd)) for sd in seed_dirs}
+
+
+def load_multi_seed_exp4(exp4_base: str) -> dict:
+    """Load Exp4 results from seed_* subdirectories under exp4_base."""
+    base = Path(exp4_base)
+    seed_dirs = sorted(d for d in base.iterdir() if d.is_dir() and d.name.startswith("seed_"))
+    if not seed_dirs:
+        raise FileNotFoundError(f"No seed_* dirs found in '{exp4_base}'")
+    return {sd.name: load_exp4(str(sd)) for sd in seed_dirs}
+
+
+def compute_multi_seed_accuracy_cisv(seed_df2s: dict, seed_df4s: dict) -> pd.DataFrame:
+    """
+    Merge per-seed Exp2 + Exp4 data, compute per-seed accuracy per
+    (model, method, depth), aggregate: mean, std, bootstrap 95% CI.
+    The returned 'acc' column holds the mean (compatible with single-seed figs).
+    """
+    per_seed: dict[str, pd.DataFrame] = {}
+    for label in sorted(set(seed_df2s) | set(seed_df4s)):
+        parts = []
+        if label in seed_df2s:
+            parts.append(seed_df2s[label][["model", "method", "depth", "correct"]])
+        if label in seed_df4s:
+            parts.append(seed_df4s[label][["model", "method", "depth", "correct"]])
+        if parts:
+            combined = pd.concat(parts, ignore_index=True)
+            per_seed[label] = compute_accuracy(combined)
+
+    all_keys: set = set()
+    for acc_df in per_seed.values():
+        for _, row in acc_df.iterrows():
+            all_keys.add((row["model"], row["method"], row["depth"]))
+
+    rows = []
+    for (model, method, depth) in sorted(all_keys):
+        seed_accs = {}
+        for label, acc_df in per_seed.items():
+            match = acc_df[
+                (acc_df["model"] == model) &
+                (acc_df["method"] == method) &
+                (acc_df["depth"] == depth)
+            ]
+            if not match.empty:
+                seed_accs[label] = float(match["acc"].values[0])
+
+        acc_vals = list(seed_accs.values())
+        mean_acc = float(np.mean(acc_vals)) if acc_vals else float("nan")
+        std_acc  = float(np.std(acc_vals, ddof=1)) if len(acc_vals) > 1 else 0.0
+        ci_lo, ci_hi = _bootstrap_ci(acc_vals)
+
+        row = {
+            "model": model, "method": method, "depth": depth,
+            "n_seeds": len(acc_vals),
+            "acc": mean_acc, "std_acc": std_acc,
+            "ci_lo": ci_lo, "ci_hi": ci_hi,
+            "n": len(acc_vals), "k": 0,   # placeholders for fig compat
+        }
+        for label, acc in seed_accs.items():
+            row[f"acc_{label}"] = acc
+        rows.append(row)
+
+    return pd.DataFrame(rows).sort_values(["model", "method", "depth"])
+
+
+def fig1_acc_curves_multiseed(ms_acc_df: pd.DataFrame, output_dir: str):
+    """Figure 1 (multi-seed): accuracy curves with bootstrap CI error bands."""
+    models = sorted(ms_acc_df["model"].unique(), key=lambda m: MODEL_LABELS.get(str(m), str(m)))
+    depths = sorted(ms_acc_df["depth"].unique())
+    ncols = min(3, len(models))
+    nrows = (len(models) + ncols - 1) // ncols
+
+    fig, axes = plt.subplots(nrows, ncols, figsize=(5.5 * ncols, 4.5 * nrows),
+                             sharey=True, sharex=True)
+    axes_flat = np.array(axes).flatten() if len(models) > 1 else [axes]
+
+    for ax_idx, model in enumerate(models):
+        ax = axes_flat[ax_idx]
+        m_df = ms_acc_df[ms_acc_df["model"] == model]
+
+        for method in ["direct", "cot", "chunked"]:
+            r_df = m_df[m_df["method"] == method].sort_values("depth")
+            if r_df.empty:
+                continue
+            style = METHOD_STYLE[method]
+            color = METHOD_COLORS[method]
+            ax.plot(r_df["depth"], r_df["acc"], color=color,
+                    label=f"{METHOD_LABELS[method]} (mean)", **style)
+            ax.fill_between(r_df["depth"], r_df["ci_lo"], r_df["ci_hi"],
+                            alpha=0.18, color=color, label="_nolegend_")
+            if "std_acc" in r_df.columns:
+                ax.fill_between(r_df["depth"],
+                                r_df["acc"] - r_df["std_acc"],
+                                r_df["acc"] + r_df["std_acc"],
+                                alpha=0.09, color=color, label="_nolegend_")
+
+        n_seeds = int(ms_acc_df["n_seeds"].max())
+        ax.set_title(f"{MODEL_LABELS.get(model, model)}\n(n={n_seeds} seeds)",
+                     fontsize=11, fontweight="bold")
+        ax.set_xlabel("Reasoning depth (steps)", fontsize=9)
+        ax.set_ylabel("Accuracy", fontsize=9)
+        ax.set_ylim(-0.02, 1.05)
+        ax.set_xticks(depths)
+        ax.yaxis.set_major_formatter(mticker.PercentFormatter(xmax=1, decimals=0))
+        ax.axhline(0.5, color="gray", linewidth=0.8, linestyle=":", alpha=0.5)
+        ax.legend(fontsize=8, loc="upper right")
+        ax.grid(True, alpha=0.3)
+
+    for ax in axes_flat[len(models):]:
+        ax.set_visible(False)
+
+    plt.tight_layout()
+    _save(fig, output_dir, "fig1_acc_curves_multiseed")
+
+
+def print_multiseed_summary_cisv(ms_acc_df: pd.DataFrame):
+    print("\n" + "=" * 80)
+    print("MULTI-SEED SUMMARY: Mean ± Std accuracy (Chunked method, per depth)")
+    print("=" * 80)
+    chk = ms_acc_df[ms_acc_df["method"] == "chunked"].copy()
+    chk["mean±std"] = chk.apply(
+        lambda r: f"{r['acc']:.3f} ± {r['std_acc']:.3f}", axis=1
+    )
+    pivot = chk.pivot_table(index="model", columns="depth", values="mean±std",
+                            aggfunc="first")
+    pivot.index = [MODEL_LABELS.get(m, m) for m in pivot.index]
+    print(pivot.to_string())
+
+    print("\n" + "=" * 80)
+    print("MULTI-SEED SUMMARY: Chunked vs CoT mean Δ ± std (averaged across depths)")
+    print("=" * 80)
+    for model in sorted(ms_acc_df["model"].unique()):
+        m = ms_acc_df[ms_acc_df["model"] == model]
+        cot_d = m[m["method"] == "cot"].set_index("depth")["acc"]
+        chk_d = m[m["method"] == "chunked"].set_index("depth")["acc"]
+        common = sorted(set(cot_d.index) & set(chk_d.index))
+        if not common:
+            continue
+        deltas = [chk_d[d] - cot_d[d] for d in common]
+        print(f"  {MODEL_LABELS.get(model, model):<28} "
+              f"Δ={np.mean(deltas):+.3f} ± {np.std(deltas, ddof=1):.3f}")
+
+
 # ── Entry point ──────────────────────────────────────────────────────────────
 
 def parse_args():
@@ -446,49 +611,77 @@ def parse_args():
                    help="Directory with Experiment 2 JSONL baselines")
     p.add_argument("--exp4_dir",   default=str(root / "results"),
                    help="Directory with Experiment 4 JSON result files")
-    p.add_argument("--output_dir", default=str(root / "Experiment4" / "figures"),
+    p.add_argument("--output_dir", default=str(root / "CISV" / "figures"),
                    help="Where to save figures")
     p.add_argument("--exp4_file",  default=None,
                    help="Single Exp4 JSON file (overrides --exp4_dir)")
+    p.add_argument("--multi_seed", action="store_true",
+                   help="Aggregate across seed_* subdirectories and report "
+                        "mean ± std with bootstrap 95% CIs.")
     return p.parse_args()
 
 
 def main():
     args = parse_args()
 
-    print("Loading data...")
-    df2 = load_exp2(args.exp2_dir)
+    if args.multi_seed:
+        # ── Multi-seed mode ──────────────────────────────────────────────────
+        print("Loading multi-seed Exp2 baselines...")
+        seed_df2s = load_multi_seed_exp2(args.exp2_dir)
 
-    # Support pointing at a single checkpoint file directly
-    if args.exp4_file:
-        exp4_dir = Path(args.exp4_file).parent
-        # Rename temporarily so glob picks it up
-        fpath = Path(args.exp4_file)
-        if not fpath.name.startswith("exp4_chunked_"):
-            print(f"  Warning: file name doesn't follow exp4_chunked_<model>.json "
-                  f"convention — model name will be inferred as 'unknown'")
-        df4 = load_exp4(str(exp4_dir))
+        print("Loading multi-seed CISV results...")
+        seed_df4s = load_multi_seed_exp4(args.exp4_dir)
+
+        print("Aggregating across seeds...")
+        ms_acc_df = compute_multi_seed_accuracy_cisv(seed_df2s, seed_df4s)
+
+        print_multiseed_summary_cisv(ms_acc_df)
+        Path(args.output_dir).mkdir(parents=True, exist_ok=True)
+        ms_acc_df.to_csv(
+            Path(args.output_dir).parent / "metrics_multiseed_cisv.csv", index=False
+        )
+
+        print("\nGenerating multi-seed figures...")
+        fig1_acc_curves_multiseed(ms_acc_df, args.output_dir)
+        fig2_method_bars(ms_acc_df, args.output_dir)
+        fig4_delta_curves(ms_acc_df, args.output_dir)
+
+        # Heatmap uses first seed's Exp4 diagnostic data
+        first_label = sorted(seed_df4s.keys())[0]
+        stats_df = compute_exp4_stats(seed_df4s[first_label])
+        fig3_exp4_stats_heatmap(stats_df, args.output_dir)
+
     else:
-        df4 = load_exp4(args.exp4_dir)
+        # ── Single-seed mode (original behaviour) ────────────────────────────
+        print("Loading data...")
+        df2 = load_exp2(args.exp2_dir)
 
-    # Combine into a single accuracy DataFrame
-    print("Computing accuracy metrics...")
-    df_all = pd.concat([
-        df2[["model", "method", "depth", "correct"]],
-        df4[["model", "method", "depth", "correct"]],
-    ], ignore_index=True)
-    acc_df = compute_accuracy(df_all)
-    stats_df = compute_exp4_stats(df4)
+        if args.exp4_file:
+            exp4_dir = Path(args.exp4_file).parent
+            fpath = Path(args.exp4_file)
+            if not fpath.name.startswith("exp4_chunked_"):
+                print(f"  Warning: file name doesn't follow exp4_chunked_<model>.json "
+                      f"convention — model name will be inferred as 'unknown'")
+            df4 = load_exp4(str(exp4_dir))
+        else:
+            df4 = load_exp4(args.exp4_dir)
 
-    print_summary(acc_df)
-   
-    save_corrections_by_model_csv(df4, args.output_dir)
+        print("Computing accuracy metrics...")
+        df_all = pd.concat([
+            df2[["model", "method", "depth", "correct"]],
+            df4[["model", "method", "depth", "correct"]],
+        ], ignore_index=True)
+        acc_df   = compute_accuracy(df_all)
+        stats_df = compute_exp4_stats(df4)
 
-    print("\nGenerating figures...")
-    fig1_acc_curves(acc_df, args.output_dir)
-    fig2_method_bars(acc_df, args.output_dir)
-    fig3_exp4_stats_heatmap(stats_df, args.output_dir)
-    fig4_delta_curves(acc_df, args.output_dir)
+        print_summary(acc_df)
+        save_corrections_by_model_csv(df4, args.output_dir)
+
+        print("\nGenerating figures...")
+        fig1_acc_curves(acc_df, args.output_dir)
+        fig2_method_bars(acc_df, args.output_dir)
+        fig3_exp4_stats_heatmap(stats_df, args.output_dir)
+        fig4_delta_curves(acc_df, args.output_dir)
 
     print(f"\nAll figures saved to '{args.output_dir}/'")
 

@@ -394,6 +394,189 @@ def _wilson_ci(k: int, n: int, z: float = 1.96) -> tuple:
 
 
 # ---------------------------------------------------------------------------
+# Multi-seed aggregation
+# ---------------------------------------------------------------------------
+
+def load_multi_seed_results(results_base: str) -> dict:
+    """
+    Discover seed_* subdirectories under results_base and load each into a
+    DataFrame.  Returns {seed_label: DataFrame} where seed_label is the
+    directory name (e.g. 'seed_42').
+    """
+    base = Path(results_base)
+    seed_dirs = sorted(d for d in base.iterdir() if d.is_dir() and d.name.startswith("seed_"))
+    if not seed_dirs:
+        raise FileNotFoundError(
+            f"No seed_* subdirectories found under '{results_base}'. "
+            "Run run_multi_seed.py first."
+        )
+    result = {}
+    for sd in seed_dirs:
+        print(f"  Loading {sd.name} …")
+        result[sd.name] = load_results(str(sd))
+    return result
+
+
+def bootstrap_ci(values: list, n_bootstrap: int = 10_000) -> tuple:
+    """
+    Bootstrap 95% CI for the mean of a small sample (e.g. 3 seed accuracies).
+    Returns (ci_lo, ci_hi).
+    """
+    import random as _rng
+    vals = list(values)
+    n = len(vals)
+    if n == 0:
+        return (float("nan"), float("nan"))
+    if n == 1:
+        return (vals[0], vals[0])
+    boot_means = [
+        sum(_rng.choices(vals, k=n)) / n
+        for _ in range(n_bootstrap)
+    ]
+    boot_means.sort()
+    lo = boot_means[int(0.025 * n_bootstrap)]
+    hi = boot_means[int(0.975 * n_bootstrap)]
+    return (lo, hi)
+
+
+def compute_multi_seed_accuracy(seed_dfs: dict) -> pd.DataFrame:
+    """
+    For each (model, regime, depth), compute per-seed accuracy then aggregate
+    across seeds: mean, std, bootstrap 95% CI.
+
+    Returns a DataFrame with columns:
+      model, regime, depth, n_seeds, mean_acc, std_acc, ci_lo, ci_hi,
+      plus one acc_seed_{label} column per seed for transparency.
+    """
+    # Compute per-seed accuracy tables
+    per_seed: dict[str, pd.DataFrame] = {}
+    for label, df in seed_dfs.items():
+        per_seed[label] = compute_acc_at_k(df)
+
+    # Collect all (model, regime, depth) combinations
+    all_keys: set = set()
+    for acc_df in per_seed.values():
+        for _, row in acc_df.iterrows():
+            all_keys.add((row["model"], row["regime"], row["depth"]))
+
+    rows = []
+    for (model, regime, depth) in sorted(all_keys):
+        seed_accs = {}
+        for label, acc_df in per_seed.items():
+            match = acc_df[
+                (acc_df["model"] == model) &
+                (acc_df["regime"] == regime) &
+                (acc_df["depth"] == depth)
+            ]
+            if not match.empty:
+                seed_accs[label] = float(match["acc"].values[0])
+
+        acc_vals  = list(seed_accs.values())
+        mean_acc  = float(np.mean(acc_vals)) if acc_vals else float("nan")
+        std_acc   = float(np.std(acc_vals, ddof=1)) if len(acc_vals) > 1 else 0.0
+        ci_lo, ci_hi = bootstrap_ci(acc_vals)
+
+        row = {
+            "model": model, "regime": regime, "depth": depth,
+            "n_seeds": len(acc_vals),
+            "mean_acc": mean_acc, "std_acc": std_acc,
+            "ci_lo": ci_lo, "ci_hi": ci_hi,
+        }
+        for label, acc in seed_accs.items():
+            row[f"acc_{label}"] = acc
+        rows.append(row)
+
+    return pd.DataFrame(rows).sort_values(["model", "regime", "depth"])
+
+
+def fig_acc_curves_multiseed(ms_acc_df: pd.DataFrame, output_dir: str):
+    """
+    Figure 1 (multi-seed): Acc@depth curves with bootstrap CI error bands.
+    One subplot per model, two lines per subplot (Direct, CoT).
+    """
+    depths = sorted(ms_acc_df["depth"].unique())
+    models = sorted(ms_acc_df["model"].unique())
+
+    fig, axes = plt.subplots(2, 2, figsize=(12, 9), sharey=True, sharex=True)
+    axes_flat = axes.flatten()
+
+    for ax_idx, model in enumerate(models):
+        ax = axes_flat[ax_idx]
+        m_df = ms_acc_df[ms_acc_df["model"] == model]
+        label = MODEL_LABELS.get(model, model)
+
+        for regime in ["direct", "cot"]:
+            r_df = m_df[m_df["regime"] == regime].sort_values("depth")
+            if r_df.empty:
+                continue
+            color = REGIME_COLORS[regime]
+            ax.plot(
+                r_df["depth"], r_df["mean_acc"],
+                linestyle=REGIME_STYLE[regime],
+                marker="o" if regime == "cot" else "s",
+                markersize=5, color=color, linewidth=2.2,
+                label=f"{REGIME_LABEL[regime]} (mean±CI)",
+            )
+            # Bootstrap CI band
+            ax.fill_between(
+                r_df["depth"], r_df["ci_lo"], r_df["ci_hi"],
+                alpha=0.20, color=color,
+            )
+            # Std band (lighter, wider)
+            ax.fill_between(
+                r_df["depth"],
+                r_df["mean_acc"] - r_df["std_acc"],
+                r_df["mean_acc"] + r_df["std_acc"],
+                alpha=0.10, color=color,
+            )
+
+        n_seeds = int(ms_acc_df["n_seeds"].max())
+        ax.set_title(f"{label}\n(n={n_seeds} seeds)", fontsize=11, fontweight="bold")
+        ax.set_xlabel("Reasoning depth (steps)", fontsize=9)
+        ax.set_ylabel("Accuracy", fontsize=9)
+        ax.set_ylim(-0.02, 1.05)
+        ax.set_xticks(depths)
+        ax.yaxis.set_major_formatter(mticker.PercentFormatter(xmax=1, decimals=0))
+        ax.axhline(0.5, color="gray", linewidth=0.8, linestyle=":", alpha=0.6)
+        ax.legend(fontsize=8)
+        ax.grid(True, alpha=0.3)
+
+    for ax in axes_flat[len(models):]:
+        ax.set_visible(False)
+
+    plt.tight_layout()
+    out = Path(output_dir) / "fig1_acc_curves_multiseed.pdf"
+    plt.savefig(out, bbox_inches="tight", dpi=150)
+    plt.savefig(str(out).replace(".pdf", ".png"), bbox_inches="tight", dpi=150)
+    plt.close()
+    print(f"  Saved: {out}")
+
+
+def print_multiseed_summary(ms_acc_df: pd.DataFrame):
+    print("\n" + "=" * 80)
+    print("MULTI-SEED SUMMARY: Mean ± Std accuracy@depth (CoT regime)")
+    print("=" * 80)
+    cot = ms_acc_df[ms_acc_df["regime"] == "cot"].copy()
+    cot["mean±std"] = cot.apply(
+        lambda r: f"{r['mean_acc']:.3f} ± {r['std_acc']:.3f}", axis=1
+    )
+    pivot = cot.pivot_table(index="model", columns="depth", values="mean±std",
+                            aggfunc="first")
+    pivot.index = [MODEL_LABELS.get(m, m) for m in pivot.index]
+    print(pivot.to_string())
+
+    print("\n" + "=" * 80)
+    print("MULTI-SEED SUMMARY: 95% Bootstrap CI per model (CoT, mean across depths)")
+    print("=" * 80)
+    for model, grp in cot.groupby("model"):
+        mean = grp["mean_acc"].mean()
+        lo   = grp["ci_lo"].mean()
+        hi   = grp["ci_hi"].mean()
+        print(f"  {MODEL_LABELS.get(model, model):<28} mean={mean:.3f}  "
+              f"CI=[{lo:.3f}, {hi:.3f}]")
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -402,6 +585,9 @@ def parse_args():
     parser.add_argument("--results_dir", type=str, default="results")
     parser.add_argument("--output_dir",  type=str, default="figures")
     parser.add_argument("--regime",      type=str, default="direct,cot")
+    parser.add_argument("--multi_seed",  action="store_true",
+                        help="Aggregate across seed_* subdirectories and report "
+                             "mean ± std with bootstrap 95% CIs.")
     return parser.parse_args()
 
 
@@ -409,21 +595,49 @@ def main():
     args = parse_args()
     Path(args.output_dir).mkdir(parents=True, exist_ok=True)
 
-    print("Loading results...")
-    df = load_results(args.results_dir)
+    if args.multi_seed:
+        # ── Multi-seed mode ──────────────────────────────────────────────────
+        print("Loading multi-seed results...")
+        seed_dfs = load_multi_seed_results(args.results_dir)
 
-    print("Computing metrics...")
-    acc_df     = compute_acc_at_k(df)
-    ceiling_df = compute_depth_ceiling(acc_df)
+        print("Aggregating across seeds...")
+        ms_acc_df = compute_multi_seed_accuracy(seed_dfs)
 
-    print_summary_tables(acc_df, ceiling_df)
-    save_summary_csv(acc_df, ceiling_df, args.output_dir)
+        print_multiseed_summary(ms_acc_df)
+        ms_acc_df.to_csv(Path(args.output_dir) / "metrics_multiseed.csv", index=False)
+        print(f"  Saved: {args.output_dir}/metrics_multiseed.csv")
 
-    print("\nGenerating figures...")
-    fig_acc_curves(acc_df, args.output_dir)
-    fig_gap_slope(acc_df, args.output_dir)
-    fig_step_accuracy_heatmap(acc_df, args.output_dir)
-    fig_collapse_rate(acc_df, args.output_dir)
+        print("\nGenerating multi-seed figures...")
+        fig_acc_curves_multiseed(ms_acc_df, args.output_dir)
+
+        # Also generate standard plots using the first seed as representative
+        first_label = sorted(seed_dfs.keys())[0]
+        print(f"\nGenerating standard figures using {first_label} as representative...")
+        df_rep = seed_dfs[first_label]
+        acc_df     = compute_acc_at_k(df_rep)
+        ceiling_df = compute_depth_ceiling(acc_df)
+        fig_acc_curves(acc_df, args.output_dir)
+        fig_gap_slope(acc_df, args.output_dir)
+        fig_step_accuracy_heatmap(acc_df, args.output_dir)
+        fig_collapse_rate(acc_df, args.output_dir)
+
+    else:
+        # ── Single-seed mode (original behaviour) ────────────────────────────
+        print("Loading results...")
+        df = load_results(args.results_dir)
+
+        print("Computing metrics...")
+        acc_df     = compute_acc_at_k(df)
+        ceiling_df = compute_depth_ceiling(acc_df)
+
+        print_summary_tables(acc_df, ceiling_df)
+        save_summary_csv(acc_df, ceiling_df, args.output_dir)
+
+        print("\nGenerating figures...")
+        fig_acc_curves(acc_df, args.output_dir)
+        fig_gap_slope(acc_df, args.output_dir)
+        fig_step_accuracy_heatmap(acc_df, args.output_dir)
+        fig_collapse_rate(acc_df, args.output_dir)
 
     print(f"\nAll figures and CSVs saved to '{args.output_dir}/'")
 

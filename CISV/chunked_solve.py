@@ -528,6 +528,7 @@ def run_all_models(
     device: str = "cuda:0",
     data_path: str | None = None,
     output_dir: str | None = None,
+    seed: int | None = None,
 ) -> dict[str, list[dict]]:
     """
     Run Experiment 4 for every model in sequence.
@@ -551,10 +552,18 @@ def run_all_models(
     if models is None:
         models = _ALL_MODELS
 
-    dataset_path = data_path or str(
-        ROOT / "Experiment2" / "data" / "problems_all.json"
-    )
-    out_dir = Path(output_dir) if output_dir else ROOT / "results"
+    if data_path is None:
+        if seed is not None:
+            dataset_path = str(ROOT / "Experiment2" / "data" / f"seed_{seed}" / "problems_all.json")
+        else:
+            dataset_path = str(ROOT / "Experiment2" / "data" / "problems_all.json")
+    else:
+        dataset_path = data_path
+
+    if output_dir is None:
+        out_dir = ROOT / "results" / (f"seed_{seed}" if seed is not None else "")
+    else:
+        out_dir = Path(output_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
 
     all_results: dict[str, list[dict]] = {}
@@ -640,20 +649,44 @@ if __name__ == "__main__":
         "--output", default=None,
         help="Output path / dir (single model: file path; --all: directory)",
     )
+    parser.add_argument(
+        "--seed", type=int, default=None,
+        help="Seed variant for multi-seed experiments. When provided and --data / "
+             "--output are not explicitly set, routes to seed-specific paths: "
+             "Experiment2/data/seed_{seed}/problems_all.json and "
+             "CISV/results/seed_{seed}/exp4_chunked_{model}.json",
+    )
     args = parser.parse_args()
+
+    # Resolve seed-specific paths when --seed is given and paths not overridden
+    _seed_data = args.data
+    _seed_out  = args.output
+    if args.seed is not None:
+        if _seed_data is None:
+            _seed_data = str(
+                ROOT / "Experiment2" / "data" / f"seed_{args.seed}" / "problems_all.json"
+            )
+        if _seed_out is None:
+            _seed_out = str(ROOT / "results" / f"seed_{args.seed}")
 
     if args.all:
         run_all_models(
             device=args.device,
-            data_path=args.data,
-            output_dir=args.output,
+            data_path=_seed_data,
+            output_dir=_seed_out,
         )
     else:
-        dataset_path = args.data or str(
+        dataset_path = _seed_data or str(
             ROOT / "Experiment2" / "data" / "problems_all.json"
         )
-        output_path = args.output or str(
-            ROOT / "results" / f"exp4_chunked_{args.model}.json"
+        output_path = (
+            _seed_out
+            if (_seed_out and not Path(_seed_out).is_dir()
+                and not _seed_out.endswith("/"))
+            else str(
+                (Path(_seed_out) if _seed_out else ROOT / "results")
+                / f"exp4_chunked_{args.model}.json"
+            )
         )
 
         from llm_wrapper import init_model, llm

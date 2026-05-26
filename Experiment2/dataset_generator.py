@@ -15,7 +15,8 @@ from dataclasses import dataclass, asdict
 from typing import Optional
 
 
-random.seed(42)
+# Note: module-level seed removed; seeding is handled per-problem inside
+# _make_step_sequence() and optionally at dataset level in generate_dataset().
 
 # ---------------------------------------------------------------------------
 # Data structures
@@ -191,8 +192,24 @@ def _make_step_sequence(depth: int, seed_val: int):
     return sentences, intermediates, ops, final_value, unit
 
 
-def build_problem(depth: int, problem_idx: int) -> MathProblem:
-    seed_val = depth * 10000 + problem_idx
+def build_problem(depth: int, problem_idx: int, seed_base: Optional[int] = None) -> MathProblem:
+    """
+    Build one problem at the given depth and index.
+
+    Args:
+        depth:       Number of chained arithmetic steps.
+        problem_idx: Problem index within this depth (0-indexed).
+        seed_base:   Optional seed base for multi-seed experiments.
+                     - None (default): uses legacy formula ``depth*10000 + problem_idx``
+                       so existing datasets are reproduced exactly.
+                     - int: uses ``seed_base*100000 + depth*10000 + problem_idx``
+                       which guarantees non-overlapping seed spaces across seed variants
+                       (max legacy value is 8*10000+199 = 80199 < 100000).
+    """
+    if seed_base is None:
+        seed_val = depth * 10000 + problem_idx
+    else:
+        seed_val = seed_base * 100000 + depth * 10000 + problem_idx
     sentences, intermediates, ops, final_value, unit = _make_step_sequence(depth, seed_val)
 
     actor_name = sentences[0].split()[0]  # extract first word (actor name)
@@ -218,19 +235,31 @@ def generate_dataset(
     depths: list = list(range(1, 9)),
     n_per_depth: int = 200,
     output_dir: str = "data",
+    seed: Optional[int] = None,
 ) -> dict:
     """
     Generate n_per_depth problems for each depth level.
     Returns a dict: {depth -> list[MathProblem]}
     Saves to output_dir/problems_depth{k}.json and a combined file.
+
+    Args:
+        depths:      List of depth levels to generate (default 1-8).
+        n_per_depth: Number of problems per depth level.
+        output_dir:  Directory to save generated JSON files.
+        seed:        Optional seed base for multi-seed experiments.
+                     None → legacy formula (reproduces existing datasets).
+                     int  → new formula ensures different problems per seed.
     """
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     all_problems = {}
 
+    seed_label = f"seed={seed}" if seed is not None else "legacy"
+    print(f"Generating dataset [{seed_label}] → '{output_dir}/'")
+
     for depth in depths:
         problems = []
         for idx in range(n_per_depth):
-            p = build_problem(depth, idx)
+            p = build_problem(depth, idx, seed_base=seed)
             # Sanity-check: ground truth must be positive
             assert p.ground_truth > 0, f"Non-positive GT at {p.problem_id}"
             problems.append(p)
@@ -364,11 +393,27 @@ def check_step_accuracy(
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
+    import argparse as _ap
+    _parser = _ap.ArgumentParser(description="Generate synthetic math reasoning dataset")
+    _parser.add_argument("--seed", type=int, default=None,
+                         help="Seed base for multi-seed experiments. "
+                              "Omit to reproduce the legacy dataset in data/.")
+    _parser.add_argument("--output_dir", type=str, default=None,
+                         help="Output directory. Defaults to data/ (no seed) or "
+                              "data/seed_{seed}/ (with seed).")
+    _parser.add_argument("--n_per_depth", type=int, default=200)
+    _args = _parser.parse_args()
+
+    _out = _args.output_dir
+    if _out is None:
+        _out = "data" if _args.seed is None else f"data/seed_{_args.seed}"
+
     print("Generating dataset...")
     dataset = generate_dataset(
         depths=list(range(1, 9)),
-        n_per_depth=200,
-        output_dir="data",
+        n_per_depth=_args.n_per_depth,
+        output_dir=_out,
+        seed=_args.seed,
     )
 
     # Spot-check a few problems

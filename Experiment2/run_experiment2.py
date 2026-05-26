@@ -232,11 +232,25 @@ def parse_args():
     parser.add_argument("--n_per_depth",    type=int, default=200)
     parser.add_argument("--no_resume", action="store_true",
                         help="Disable resume; re-run everything from scratch")
+    parser.add_argument("--seed", type=int, default=None,
+                        help="Seed variant for multi-seed experiments. "
+                             "When provided, data_dir defaults to data/seed_{seed}/ "
+                             "and output_dir defaults to results/seed_{seed}/.")
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
+
+    # Resolve seed-specific paths (only when --seed is given and user hasn't
+    # explicitly overridden data_dir / output_dir away from their defaults).
+    data_dir   = args.data_dir
+    output_dir = args.output_dir
+    if args.seed is not None:
+        if data_dir == "data":
+            data_dir = f"data/seed_{args.seed}"
+        if output_dir == "results":
+            output_dir = f"results/seed_{args.seed}"
 
     depths  = [int(d) for d in args.depths.split(",")]
     regimes = [r.strip() for r in args.regime.split(",")]
@@ -248,18 +262,20 @@ def main():
         wanted = set(args.models.split(","))
         configs_to_run = [c for c in all_configs if c.short_name in wanted]
 
+    seed_label = f"seed={args.seed}" if args.seed is not None else "legacy"
     print(f"\n{'='*60}")
-    print(f"Experiment 2 — Reasoning Depth Inference")
+    print(f"Experiment 2 — Reasoning Depth Inference [{seed_label}]")
     print(f"  Started:    {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"  Models:     {[c.short_name for c in configs_to_run]}")
     print(f"  Depths:     {depths}")
     print(f"  Regimes:    {regimes}")
     print(f"  N/depth:    {args.n_per_depth}")
-    print(f"  Output dir: {args.output_dir}")
+    print(f"  Data dir:   {data_dir}")
+    print(f"  Output dir: {output_dir}")
     print(f"{'='*60}\n")
 
     # Load dataset once
-    dataset = load_problems(args.data_dir, depths, args.n_per_depth)
+    dataset = load_problems(data_dir, depths, args.n_per_depth)
     print(f"Dataset loaded: {sum(len(v) for v in dataset.values())} total problems.\n")
 
     for cfg in configs_to_run:
@@ -270,7 +286,7 @@ def main():
             config=cfg,
             dataset=dataset,
             regimes=regimes,
-            output_dir=args.output_dir,
+            output_dir=output_dir,
             device=args.device,
             max_new_tokens=args.max_new_tokens,
             resume=not args.no_resume,
