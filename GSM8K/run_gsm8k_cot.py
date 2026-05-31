@@ -277,11 +277,6 @@ def parse_args():
 
 
 def main():
-    os.environ.setdefault("HF_HOME",               "/mnt/data/hf")
-    os.environ.setdefault("TRANSFORMERS_CACHE",     "/mnt/data/hf/transformers")
-    os.environ.setdefault("HUGGINGFACE_HUB_CACHE",  "/mnt/data/hf/hub")
-    os.environ.setdefault("TMPDIR",                 "/mnt/data/tmp")
-    os.environ.setdefault("CUDA_VISIBLE_DEVICES",   "0")
 
     args = parse_args()
 

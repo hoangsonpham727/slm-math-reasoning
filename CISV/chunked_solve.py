@@ -508,7 +508,7 @@ _FIELD_DEFAULTS = dict(
     problem_field = "question",
     answer_field  = "ground_truth",
     depth_field   = "depth",
-    steps_field   = None,
+    steps_field   = "",
 )
 
 # Per-model chunk sizes (data-driven):

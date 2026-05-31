@@ -27,7 +27,7 @@ import sys
 import time
 from pathlib import Path
 from datetime import datetime
-
+import ollama
 repo_root = Path(__file__).resolve().parents[1]
 if str(repo_root) not in sys.path:
     sys.path.insert(0, str(repo_root))
@@ -631,7 +631,7 @@ def main():
 
     # ── Stage 1: filter once, cache to disk ──────────────────────────────────
     print(f"\n{'─'*50}")
-    print(f"  Stage 1 — Filtering with {filter_config.short_name}")
+    print(f"  Stage 1 — Filtering distractors")
     print(f"{'─'*50}")
     filter_records = run_filtering(
         filter_wrapper=filter_wrapper,

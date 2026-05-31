@@ -167,7 +167,7 @@ class QwenMathWrapper(BaseModelWrapper):
 
     def generate(self, system_prompt: str, user_prompt: str,
                  max_new_tokens: int = 512,
-                 temperature: float = 0.0, do_sample: bool = False) -> str:
+                 temperature: int = 0, do_sample: bool = False) -> str:
         tokenizer = self.tokenizer_or_processor
         messages = [
             {"role": "system", "content": system_prompt},
@@ -187,7 +187,7 @@ class QwenMathWrapper(BaseModelWrapper):
             gen_kwargs["temperature"] = temperature
         else:
             gen_kwargs["do_sample"] = False
-            gen_kwargs["temperature"] = None
+            gen_kwargs["temperature"] = 0
 
         with torch.no_grad():
             output_ids = self.model.generate(**inputs, **gen_kwargs)
@@ -222,7 +222,7 @@ class Gemma4Wrapper(BaseModelWrapper):
 
     def generate(self, system_prompt: str, user_prompt: str,
                  max_new_tokens: int = 512,
-                 temperature: float = 0.0, do_sample: bool = False) -> str:
+                 temperature: int = 0, do_sample: bool = False) -> str:
         processor = self.tokenizer_or_processor
         messages = [
             {"role": "system", "content": [{"type": "text", "text": system_prompt}]},
@@ -307,7 +307,7 @@ class Phi4MiniWrapper(BaseModelWrapper):
 
     def generate(self, system_prompt: str, user_prompt: str,
                  max_new_tokens: int = 512,
-                 temperature: float = 0.0, do_sample: bool = False) -> str:
+                 temperature: int = 0, do_sample: bool = False) -> str:
         tokenizer = self.tokenizer_or_processor
         messages = [
             {"role": "system", "content": system_prompt},
