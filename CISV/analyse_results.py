@@ -868,7 +868,7 @@ def parse_args():
     p.add_argument("--exp2_dir",    default=str(root / "Experiment2" / "results"),
                    help="Base directory for Experiment 2 baselines. If seed_* "
                         "subdirs are found here, multi-seed mode is used automatically.")
-    p.add_argument("--exp4_dir",    default=str(root / "results"),
+    p.add_argument("--exp4_dir",    default=str(root / "CISV" /"results"),
                    help="Base directory for CISV results. If seed_* subdirs are "
                         "found here, multi-seed mode is used automatically.")
     p.add_argument("--output_dir",  default=str(root / "CISV" / "figures"),

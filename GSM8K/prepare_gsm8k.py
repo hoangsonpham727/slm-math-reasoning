@@ -57,7 +57,7 @@ def count_steps(answer_text: str) -> int:
 # Main
 # ---------------------------------------------------------------------------
 
-DEFAULT_MIN_STEPS = 3
+DEFAULT_MIN_STEPS = 6
 DEFAULT_OUTPUT    = "data/gsm8k_test.json"
 
 
