@@ -252,8 +252,8 @@ def compute_multi_seed_accuracy(
 
     all_keys: set = set()
     for acc_df in per_seed_acc.values():
-        for _, row in acc_df.iterrows():
-            all_keys.add((row["model"], row["method"], row["depth"]))
+        for acc_row in acc_df.itertuples(index=False):
+            all_keys.add((acc_row.model, acc_row.method, acc_row.depth))
 
     rows = []
     for (model, method, depth) in sorted(all_keys):
@@ -351,7 +351,7 @@ def fig2_method_bars(acc_df: pd.DataFrame, output_dir: str):
                     f"{val:.1%}", ha="center", va="bottom", fontsize=7.5)
 
     ax.set_xticks(x)
-    ax.set_xticklabels([MODEL_LABELS.get(m, m) for m in models], fontsize=10)
+    ax.set_xticklabels([str(MODEL_LABELS.get(m, m)) for m in models], fontsize=10)
     ax.set_ylabel("Mean accuracy (across all depths)", fontsize=10)
     ax.set_ylim(0, 1.15)
     ax.yaxis.set_major_formatter(mticker.PercentFormatter(xmax=1, decimals=0))
@@ -602,7 +602,7 @@ def fig2_method_bars_multiseed(
 
     n_seeds = len(per_seed_acc)
     ax.set_xticks(x)
-    ax.set_xticklabels([MODEL_LABELS.get(m, m) for m in models], fontsize=10)
+    ax.set_xticklabels([str(MODEL_LABELS.get(m, m)) for m in models], fontsize=10)
     ax.set_ylabel("Mean accuracy across all depths", fontsize=10)
     ax.set_ylim(0, 1.25)
     ax.yaxis.set_major_formatter(mticker.PercentFormatter(xmax=1, decimals=0))
